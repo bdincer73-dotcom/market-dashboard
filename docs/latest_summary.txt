@@ -1,8 +1,12 @@
-MARKET DASHBOARD — DAILY — 2026-07-19
+MARKET DASHBOARD — WEEKLY — 2026-07-19
 Regime: AMBER (selective)
 
 Why:
   - AMBER: VIX rising sharply over 5D (Δ3.74)
+
+Bear Indicator: Constructive (1/8)
+  - At least one index CMF negative (min -0.24)
+  - No prior week snapshot yet - week-over-week checks skipped
 
 News: 26 tickers with headlines, 0 unavailable
 
@@ -12,3 +16,4 @@ Data health:
   - volatility: EOD (obs 2026-07-17)
   - rates: EOD (obs 2026-07-16)
   - news: EOD (obs 2026-07-19)
+  - bear_indicator: EOD (obs 2026-07-17)

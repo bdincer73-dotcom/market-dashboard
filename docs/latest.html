@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Dashboard — 2026-07-19 (Daily)</title>
+<title>Market Dashboard — 2026-07-19 (Weekly)</title>
 <style>
   :root {
     --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
@@ -62,11 +62,52 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Daily run · 2026-07-19 · generated 2026-07-19T23:55:03+00:00</div>
+      <div class="sub">Weekly run · 2026-07-19 · generated 2026-07-19T23:57:40+00:00</div>
     </div>
     <div class="badge AMBER">AMBER selective</div>
   </header>
 
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Bear Indicator (weekly)
+      
+      <span class="badge Constructive">🟢 Constructive — 1/8</span>
+      
+    </h2>
+    
+    <div class="grid" style="margin-bottom:12px;">
+      
+        
+        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.1364</span></div>
+        
+      
+        
+        <div class="metric"><span>VOO CMF(20)</span><span class="v">-0.032</span></div>
+        
+      
+        
+        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1517</span></div>
+        
+      
+        
+        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0258</span></div>
+        
+      
+        
+        <div class="metric"><span>RSP CMF(20)</span><span class="v">-0.2371</span></div>
+        
+      
+      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Mixed (above 50, below 20)</span></div>
+      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">64.6% / 69.0%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">6.2%</span></div>
+    </div>
+    <ul class="reasons">
+      <li>At least one index CMF negative (min -0.24)</li><li>No prior week snapshot yet - week-over-week checks skipped</li>
+    </ul>
+    <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
+    
+  </div>
   
 
   <div class="grid">
@@ -798,30 +839,35 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:42+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:21+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:45+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:23+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:46+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:24+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T23:54:47+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T23:57:25+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-19 · retrieved 2026-07-19T23:55:03+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-19 · retrieved 2026-07-19T23:57:39+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T235341Z</div>
+    <div class="health-row">
+      <span>bear_indicator · yfinance + breadth module</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:40+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T235643Z</div>
   </footer>
 </div>
 </body>
