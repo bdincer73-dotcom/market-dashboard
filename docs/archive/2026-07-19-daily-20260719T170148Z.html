@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Dashboard — 2026-07-19 (Daily)</title>
+<style>
+  :root {
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025;
+    --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+  h1 { font-size: 1.4rem; margin: 0; }
+  .sub { color: var(--muted); font-size: 0.85rem; }
+  .badge { display:inline-block; padding: 6px 16px; border-radius: 999px; font-weight:700; font-size:0.95rem; }
+  .badge.GREEN { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.AMBER { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.RED   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight:600; }
+  .status-pill.LIVE, .status-pill.EOD { background: rgba(30,142,62,0.15); color: var(--green); }
+  .status-pill.STALE { background: rgba(232,163,61,0.15); color: var(--amber); }
+  .status-pill.FAILED { background: rgba(217,48,37,0.15); color: var(--red); }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-bottom:24px; }
+  .card { background: var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .card h2 { font-size:0.95rem; margin:0 0 10px 0; display:flex; justify-content:space-between; align-items:center; }
+  .metric { display:flex; justify-content:space-between; padding:4px 0; font-size:0.88rem; border-bottom:1px dashed var(--border); }
+  .metric:last-child { border-bottom:none; }
+  .metric .v { font-weight:600; }
+  table { width:100%; border-collapse: collapse; font-size:0.85rem; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); }
+  th { color: var(--muted); font-weight:600; }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+  ul.reasons { margin:0; padding-left:18px; font-size:0.85rem; color: var(--muted); }
+  ul.reasons li { margin-bottom:4px; }
+  footer { border-top:1px solid var(--border); padding-top:16px; margin-top:8px; }
+  footer h2 { font-size:0.85rem; color: var(--muted); margin-bottom:10px; }
+  .health-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; color: var(--muted); }
+  .notes { font-size:0.75rem; color: var(--muted); margin-top:2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Daily + Weekly Market Dashboard</h1>
+      <div class="sub">Daily run · 2026-07-19 · generated 2026-07-19T17:03:07+00:00</div>
+    </div>
+    <div class="badge AMBER">AMBER selective</div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Breadth <span class="status-pill EOD">EOD</span></h2>
+      
+      <div class="metric"><span>% above 20D SMA</span><span class="v">58.8%</span></div>
+      <div class="metric"><span>% above 50D SMA</span><span class="v">64.6%</span></div>
+      <div class="metric"><span>% above 200D SMA</span><span class="v">69.0%</span></div>
+      <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
+      
+      
+    </div>
+
+    <div class="card">
+      <h2>Volatility <span class="status-pill EOD">EOD</span></h2>
+      
+      
+        
+        <div class="metric"><span>VIX</span>
+          <span class="v">18.77
+            (+2.04 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VIX9D</span>
+          <span class="v">16.85
+            (+2.87 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VIX3M</span>
+          <span class="v">20.54
+            (+1.04 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VVIX</span>
+          <span class="v">104.87
+            (+7.56 1D)</span></div>
+        
+      
+      <div class="metric"><span>Term structure</span><span class="v">contango (calm)</span></div>
+      
+    </div>
+
+    <div class="card">
+      <h2>Rates <span class="status-pill EOD">EOD</span></h2>
+      
+      <div class="metric"><span>2Y Treasury</span><span class="v">4.16%</span></div>
+      <div class="metric"><span>10Y Treasury</span><span class="v">4.57%</span></div>
+      <div class="metric"><span>2s10s spread</span><span class="v">41.0 bps</span></div>
+      <div class="notes">FedWatch distribution not automated in R1 — <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" style="color:inherit;">official tool</a></div>
+      
+    </div>
+
+    <div class="card">
+      <h2>Sector rotation (RSP vs SPY 5D: 1.11 pts)
+        <span class="status-pill EOD">EOD</span></h2>
+      
+      <table>
+        <tr><th>#</th><th>Sector</th><th>1D</th><th>5D</th><th>20D</th><th>Rel. vs SPY 20D</th></tr>
+        
+        <tr>
+          <td>1</td>
+          <td>XLV <small>(def.)</small></td>
+          <td class="neg">-0.44</td>
+          <td class="pos">0.16</td>
+          <td class="pos">7.36</td>
+          <td class="pos">6.79</td>
+        </tr>
+        
+        <tr>
+          <td>2</td>
+          <td>XLE</td>
+          <td class="pos">1.16</td>
+          <td class="pos">4.72</td>
+          <td class="pos">6.27</td>
+          <td class="pos">5.7</td>
+        </tr>
+        
+        <tr>
+          <td>3</td>
+          <td>XLF</td>
+          <td class="neg">-0.86</td>
+          <td class="pos">0.99</td>
+          <td class="pos">4.45</td>
+          <td class="pos">3.88</td>
+        </tr>
+        
+        <tr>
+          <td>4</td>
+          <td>XLRE <small>(def.)</small></td>
+          <td class="neg">-0.09</td>
+          <td class="pos">2.18</td>
+          <td class="pos">4.2</td>
+          <td class="pos">3.63</td>
+        </tr>
+        
+        <tr>
+          <td>5</td>
+          <td>XLP <small>(def.)</small></td>
+          <td class="neg">-0.72</td>
+          <td class="pos">1.27</td>
+          <td class="pos">2.51</td>
+          <td class="pos">1.94</td>
+        </tr>
+        
+        <tr>
+          <td>6</td>
+          <td>XLU <small>(def.)</small></td>
+          <td class="neg">-0.66</td>
+          <td class="neg">-0.53</td>
+          <td class="pos">2.25</td>
+          <td class="pos">1.68</td>
+        </tr>
+        
+        <tr>
+          <td>7</td>
+          <td>XLC</td>
+          <td class="neg">-1.78</td>
+          <td class="neg">-0.89</td>
+          <td class="pos">1.59</td>
+          <td class="pos">1.02</td>
+        </tr>
+        
+        <tr>
+          <td>8</td>
+          <td>XLY</td>
+          <td class="neg">-1.62</td>
+          <td class="neg">-1.54</td>
+          <td class="pos">0.16</td>
+          <td class="neg">-0.41</td>
+        </tr>
+        
+        <tr>
+          <td>9</td>
+          <td>XLI</td>
+          <td class="neg">-0.41</td>
+          <td class="neg">-1.38</td>
+          <td class="pos">0.14</td>
+          <td class="neg">-0.43</td>
+        </tr>
+        
+        <tr>
+          <td>10</td>
+          <td>XLB</td>
+          <td class="neg">-0.71</td>
+          <td class="neg">-0.71</td>
+          <td class="neg">-2.5</td>
+          <td class="neg">-3.07</td>
+        </tr>
+        
+        <tr>
+          <td>11</td>
+          <td>XLK</td>
+          <td class="neg">-1.09</td>
+          <td class="neg">-5.48</td>
+          <td class="neg">-5.38</td>
+          <td class="neg">-5.95</td>
+        </tr>
+        
+      </table>
+      
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Why this regime</h2>
+    <ul class="reasons">
+      <li>AMBER: VIX rising sharply over 5D (Δ3.74)</li><li>AMBER: no prior breadth snapshot yet - deltas unavailable on first run</li>
+    </ul>
+  </div>
+
+  <footer>
+    <h2>Data health</h2>
+    
+    <div class="health-row">
+      <span>breadth · yfinance (constituents: wikipedia)</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:03+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>sectors · yfinance</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:06+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>volatility · yfinance</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:07+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>rates · FRED</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T17:03:07+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T170148Z</div>
+  </footer>
+</div>
+</body>
+</html>

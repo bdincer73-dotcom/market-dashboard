@@ -20,7 +20,7 @@ source → validate → normalize → calculate → score → publish → archiv
 - `src/envelope.py` — the common shape every collector returns (status LIVE/EOD/STALE/FAILED)
 - `src/store.py` — SQLite archive: raw snapshots (immutable) + calculated signals, so every number is traceable and any past dashboard is reproducible
 - `src/scoring.py` — rules engine, thresholds in `config/thresholds.yaml`
-- `src/publish.py` + `templates/dashboard.html.jinja` — renders `public/latest.html` and an immutable `public/archive/<date>-<run_type>.html`
+- `src/publish.py` + `templates/dashboard.html.jinja` — renders `docs/latest.html` (+ `docs/index.html`, identical) and an immutable `docs/archive/<date>-<run_type>.html`. Output lives in `docs/` specifically so GitHub Pages can serve it directly.
 - `src/main.py` — orchestrates the full run
 
 ## One-time setup
@@ -48,7 +48,24 @@ source → validate → normalize → calculate → score → publish → archiv
 
 That's it — `.github/workflows/daily.yml` runs weekday mornings, `weekly.yml`
 runs Saturdays, and both commit the updated `data/` (SQLite archive) and
-`public/` (dashboard HTML) back to the repo so history accumulates run over run.
+`docs/` (dashboard HTML) back to the repo so history accumulates run over run.
+
+## Publishing it to the internet (GitHub Pages)
+
+If there's nothing sensitive in your dashboard (it's public market data by
+default in R1 — no watchlist/positions until R2), you can host it at a public
+URL for free:
+
+1. Make the repo public: Settings → General → scroll to "Danger Zone" →
+   **Change visibility** → Public. (GitHub Pages on the free plan only works
+   on public repos — private-repo Pages needs a paid plan.)
+2. Settings → **Pages** → under "Build and deployment," Source: **Deploy from
+   a branch** → Branch: `main`, folder: **/docs** → Save.
+3. Wait a minute, then your dashboard is live at:
+   `https://<your-username>.github.io/market-dashboard/`
+
+Every daily/weekly Action run updates `docs/index.html`, so the public URL
+always reflects the latest run automatically - no extra deploy step needed.
 
 ## Running locally
 
@@ -58,7 +75,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 export FRED_API_KEY=your_key_here     # omit to see the FAILED/honest-gap behavior
 python -m src.main --run-type daily
-open public/latest.html               # macOS; use xdg-open on Linux
+open docs/latest.html                 # macOS; use xdg-open on Linux
 ```
 
 The breadth collector downloads ~500 tickers' daily history — expect this step
@@ -66,9 +83,9 @@ to take a few minutes locally and on the Actions runner.
 
 ## Viewing the dashboard
 
-- `public/latest.html` — always the most recent run, open directly in a browser
-- `public/archive/YYYY-MM-DD-<daily|weekly>.html` — every past run, never overwritten
-- `public/latest_summary.txt` — plaintext version, e.g. for a Slack/email step you bolt on later
+- `docs/latest.html` / `docs/index.html` — always the most recent run (identical content), open directly in a browser or via the public Pages URL
+- `docs/archive/YYYY-MM-DD-<daily|weekly>.html` — every past run, never overwritten
+- `docs/latest_summary.txt` — plaintext version, e.g. for a Slack/email step you bolt on later
 - `data/market_dashboard.db` — SQLite archive of every raw snapshot and calculated signal (open with any SQLite browser, e.g. `sqlite3 data/market_dashboard.db`)
 
 ## Tuning the regime rules
@@ -82,7 +99,7 @@ leadership rank cutoff, etc.).
 > 10 consecutive sessions run unattended; no unlabeled stale values.
 
 Once secrets are set and Actions is enabled, let it run for two full weeks
-(10 weekdays) unattended and check `public/archive/` for 10 consecutive dated
+(10 weekdays) unattended and check `docs/archive/` for 10 consecutive dated
 files, plus confirm every tile shows an explicit status badge (never a bare
 number with no LIVE/EOD/STALE/FAILED label).
 

@@ -35,6 +35,6 @@ jobs:
         run: |
           git config user.name "market-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ public/
+          git add data/ docs/
           git diff --cached --quiet || git commit -m "Daily dashboard run: $(date -u +%Y-%m-%d)"
           git push

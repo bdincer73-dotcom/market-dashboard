@@ -1,8 +1,14 @@
 """
 Renders the single-file HTML dashboard and an 8am-brief-style plaintext
-summary. Writes to public/latest.html (always overwritten) and
-public/archive/<date>.html (immutable, one per run) so every historical
-dashboard stays reproducible per the audit-trail quality gate.
+summary. Writes to docs/latest.html and docs/index.html (always overwritten,
+identical content) plus docs/archive/<date>.html (immutable, one per run) so
+every historical dashboard stays reproducible per the audit-trail quality
+gate.
+
+Output lives in docs/ (not public/) specifically so GitHub Pages can serve it
+straight from the main branch without a separate build step - Pages only
+supports the repo root or a /docs folder for branch-based deployment, so
+index.html is what resolves at the bare Pages URL.
 """
 
 from pathlib import Path
@@ -10,7 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = ROOT / "templates"
-PUBLIC_DIR = ROOT / "public"
+PUBLIC_DIR = ROOT / "docs"
 
 
 def render_html(context: dict) -> str:
@@ -29,6 +35,10 @@ def publish(context: dict, run_type: str, run_date: str) -> dict:
     latest_path = PUBLIC_DIR / "latest.html"
     latest_path.write_text(html, encoding="utf-8")
 
+    # index.html is what GitHub Pages serves at the bare site URL.
+    index_path = PUBLIC_DIR / "index.html"
+    index_path.write_text(html, encoding="utf-8")
+
     # Keyed by run_id (not just date) so a manual re-run via workflow_dispatch
     # never overwrites an earlier run's archived dashboard the same day.
     archive_path = archive_dir / f"{run_date}-{run_type}-{context['run_id']}.html"
@@ -37,7 +47,12 @@ def publish(context: dict, run_type: str, run_date: str) -> dict:
     summary_path = PUBLIC_DIR / "latest_summary.txt"
     summary_path.write_text(render_summary(context, run_type, run_date), encoding="utf-8")
 
-    return {"latest": str(latest_path), "archive": str(archive_path), "summary": str(summary_path)}
+    return {
+        "latest": str(latest_path),
+        "index": str(index_path),
+        "archive": str(archive_path),
+        "summary": str(summary_path),
+    }
 
 
 def render_summary(context: dict, run_type: str, run_date: str) -> str:
