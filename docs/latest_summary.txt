@@ -3,10 +3,12 @@ Regime: AMBER (selective)
 
 Why:
   - AMBER: VIX rising sharply over 5D (Δ3.74)
-  - AMBER: no prior breadth snapshot yet - deltas unavailable on first run
+
+News: 26 tickers with headlines, 0 unavailable
 
 Data health:
   - breadth: EOD (obs 2026-07-17)
   - sectors: EOD (obs 2026-07-17)
   - volatility: EOD (obs 2026-07-17)
   - rates: EOD (obs 2026-07-16)
+  - news: EOD (obs 2026-07-19)

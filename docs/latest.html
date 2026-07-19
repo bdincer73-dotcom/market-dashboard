@@ -6,7 +6,7 @@
 <title>Market Dashboard — 2026-07-19 (Daily)</title>
 <style>
   :root {
-    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025;
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
     --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
   }
   * { box-sizing: border-box; }
@@ -20,6 +20,21 @@
   .badge.GREEN { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
   .badge.AMBER { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
   .badge.RED   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Bearish     { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Cautionary  { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.Watch       { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
+  .badge.Constructive{ background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .news-ticker { margin-bottom: 14px; }
+  .news-ticker:last-child { margin-bottom: 0; }
+  .news-ticker .ticker-label { font-weight:700; font-size:0.85rem; margin-bottom:4px; }
+  .news-ticker .ticker-label .unavail { color: var(--muted); font-weight:400; font-size:0.75rem; }
+  .headline { font-size:0.83rem; padding:3px 0; }
+  .headline a { color: var(--text); text-decoration:none; }
+  .headline a:hover { text-decoration:underline; }
+  .headline .src { color: var(--muted); font-size:0.72rem; margin-left:4px; }
+  .news-cols { column-count: 2; column-gap: 24px; }
+  @media (max-width: 700px) { .news-cols { column-count: 1; } }
+  .news-ticker { break-inside: avoid; }
   .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight:600; }
   .status-pill.LIVE, .status-pill.EOD { background: rgba(30,142,62,0.15); color: var(--green); }
   .status-pill.STALE { background: rgba(232,163,61,0.15); color: var(--amber); }
@@ -47,10 +62,12 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Daily run · 2026-07-19 · generated 2026-07-19T17:03:07+00:00</div>
+      <div class="sub">Daily run · 2026-07-19 · generated 2026-07-19T23:55:03+00:00</div>
     </div>
     <div class="badge AMBER">AMBER selective</div>
   </header>
+
+  
 
   <div class="grid">
     <div class="card">
@@ -60,6 +77,9 @@
       <div class="metric"><span>% above 50D SMA</span><span class="v">64.6%</span></div>
       <div class="metric"><span>% above 200D SMA</span><span class="v">69.0%</span></div>
       <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
+      
+      <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
+        <span class="v">0.0 / 0.0 / 0.0</span></div>
       
       
     </div>
@@ -220,8 +240,557 @@
   <div class="card" style="margin-bottom:24px;">
     <h2>Why this regime</h2>
     <ul class="reasons">
-      <li>AMBER: VIX rising sharply over 5D (Δ3.74)</li><li>AMBER: no prior breadth snapshot yet - deltas unavailable on first run</li>
+      <li>AMBER: VIX rising sharply over 5D (Δ3.74)</li>
     </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Market news — your positions
+      <span class="status-pill EOD">EOD</span>
+    </h2>
+    
+    <div class="notes" style="margin-bottom:10px;">26 tickers with headlines · 0 unavailable</div>
+    <div class="news-cols">
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">APLD</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=d0a93d3e05ef218ffa6e6e4db2c2159976839444cce322cd15fe5f5feab6b55a" target="_blank" rel="noopener">Coreweave Down 35% . This Analyst Reiterated His $250 Target Even After ‘Meta Compute’ Was Announced.</a>
+            <span class="src">— Yahoo · 2026-07-17T14:33+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=743f07d4409db1e7cf5a72055c0c0bd1264c74debba6f93d11807520cced7651" target="_blank" rel="noopener">3 Small-Cap Stocks That Fall Short</a>
+            <span class="src">— Yahoo · 2026-07-17T14:01+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=fdf9fa8053dcb2ebc6e7011714316cf415e0b3a41eb5ce4cfb0d7befaccb12ae" target="_blank" rel="noopener">Reported Earlier, Bakkt Reports FY2025 GAAP Revenue Of $2.3B, Down 32.1% YoY, As Company Completes Restructuring And Pivots To Digital Financial Infrastructure</a>
+            <span class="src">— Benzinga · 2026-07-17T12:02+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">ASML</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=59ec3c5e395ca97f4c48b9688602ba2edce8e1684c5dc227a6d0aee5c885fe08" target="_blank" rel="noopener">TSMC vs. ASML: Which Is the Better AI Semiconductor Ecosystem Stock to Buy?</a>
+            <span class="src">— Yahoo · 2026-07-19T13:40+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8aadacb94d59443b40baf30216e25c7dab6dfa2c850d90e8a16449dd09e63eda" target="_blank" rel="noopener">Big Tech Needs to Justify AI Spending as Investors Dump Stocks</a>
+            <span class="src">— Yahoo · 2026-07-19T13:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1710998190bb1bad0d90dfd879097e07a8829e6b6f780725f86793616d0cd314" target="_blank" rel="noopener">ASML (ENXTAM:ASML) Just Gave Workers A €20,000 Bonus And New Share Awards</a>
+            <span class="src">— Yahoo · 2026-07-19T12:17+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">BE</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5f3192b562e9fa6eaff836619d6450ab5ae3f5aa5120812c4d9b111e55e0afc4" target="_blank" rel="noopener">Thrivent Small Cap Growth Fund Q2 2026 Portfolio Review</a>
+            <span class="src">— SeekingAlpha · 2026-07-19T10:53+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ef730de34a841fe3f19961b119035f694a542921a26724bca9ab4ba90b55faab" target="_blank" rel="noopener">9 Industrials Stocks With Whale Alerts In Today’s Session</a>
+            <span class="src">— Benzinga · 2026-07-17T13:35+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2407b03d828c08ff258040faa4168689cf9bb2e1c173165c0fc03bbf7e3a3628" target="_blank" rel="noopener">Tech Rout Deepens on China's AI Shock, Crude Rises to $81: Stock Market Today</a>
+            <span class="src">— Benzinga · 2026-07-17T12:34+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">CLS</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2281a63864aeae922467664a788a38c458c85aee24fca7bb1fd133a475e76757" target="_blank" rel="noopener">Celestica Inc (NYSE:CLS) Screens as a High-Growth CAN SLIM Leader With Accelerating Momentum</a>
+            <span class="src">— ChartMill · 2026-07-17T12:10+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=05939657d6c850e1eebf82da32b184016550b8b3393b7ffd86aea3de083daf7d" target="_blank" rel="noopener">Steven Cress' Top 2 Stocks H2 2026</a>
+            <span class="src">— SeekingAlpha · 2026-07-16T16:42+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ba8b117d7ffb16a9a6f7e842ce71018650d7c19b589f2385ff60cf0be04f38cf" target="_blank" rel="noopener">Celestica: The Margin Supporting 35x Was Not There In 2023</a>
+            <span class="src">— SeekingAlpha · 2026-07-16T09:26+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">COHR</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=061a8a8a67f4396bdc4a7f4badc80dbbdfba5a1382dbad391e318b103af1aed3" target="_blank" rel="noopener">Zacks Industry Outlook Highlights Dave, V2X and Coherent</a>
+            <span class="src">— Yahoo · 2026-07-17T14:08+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=bd7312625d869564314bc0b37c5affd7d0c4adfe0f1ec89175cf01a90bc2d215" target="_blank" rel="noopener">IPG Photonics Targets Medical Laser Growth With €300M Lumibird Medical Deal</a>
+            <span class="src">— Yahoo · 2026-07-17T14:05+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=eec3217290a10ec063680087ba18a7cce53e9971ec864a5f4584bc7b86e17a0c" target="_blank" rel="noopener">Explore the top gainers and losers within the S&P500 index in today's session.</a>
+            <span class="src">— ChartMill · 2026-07-16T19:05+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">DRAM</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=185742a84439e15136a59e9f95911199d4a017340f1c9cc5b85bcf33a97cbb6f" target="_blank" rel="noopener">What's Going on With Sandisk Stock Friday?</a>
+            <span class="src">— Benzinga · 2026-07-17T06:50+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">GLW</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=45c8902aaf5f572e4e8bc43fec66678dedfaa4f86c84a6038b330739eabe6994" target="_blank" rel="noopener">'Wrong Picks or Just Bad Timing?' A Newbie Investor Wonders Why Their Stock Portfolio Fell 9%. Here Are the Stocks They Bought</a>
+            <span class="src">— Yahoo · 2026-07-17T22:31+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f4e29cad29ebc64824f43828c5dd6f71c34a817dcf4ca9ba71ab2acf66373ffc" target="_blank" rel="noopener">Micron, Nvidia, Netflix, SK Hynix, Intuitive Surgical, and More Stocks That Explain Today’s Market</a>
+            <span class="src">— Yahoo · 2026-07-17T17:52+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=86e0556ece817757aa862eacb5f3d15ef387e8135c1fbd4db7811faf47716ec0" target="_blank" rel="noopener">Wondering what's happening in today's S&P500  pre-market session?</a>
+            <span class="src">— ChartMill · 2026-07-17T12:35+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">INTC</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e0f9e247df0a38e00157410065843753ea1f9d9dccefa641bc9eb23bf6cefaf6" target="_blank" rel="noopener">Jobs, GM, Tesla, Alphabet, Intel, Verizon, and More to Watch This Week</a>
+            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8bd227e6d0343eba3d115653de1746b42e3939c952218d6491a4447aa4681fe9" target="_blank" rel="noopener">Wall Street Brunch: Tesla Reports With Earnings In Full Swing</a>
+            <span class="src">— SeekingAlpha · 2026-07-19T14:23+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8aadacb94d59443b40baf30216e25c7dab6dfa2c850d90e8a16449dd09e63eda" target="_blank" rel="noopener">Big Tech Needs to Justify AI Spending as Investors Dump Stocks</a>
+            <span class="src">— Yahoo · 2026-07-19T13:00+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">IREN</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=10fb8b2fd1d1feb2babe03c59f6c69f35b7a2016409723423b58357064040013" target="_blank" rel="noopener">BUZZ Investing: BUZZ Lags As Market Leadership Broadens</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T09:20+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=fdf9fa8053dcb2ebc6e7011714316cf415e0b3a41eb5ce4cfb0d7befaccb12ae" target="_blank" rel="noopener">Reported Earlier, Bakkt Reports FY2025 GAAP Revenue Of $2.3B, Down 32.1% YoY, As Company Completes Restructuring And Pivots To Digital Financial Infrastructure</a>
+            <span class="src">— Benzinga · 2026-07-17T12:02+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2a8a6198034c8b00d6080f9c93b0f778e6b0438ba1344150ba7a2c8e45cc80bf" target="_blank" rel="noopener">CoinShares Bitcoin Mining ETF: Contracted AI Revenue Supports A Buy</a>
+            <span class="src">— SeekingAlpha · 2026-07-16T19:06+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">LRCX</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8aadacb94d59443b40baf30216e25c7dab6dfa2c850d90e8a16449dd09e63eda" target="_blank" rel="noopener">Big Tech Needs to Justify AI Spending as Investors Dump Stocks</a>
+            <span class="src">— Yahoo · 2026-07-19T13:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=80fc5a8e8ab67c57a31e836e926f232d8209eea2df7399f0f39be6109a2c9017" target="_blank" rel="noopener">Our Top 10 High Growth Dividend Stocks - July 2026</a>
+            <span class="src">— SeekingAlpha · 2026-07-19T08:15+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f4e29cad29ebc64824f43828c5dd6f71c34a817dcf4ca9ba71ab2acf66373ffc" target="_blank" rel="noopener">Micron, Nvidia, Netflix, SK Hynix, Intuitive Surgical, and More Stocks That Explain Today’s Market</a>
+            <span class="src">— Yahoo · 2026-07-17T17:52+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">MRVL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=6cf65152ab9df44a1f7ef875eaf50b47f334b5b0d9c759feb4a787f0de6dfba9" target="_blank" rel="noopener">Wall Street Is Warming to Marvell After Its XConn Acquisition. Here’s The Price Target</a>
+            <span class="src">— Yahoo · 2026-07-19T17:30+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=16b293da58d0206aac37d57b1c0ad9bde83efaa16b83e84124ce49ab34720fab" target="_blank" rel="noopener">The AI ‘Memory Wall’ Is About to Get a Lot Taller: These 3 Stocks Will Win Big</a>
+            <span class="src">— Yahoo · 2026-07-19T12:21+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0f09b850aa0b035a06621d9522f22f1690e2df6a826cbb96c4f45de1a70d91de" target="_blank" rel="noopener">The AI Bubble Looks A Lot Like Dot-Com Bust</a>
+            <span class="src">— SeekingAlpha · 2026-07-19T09:30+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">SOFI</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=3f1b08d2ee0205293d0085cf41f1a038381ffc7ce07c93dc645fe56c4d8ba482" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a>
+            <span class="src">— Benzinga · 2026-07-18T08:31+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=6687650c0a850e6ffbc1612e618c05555af52d1dfcb2e74f21c24b2b98e277cd" target="_blank" rel="noopener">SoFi Could Beat In Q2 And Still Sell Off</a>
+            <span class="src">— SeekingAlpha · 2026-07-16T14:27+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">STX</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=d74e73b3d717c4f2e85a60f443501e3d377bb4b346dd79a31e695ab68ddfa75a" target="_blank" rel="noopener">SanDisk vs Seagate: Two Divergent Paths Through the AI Storage Boom, One Winner</a>
+            <span class="src">— Yahoo · 2026-07-19T15:30+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9f6edaacb0ad1e895614d7a65201c72b2a7fe2b2354079f4ce99e587d6254551" target="_blank" rel="noopener">Seagate (STX) Lands BNP Paribas AI Supply Chain Backing Through 2027</a>
+            <span class="src">— Yahoo · 2026-07-18T02:08+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=31a129fe0260f07c05224d053bcd4eee87605e85893dc76afa78ebbf2cd28d9f" target="_blank" rel="noopener">This Week's Market Wrap: AI Shakeup, Earnings, And Renewed Oil Shock</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T01:20+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">TER</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=83a58e3447b71e11585cfc1f731de1cf8eac7132f43d53bf922d73f9142c3e61" target="_blank" rel="noopener">Teradyne: You're Not Thinking About 2027</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T20:19+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=86e0556ece817757aa862eacb5f3d15ef387e8135c1fbd4db7811faf47716ec0" target="_blank" rel="noopener">Wondering what's happening in today's S&P500  pre-market session?</a>
+            <span class="src">— ChartMill · 2026-07-17T12:35+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f62099dc884f910e6b3b265c8e4226172115080c514798c05bae0ea1929db30b" target="_blank" rel="noopener">Chip Stocks' Worst Month Ever Versus Software: Is the AI Trade Cracking?</a>
+            <span class="src">— Benzinga · 2026-07-17T09:17+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">VRT</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=45c8902aaf5f572e4e8bc43fec66678dedfaa4f86c84a6038b330739eabe6994" target="_blank" rel="noopener">'Wrong Picks or Just Bad Timing?' A Newbie Investor Wonders Why Their Stock Portfolio Fell 9%. Here Are the Stocks They Bought</a>
+            <span class="src">— Yahoo · 2026-07-17T22:31+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ef730de34a841fe3f19961b119035f694a542921a26724bca9ab4ba90b55faab" target="_blank" rel="noopener">9 Industrials Stocks With Whale Alerts In Today’s Session</a>
+            <span class="src">— Benzinga · 2026-07-17T13:35+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=86e0556ece817757aa862eacb5f3d15ef387e8135c1fbd4db7811faf47716ec0" target="_blank" rel="noopener">Wondering what's happening in today's S&P500  pre-market session?</a>
+            <span class="src">— ChartMill · 2026-07-17T12:35+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">WDC</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e326fe797e82d70a63e2728e3219ca03edc5f92a4f26851ee80b006b598ebdcb" target="_blank" rel="noopener">Micron Has Strong Q3 Earnings and Rising Guidance. Is It a Buy?</a>
+            <span class="src">— Yahoo · 2026-07-19T16:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=856676616f1aa74556899577c7f985b134cf726bf0bd06eec0612fd7745179ba" target="_blank" rel="noopener">Google, Tesla, Intel To Headline Earnings Next Week</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T11:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=10fb8b2fd1d1feb2babe03c59f6c69f35b7a2016409723423b58357064040013" target="_blank" rel="noopener">BUZZ Investing: BUZZ Lags As Market Leadership Broadens</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T09:20+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">CRWV</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9619296c3e49ab69b070ed96048da584b0344198f5cf0991d1c6d8948326d46a" target="_blank" rel="noopener">Why CoreWeave Stock Keeps Falling</a>
+            <span class="src">— Yahoo · 2026-07-18T14:57+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=992e3736e4bdfa7af005fa53ad9fc6a8974d45b725c06dde072d81378621afa4" target="_blank" rel="noopener">Here's Why CoreWeave Stock Tanked This Week</a>
+            <span class="src">— Yahoo · 2026-07-18T14:47+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=eef1dd3490b3d26767ce89821d9a68fb3bf93f12598ffbaff3a620338ca2da18" target="_blank" rel="noopener">Meta and Anthropic Discuss $10B AI Infrastructure Agreement</a>
+            <span class="src">— Yahoo · 2026-07-18T02:47+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">XLK</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=811bb49528e2ffa255df1025a0fe4273d8ff7dc554b3578c06e6f62463afe5d3" target="_blank" rel="noopener">The Capex Ex-Suppliers Trade: Earnings Season Is The Referee</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T09:04+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=354094bf580ac37213eb47ef497d4650b5c6983ad98b47000ba30538919e0745" target="_blank" rel="noopener">XLV: Healthcare Sector On The Mend, But Probably Not For Long</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T08:30+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=31a129fe0260f07c05224d053bcd4eee87605e85893dc76afa78ebbf2cd28d9f" target="_blank" rel="noopener">This Week's Market Wrap: AI Shakeup, Earnings, And Renewed Oil Shock</a>
+            <span class="src">— SeekingAlpha · 2026-07-18T01:20+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">GOOGL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=997793e45b0c86e9c1aab9eabece5cd0ac524a8e09f0332d1643f9d2579891c5" target="_blank" rel="noopener">Alphabet's Gemini 3.5 Pro Is Late and the Stock Is Slipping. Is the AI Leader Falling Behind?</a>
+            <span class="src">— Yahoo · 2026-07-19T20:43+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=308477a3a691723819d8660b03972b7bba7455ed3bce1d33e4fe11b8b47647fa" target="_blank" rel="noopener">Warren Buffett Takes Credit for Berkshire’s Alphabet Stock Buy: ‘I Initiated It’</a>
+            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">MSFT</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=048fb0464ab5411597521963e065f8144dfc962b87340b753459fa815f43aa9c" target="_blank" rel="noopener">Apple Just Hit an All-Time High. HSBC Thinks It Can Climb Even Higher</a>
+            <span class="src">— Yahoo · 2026-07-19T16:30+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=fed73052de862ab0a149e55fa3aebcb17bfaa2271b7277f4cc46b6feb725ff23" target="_blank" rel="noopener">I Can’t Stop Buying Alphabet Because The AI Talent Narrative is Wrong</a>
+            <span class="src">— Yahoo · 2026-07-19T16:12+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">META</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=fed73052de862ab0a149e55fa3aebcb17bfaa2271b7277f4cc46b6feb725ff23" target="_blank" rel="noopener">I Can’t Stop Buying Alphabet Because The AI Talent Narrative is Wrong</a>
+            <span class="src">— Yahoo · 2026-07-19T16:12+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0bbf8d1172de753afcd15360c41f0cbbd3fdee7cfba2eaf416c664f891737b03" target="_blank" rel="noopener">Can Nebius Group Really 10X by 2030? The Math Says Yes</a>
+            <span class="src">— Yahoo · 2026-07-19T16:04+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=4bb9e077a8ef8ab49971bd36fc955e5c6fcb9440c15a318e92c800b69f7208a8" target="_blank" rel="noopener">Meta Platforms: Is This the Most Undervalued Stock in Big Tech? (NASDAQ: META)</a>
+            <span class="src">— Yahoo · 2026-07-19T13:55+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">AMZN</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=964a3dea91ae6d8bafaad85a15705797f55ad28037224dc868067de12e4a165a" target="_blank" rel="noopener">Amazon closes another major facility, nearly 500 workers affected</a>
+            <span class="src">— Yahoo · 2026-07-19T21:47+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=987af1306be00e06d9d04d8f5798cde2af064659e638781d64e5aa5ced70fdc3" target="_blank" rel="noopener">Amazon’s Trillion-Dollar Capex Gamble vs Shopify’s Lean Profitability Strategy</a>
+            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">AAPL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9b620eb1272a611f663ff7120ac487af26f4fc94cb6084eacf3d4617bbe7a3ef" target="_blank" rel="noopener">Can an Apple lawsuit derail OpenAI’s hardware plans?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:24+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a8ddb1801359f3111a555bf33d00a4280de4a60f06927d738f7596794f694a57" target="_blank" rel="noopener">Is Apple Still a Buy at Its All-Time High?</a>
+            <span class="src">— Yahoo · 2026-07-19T18:44+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">NVDA</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9b81e0ef192098936a76d242f1265c40e027f74eea85d5de713de97626cd2ba4" target="_blank" rel="noopener">Netflix: Down Nearly 50% Over the Past Year, Is the Stock a Buy on This Latest Dip? Here's the Real Issue Behind the Stock's Decline.</a>
+            <span class="src">— Yahoo · 2026-07-19T21:50+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f437986f92068b38f3d4a4b110334fcb867cd19842bd077f85713ff5cac8bec2" target="_blank" rel="noopener">Prediction: Investors Will Be Happy if They Buy AMD Stock Before the Company's Big AI Event on July 22</a>
+            <span class="src">— Yahoo · 2026-07-19T21:37+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=297fcd5756bc2dddd81fa50b3a1a008ec9e800e06ba9cca7163c3ae901342ebb" target="_blank" rel="noopener">Prediction: These Will Be the 2 Best Nuclear Energy Stocks to Buy for the Next 5 Years</a>
+            <span class="src">— Yahoo · 2026-07-19T21:27+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">TSLA</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=cf240d853bc9b17ad78e5549560a0d6764c4357fd2cf7e96c8ba6505745dbd98" target="_blank" rel="noopener">Mercedes Benz (XTRA:MBG) Unveils CLA 250 Plus To Take On Tesla Model 3</a>
+            <span class="src">— Yahoo · 2026-07-19T21:07+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
+            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e0f9e247df0a38e00157410065843753ea1f9d9dccefa641bc9eb23bf6cefaf6" target="_blank" rel="noopener">Jobs, GM, Tesla, Alphabet, Intel, Verizon, and More to Watch This Week</a>
+            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+    </div>
+    
   </div>
 
   <footer>
@@ -229,25 +798,30 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:03+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:42+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:06+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:45+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T17:03:07+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:54:46+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T17:03:07+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T23:54:47+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T170148Z</div>
+    <div class="health-row">
+      <span>news · Finnhub</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-19 · retrieved 2026-07-19T23:55:03+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T235341Z</div>
   </footer>
 </div>
 </body>
