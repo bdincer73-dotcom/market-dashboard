@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Dashboard — {{ run_date }} ({{ run_type|capitalize }})</title>
+<style>
+  :root {
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025;
+    --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+  h1 { font-size: 1.4rem; margin: 0; }
+  .sub { color: var(--muted); font-size: 0.85rem; }
+  .badge { display:inline-block; padding: 6px 16px; border-radius: 999px; font-weight:700; font-size:0.95rem; }
+  .badge.GREEN { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.AMBER { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.RED   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight:600; }
+  .status-pill.LIVE, .status-pill.EOD { background: rgba(30,142,62,0.15); color: var(--green); }
+  .status-pill.STALE { background: rgba(232,163,61,0.15); color: var(--amber); }
+  .status-pill.FAILED { background: rgba(217,48,37,0.15); color: var(--red); }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-bottom:24px; }
+  .card { background: var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .card h2 { font-size:0.95rem; margin:0 0 10px 0; display:flex; justify-content:space-between; align-items:center; }
+  .metric { display:flex; justify-content:space-between; padding:4px 0; font-size:0.88rem; border-bottom:1px dashed var(--border); }
+  .metric:last-child { border-bottom:none; }
+  .metric .v { font-weight:600; }
+  table { width:100%; border-collapse: collapse; font-size:0.85rem; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); }
+  th { color: var(--muted); font-weight:600; }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+  ul.reasons { margin:0; padding-left:18px; font-size:0.85rem; color: var(--muted); }
+  ul.reasons li { margin-bottom:4px; }
+  footer { border-top:1px solid var(--border); padding-top:16px; margin-top:8px; }
+  footer h2 { font-size:0.85rem; color: var(--muted); margin-bottom:10px; }
+  .health-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; color: var(--muted); }
+  .notes { font-size:0.75rem; color: var(--muted); margin-top:2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Daily + Weekly Market Dashboard</h1>
+      <div class="sub">{{ run_type|capitalize }} run · {{ run_date }} · generated {{ generated_at }}</div>
+    </div>
+    <div class="badge {{ regime }}">{{ regime }} {{ regime_label }}</div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Breadth <span class="status-pill {{ breadth.status }}">{{ breadth.status }}</span></h2>
+      {% if breadth.status != 'FAILED' %}
+      <div class="metric"><span>% above 20D SMA</span><span class="v">{{ breadth.payload.pct_above_20 }}%</span></div>
+      <div class="metric"><span>% above 50D SMA</span><span class="v">{{ breadth.payload.pct_above_50 }}%</span></div>
+      <div class="metric"><span>% above 200D SMA</span><span class="v">{{ breadth.payload.pct_above_200 }}%</span></div>
+      <div class="metric"><span>Constituent coverage</span><span class="v">{{ breadth.payload.coverage_pct }}%</span></div>
+      {% if breadth_deltas.d20 is not none %}
+      <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
+        <span class="v">{{ breadth_deltas.d20 }} / {{ breadth_deltas.d50 }} / {{ breadth_deltas.d200 }}</span></div>
+      {% endif %}
+      {% else %}
+      <div class="notes">{{ breadth.notes }}</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Volatility <span class="status-pill {{ volatility.status }}">{{ volatility.status }}</span></h2>
+      {% if volatility.status != 'FAILED' %}
+      {% for label in ['VIX','VIX9D','VIX3M','VVIX'] %}
+        {% if volatility.payload[label] %}
+        <div class="metric"><span>{{ label }}</span>
+          <span class="v">{{ volatility.payload[label].level }}
+            ({{ '%+.2f'|format(volatility.payload[label].change_1d) if volatility.payload[label].change_1d is not none else '—' }} 1D)</span></div>
+        {% endif %}
+      {% endfor %}
+      <div class="metric"><span>Term structure</span><span class="v">{{ volatility.payload.curve_state or '—' }}</span></div>
+      {% else %}
+      <div class="notes">{{ volatility.notes }}</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Rates <span class="status-pill {{ rates.status }}">{{ rates.status }}</span></h2>
+      {% if rates.status != 'FAILED' %}
+      <div class="metric"><span>2Y Treasury</span><span class="v">{{ rates.payload.us_2y.level }}%</span></div>
+      <div class="metric"><span>10Y Treasury</span><span class="v">{{ rates.payload.us_10y.level }}%</span></div>
+      <div class="metric"><span>2s10s spread</span><span class="v">{{ rates.payload.spread_2s10s_bps }} bps</span></div>
+      <div class="notes">FedWatch distribution not automated in R1 — <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" style="color:inherit;">official tool</a></div>
+      {% else %}
+      <div class="notes">{{ rates.notes }}</div>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Sector rotation (RSP vs SPY 5D: {{ sectors.payload.rsp_vs_spy_5d if sectors.status != 'FAILED' else '—' }} pts)
+        <span class="status-pill {{ sectors.status }}">{{ sectors.status }}</span></h2>
+      {% if sectors.status != 'FAILED' %}
+      <table>
+        <tr><th>#</th><th>Sector</th><th>1D</th><th>5D</th><th>20D</th><th>Rel. vs SPY 20D</th></tr>
+        {% for sec in sectors.payload.sectors %}
+        <tr>
+          <td>{{ sec.rank or '—' }}</td>
+          <td>{{ sec.ticker }}{% if sec.is_defensive %} <small>(def.)</small>{% endif %}</td>
+          <td class="{{ 'pos' if sec.return_1d and sec.return_1d > 0 else 'neg' }}">{{ sec.return_1d }}</td>
+          <td class="{{ 'pos' if sec.return_5d and sec.return_5d > 0 else 'neg' }}">{{ sec.return_5d }}</td>
+          <td class="{{ 'pos' if sec.return_20d and sec.return_20d > 0 else 'neg' }}">{{ sec.return_20d }}</td>
+          <td class="{{ 'pos' if sec.relative_return_20d_vs_spy and sec.relative_return_20d_vs_spy > 0 else 'neg' }}">{{ sec.relative_return_20d_vs_spy }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <div class="notes">{{ sectors.notes }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Why this regime</h2>
+    <ul class="reasons">
+      {% for r in reasons %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+  </div>
+
+  <footer>
+    <h2>Data health</h2>
+    {% for m in module_health %}
+    <div class="health-row">
+      <span>{{ m.module }} · {{ m.source }}</span>
+      <span><span class="status-pill {{ m.status }}">{{ m.status }}</span> obs {{ m.observation_date or '—' }} · retrieved {{ m.retrieved_at }}</span>
+    </div>
+    {% endfor %}
+    <div class="notes" style="margin-top:10px;">calc_version {{ calc_version }} · run_id {{ run_id }}</div>
+  </footer>
+</div>
+</body>
+</html>

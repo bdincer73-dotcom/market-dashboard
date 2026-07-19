@@ -1,0 +1,46 @@
+# Tunable rule thresholds for the scoring engine.
+# Edit these values to change regime behavior without touching code.
+# All percentages are in absolute points (e.g. 50 means 50%, not 0.50).
+
+breadth:
+  # "Stable or rising" vs "deteriorating" for 1D delta, in percentage points.
+  stable_delta_min: -1.0
+  deteriorating_delta_max: -2.0
+  # Both 20D and 50D breadth must fall below these to count as "weak".
+  weak_20d_level: 40.0
+  weak_50d_level: 45.0
+  weak_200d_level: 50.0
+  min_coverage_pct: 95.0
+
+sector_rotation:
+  # RSP vs SPY 5D relative return (points) below which RSP is "underperforming".
+  rsp_underperform_5d: -0.5
+  # RSP vs SPY 5D relative return above which RSP "confirms" the rally.
+  rsp_confirm_5d: 0.0
+  # Number of top-ranked sectors that must be non-defensive for "broadening" leadership.
+  narrow_leadership_rank_threshold: 3
+
+volatility:
+  # VIX level bands.
+  calm_low: 12.0
+  calm_high: 20.0
+  elevated_high: 28.0
+  # 5D VIX change (points) considered "rising sharply".
+  rising_5d: 3.0
+  # VIX3M - VIX. Negative = backwardation = stress signal.
+  backwardation_threshold: 0.0
+
+rates:
+  # 1W move in 2s10s spread (bps) considered "material".
+  material_2s10s_move_bps: 10.0
+
+watchlist:
+  # Minimum annualized return target for a candidate to pass the return gate.
+  min_return_target_pct: 3.5
+  min_dte: 30
+  max_dte: 40
+  earnings_exclusion_days: 30
+
+freshness:
+  # Data older than this many calendar days (excluding weekends) is STALE.
+  stale_after_days: 1
