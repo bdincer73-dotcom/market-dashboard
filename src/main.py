@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 import yaml
 
 from src import store, scoring, publish
-from src.collectors import breadth, sectors, volatility, rates
+from src.collectors import breadth, sectors, volatility, rates, news, bear_indicator
 
 CONFIG_PATH = __file__.replace("src/main.py", "config/thresholds.yaml")
 
@@ -51,16 +51,28 @@ def run(run_type: str) -> dict:
     sectors_env = sectors.collect()
     vol_env = volatility.collect()
     rates_env = rates.collect()
+    news_env = news.collect()
 
-    for e in (breadth_env, sectors_env, vol_env, rates_env):
+    core_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env]
+    for e in core_envelopes:
         print(f"  - {e.module}: {e.status} (obs {e.observation_date}) {e.notes}")
+
+    # Bear Indicator is weekly-cadence by design (ported from a weekly-updated
+    # tracker) - only collected/scored on the Saturday run, not every day.
+    bear_env = None
+    bear_score = bear_signal = None
+    bear_reasons = []
+    if run_type == "weekly" and breadth_env.status != "FAILED":
+        bear_env = bear_indicator.collect(breadth_env.payload)
+        print(f"  - {bear_env.module}: {bear_env.status} (obs {bear_env.observation_date}) {bear_env.notes}")
 
     with store.connect() as conn:
         snapshot_ids = []
         prev_breadth = store.get_previous_snapshot(conn, "breadth", run_id)
         prev_sectors = store.get_previous_snapshot(conn, "sectors", run_id)
+        prev_bear = store.get_previous_snapshot(conn, "bear_indicator", run_id) if bear_env else None
 
-        for e in (breadth_env, sectors_env, vol_env, rates_env):
+        for e in core_envelopes:
             snapshot_ids.append(store.save_snapshot(conn, run_id, e))
 
         regime, reasons, calc_payload = scoring.score(
@@ -73,11 +85,27 @@ def run(run_type: str) -> dict:
             snapshot_ids, regime, reasons, calc_payload,
         )
 
+        if bear_env is not None:
+            bear_snapshot_id = store.save_snapshot(conn, run_id, bear_env)
+            if bear_env.status != "FAILED":
+                bear_score, bear_signal, bear_reasons = bear_indicator.score(
+                    bear_env.payload, prev_bear["payload"] if prev_bear else None
+                )
+                store.save_calculated(
+                    conn, run_id, run_type, "bear-indicator-v1",
+                    [bear_snapshot_id], bear_signal, bear_reasons,
+                    {"score": bear_score, **bear_env.payload},
+                )
+
     breadth_deltas = {
         "d20": calc_payload.get("breadth_delta_20d"),
         "d50": calc_payload.get("breadth_delta_50d"),
         "d200": calc_payload.get("breadth_delta_200d"),
     }
+
+    health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env]
+    if bear_env is not None:
+        health_envelopes.append(bear_env)
 
     context = {
         "run_type": run_type,
@@ -92,7 +120,13 @@ def run(run_type: str) -> dict:
         "sectors": sectors_env,
         "volatility": vol_env,
         "rates": rates_env,
-        "module_health": build_module_health([breadth_env, sectors_env, vol_env, rates_env]),
+        "news": news_env,
+        "bear_indicator": bear_env,
+        "bear_score": bear_score,
+        "bear_signal": bear_signal,
+        "bear_reasons": bear_reasons,
+        "bear_icon": bear_indicator.SIGNAL_ICON.get(bear_signal) if bear_signal else None,
+        "module_health": build_module_health(health_envelopes),
         "calc_version": scoring.CALC_VERSION,
     }
 

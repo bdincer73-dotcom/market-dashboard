@@ -6,7 +6,7 @@
 <title>Market Dashboard — {{ run_date }} ({{ run_type|capitalize }})</title>
 <style>
   :root {
-    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025;
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
     --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
   }
   * { box-sizing: border-box; }
@@ -20,6 +20,21 @@
   .badge.GREEN { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
   .badge.AMBER { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
   .badge.RED   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Bearish     { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Cautionary  { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.Watch       { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
+  .badge.Constructive{ background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .news-ticker { margin-bottom: 14px; }
+  .news-ticker:last-child { margin-bottom: 0; }
+  .news-ticker .ticker-label { font-weight:700; font-size:0.85rem; margin-bottom:4px; }
+  .news-ticker .ticker-label .unavail { color: var(--muted); font-weight:400; font-size:0.75rem; }
+  .headline { font-size:0.83rem; padding:3px 0; }
+  .headline a { color: var(--text); text-decoration:none; }
+  .headline a:hover { text-decoration:underline; }
+  .headline .src { color: var(--muted); font-size:0.72rem; margin-left:4px; }
+  .news-cols { column-count: 2; column-gap: 24px; }
+  @media (max-width: 700px) { .news-cols { column-count: 1; } }
+  .news-ticker { break-inside: avoid; }
   .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight:600; }
   .status-pill.LIVE, .status-pill.EOD { background: rgba(30,142,62,0.15); color: var(--green); }
   .status-pill.STALE { background: rgba(232,163,61,0.15); color: var(--amber); }
@@ -51,6 +66,37 @@
     </div>
     <div class="badge {{ regime }}">{{ regime }} {{ regime_label }}</div>
   </header>
+
+  {% if bear_indicator is not none %}
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Bear Indicator (weekly)
+      {% if bear_indicator.status != 'FAILED' %}
+      <span class="badge {{ bear_signal }}">{{ bear_icon }} {{ bear_signal }} — {{ bear_score }}/8</span>
+      {% else %}
+      <span class="status-pill FAILED">FAILED</span>
+      {% endif %}
+    </h2>
+    {% if bear_indicator.status != 'FAILED' %}
+    <div class="grid" style="margin-bottom:12px;">
+      {% for t in ['SPY','VOO','IWV','QQQ','RSP'] %}
+        {% if bear_indicator.payload.cmf[t] is defined %}
+        <div class="metric"><span>{{ t }} CMF(20)</span><span class="v">{{ bear_indicator.payload.cmf[t] }}</span></div>
+        {% endif %}
+      {% endfor %}
+      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">{{ bear_indicator.payload.spy_vs_ma }}</span></div>
+      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">{{ bear_indicator.payload.rsp_vs_ma }}</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">{{ bear_indicator.payload.pct_above_50 }}% / {{ bear_indicator.payload.pct_above_200 }}%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">{{ bear_indicator.payload.net_new_high_pct }}%</span></div>
+    </div>
+    <ul class="reasons">
+      {% for r in bear_reasons %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+    <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
+    {% else %}
+    <div class="notes">{{ bear_indicator.notes }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
 
   <div class="grid">
     <div class="card">
@@ -125,6 +171,36 @@
     <ul class="reasons">
       {% for r in reasons %}<li>{{ r }}</li>{% endfor %}
     </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Market news — your positions
+      <span class="status-pill {{ news.status }}">{{ news.status }}</span>
+    </h2>
+    {% if news.status != 'FAILED' %}
+    <div class="notes" style="margin-bottom:10px;">{{ news.payload.ok_count }} tickers with headlines · {{ news.payload.unavailable_count }} unavailable{% if news.payload.unavailable_tickers %} ({{ news.payload.unavailable_tickers|join(', ') }}){% endif %}</div>
+    <div class="news-cols">
+      {% for ticker, data in news.payload.tickers.items() %}
+        {% if data.status == 'OK' and data.headlines %}
+        <div class="news-ticker">
+          <div class="ticker-label">{{ ticker }}</div>
+          {% for h in data.headlines %}
+          <div class="headline">
+            <a href="{{ h.url }}" target="_blank" rel="noopener">{{ h.headline }}</a>
+            <span class="src">— {{ h.source }}{% if h.published_at %} · {{ h.published_at }}{% endif %}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% elif data.status != 'OK' %}
+        <div class="news-ticker">
+          <div class="ticker-label">{{ ticker }} <span class="unavail">— unavailable ({{ data.reason }})</span></div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="notes">{{ news.notes }}</div>
+    {% endif %}
   </div>
 
   <footer>

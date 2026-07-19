@@ -64,6 +64,27 @@ def render_summary(context: dict, run_type: str, run_date: str) -> str:
     ]
     for r in context["reasons"]:
         lines.append(f"  - {r}")
+
+    if context.get("bear_indicator") is not None:
+        lines.append("")
+        if context["bear_indicator"].status != "FAILED":
+            lines.append(f"Bear Indicator: {context['bear_signal']} ({context['bear_score']}/8)")
+            for r in context["bear_reasons"]:
+                lines.append(f"  - {r}")
+        else:
+            lines.append(f"Bear Indicator: FAILED - {context['bear_indicator'].notes}")
+
+    news = context.get("news")
+    if news is not None:
+        lines.append("")
+        if news.status != "FAILED":
+            lines.append(
+                f"News: {news.payload['ok_count']} tickers with headlines, "
+                f"{news.payload['unavailable_count']} unavailable"
+            )
+        else:
+            lines.append(f"News: FAILED - {news.notes}")
+
     lines.append("")
     lines.append("Data health:")
     for m in context["module_health"]:

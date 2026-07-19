@@ -20,7 +20,8 @@ from src.envelope import Envelope, now_utc_iso
 
 WIKI_SPX_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 MIN_COVERAGE_PCT = 95.0
-HISTORY_DAYS = "400d"  # enough trading days to compute a trailing 200D SMA
+HISTORY_DAYS = "500d"  # enough trading days for a trailing 200D SMA + 252D new-high/low
+NEW_HIGH_LOW_WINDOW = 252  # ~1 trading year, for the Bear Indicator's Net New Hi %
 
 
 def get_constituents() -> list[str]:
@@ -78,6 +79,7 @@ def collect(_tickers_override: list[str] | None = None) -> Envelope:
         )
 
     above_20 = above_50 = above_200 = 0
+    new_highs = new_lows = 0
     usable = 0
     observation_date = None
 
@@ -86,7 +88,7 @@ def collect(_tickers_override: list[str] | None = None) -> Envelope:
             closes = raw[ticker]["Close"].dropna()
         except (KeyError, TypeError):
             continue
-        if len(closes) < 200:
+        if len(closes) < NEW_HIGH_LOW_WINDOW:
             continue
         usable += 1
         last_close = closes.iloc[-1]
@@ -99,6 +101,11 @@ def collect(_tickers_override: list[str] | None = None) -> Envelope:
             above_50 += 1
         if last_close > sma200:
             above_200 += 1
+        window = closes.iloc[-NEW_HIGH_LOW_WINDOW:]
+        if last_close >= window.max():
+            new_highs += 1
+        if last_close <= window.min():
+            new_lows += 1
         candidate_date = closes.index[-1]
         if observation_date is None or candidate_date > observation_date:
             observation_date = candidate_date
@@ -123,6 +130,9 @@ def collect(_tickers_override: list[str] | None = None) -> Envelope:
         "pct_above_20": round(100 * above_20 / usable, 1),
         "pct_above_50": round(100 * above_50 / usable, 1),
         "pct_above_200": round(100 * above_200 / usable, 1),
+        # Net New Hi % = (new 252D highs - new 252D lows) / usable count, in
+        # percentage points. Feeds the Bear Indicator's "Net New Hi %" column.
+        "net_new_high_pct": round(100 * (new_highs - new_lows) / usable, 2),
         "constituent_count": len(constituents),
         "usable_count": usable,
         "coverage_pct": coverage_pct,

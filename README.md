@@ -1,4 +1,4 @@
-# Market Dashboard — R1 (market core)
+# Market Dashboard — R1 (market core) + news + Bear Indicator
 
 Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 + 11 sector SPDRs), volatility (VIX/VIX9D/VIX3M/VVIX), and Treasury yields
@@ -6,9 +6,20 @@ Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 a static HTML dashboard. Built per "Python + GitHub Actions + static HTML" —
 the recommended v1 path in the blueprint.
 
-**Scope note:** this is R1 only — the "reliable market core." Earnings joins,
-your options watchlist, and CME FedWatch's paid probability feed are R2/R3 and
-are not included yet (see "Known limitations" below).
+Two additions on top of R1:
+- **Market news** for your watchlist tickers (`config/watchlist.yaml`, sourced
+  from your Options P&L Tracker's Open Positions/Cash Collateral/Stock Holdings
+  tabs), via Finnhub's free company-news endpoint.
+- **Bear Indicator** (weekly only, Saturday run) — ported from the same
+  tracker's "Bear Indicator" tab: Chaikin Money Flow on SPY/VOO/IWV/QQQ/RSP,
+  breadth, Net New Hi %, and SPY/RSP's position vs their 20/50D SMAs, rolled
+  into an 0-8 composite score and a Bearish/Cautionary/Watch/Constructive
+  signal. Uses the tracker's original 8-condition formula (see "Known
+  limitations" for why, not the newer formula from the 7/11 row).
+
+**Scope note:** the CSP/covered-call candidate scoring, earnings-date joins,
+and option-chain gates from the blueprint's R2 are still not built — this adds
+news and the Bear Indicator on top of R1, not the full R2.
 
 ## Pipeline
 
@@ -16,7 +27,8 @@ are not included yet (see "Known limitations" below).
 source → validate → normalize → calculate → score → publish → archive
 ```
 
-- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates)
+- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates, news, bear_indicator)
+- `config/watchlist.yaml` — tickers for the news section (and future R2 candidate scoring)
 - `src/envelope.py` — the common shape every collector returns (status LIVE/EOD/STALE/FAILED)
 - `src/store.py` — SQLite archive: raw snapshots (immutable) + calculated signals, so every number is traceable and any past dashboard is reproducible
 - `src/scoring.py` — rules engine, thresholds in `config/thresholds.yaml`
@@ -41,10 +53,13 @@ source → validate → normalize → calculate → score → publish → archiv
    git push -u origin main
    ```
 
-3. **Add the secret** in your repo: Settings → Secrets and variables → Actions →
-   New repository secret → name `FRED_API_KEY`, value from step 1.
+3. **Get a free Finnhub API key** (for stock news): https://finnhub.io/register
+   Also free, no card required.
 
-4. **Enable Actions** if prompted (Actions tab → "I understand my workflows, go ahead and enable them").
+4. **Add both secrets** in your repo: Settings → Secrets and variables → Actions →
+   New repository secret → `FRED_API_KEY` and `FINNHUB_API_KEY`.
+
+5. **Enable Actions** if prompted (Actions tab → "I understand my workflows, go ahead and enable them").
 
 That's it — `.github/workflows/daily.yml` runs weekday mornings, `weekly.yml`
 runs Saturdays, and both commit the updated `data/` (SQLite archive) and
@@ -52,9 +67,16 @@ runs Saturdays, and both commit the updated `data/` (SQLite archive) and
 
 ## Publishing it to the internet (GitHub Pages)
 
-If there's nothing sensitive in your dashboard (it's public market data by
-default in R1 — no watchlist/positions until R2), you can host it at a public
-URL for free:
+**Privacy note (read before making the repo public):** R1 alone was pure public
+market data. With the news feature added, `config/watchlist.yaml` and the
+published dashboard now reveal which tickers you're trading options on
+(though not size, strikes, or account values - those still live only in your
+local tracker file, never uploaded here). If you'd rather not disclose even
+that, keep the repo private and skip Pages (GitHub Pages on the free plan
+requires a public repo), or move `config/watchlist.yaml` to a `.gitignore`d
+local override before pushing.
+
+If that's fine, you can host it at a public URL for free:
 
 1. Make the repo public: Settings → General → scroll to "Danger Zone" →
    **Change visibility** → Public. (GitHub Pages on the free plan only works
@@ -121,3 +143,16 @@ number with no LIVE/EOD/STALE/FAILED label).
 - **yfinance** is unofficial and occasionally rate-limits bulk requests. If a
   run shows more FAILED tiles than usual, it's most often this — rerun via
   the Actions tab's "Run workflow" button.
+- **Bear Indicator formula**: the tracker used one 8-condition boolean formula
+  for its 6/12-7/02 rows, then switched to a differently-scaled continuous
+  formula for the 7/11 row while keeping the same 🔴≥6/🟠≥4/🟡≥2 bucket
+  thresholds - those don't actually line up under the new formula. This build
+  uses the original boolean version throughout, so scores here may not exactly
+  match what the 7/11 row in your spreadsheet shows.
+- **"DRAM" and "BRR"** in `config/watchlist.yaml` are carried over verbatim
+  from the tracker. Neither is a standard resolvable ticker on Finnhub as far
+  as this build can tell - expect those two to show as unavailable in the news
+  section until you confirm/correct the actual symbols.
+- **News** only covers headlines (Finnhub free tier) - no sentiment scoring,
+  no filtering by relevance to your specific position (strike/expiry), and
+  it's not joined to the earnings calendar yet (that's still R2).

@@ -29,6 +29,7 @@ jobs:
       - name: Run daily dashboard build
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python -m src.main --run-type daily
 
       - name: Commit updated data + dashboard

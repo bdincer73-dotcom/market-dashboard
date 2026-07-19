@@ -1,0 +1,43 @@
+# Tickers to pull news for and (later, R2) score as option candidates.
+# Sourced from Options_PL_Tracker_YTD2026 - Open Positions, Cash Collateral,
+# and Stock Holdings tabs (as of 2026-07-17), plus the Mag 7 names tracked in
+# Earnings Watch for AI-capex read-through even though they aren't held.
+#
+# "DRAM" and "BRR" are carried over as written in the tracker. If the news
+# provider can't resolve a symbol, its tile shows UNAVAILABLE rather than
+# guessing - check config/watchlist.yaml and fix the symbol if that happens
+# (e.g. "DRAM" may need to map to an actual exchange ticker).
+
+positions:  # names with open puts/calls, collateral, or shares held
+  - APLD
+  - ASML
+  - BE
+  - CLS
+  - COHR
+  - DRAM
+  - GLW
+  - INTC
+  - IREN
+  - LRCX
+  - MRVL
+  - SOFI
+  - STX
+  - TER
+  - VRT
+  - WDC
+  - CRWV
+  - XLK
+  - BRR
+
+watch_only:  # not held directly - tracked for capex/earnings read-through
+  - GOOGL
+  - MSFT
+  - META
+  - AMZN
+  - AAPL
+  - NVDA
+  - TSLA
+
+news:
+  max_headlines_per_ticker: 3
+  lookback_days: 3

@@ -25,6 +25,7 @@ jobs:
       - name: Run weekly review build
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python -m src.main --run-type weekly
 
       - name: Commit updated data + dashboard
