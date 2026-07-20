@@ -1,26 +1,28 @@
 MARKET DASHBOARD — DAILY — 2026-07-20
-Regime: AMBER (selective)
+Regime: RED (protect cash)
 
 Why:
-  - AMBER: VIX rising sharply over 5D (Δ3.74 ≥ 3.0 threshold)
+  - RED: 200D breadth weakening (Δ-2.0, any decline triggers this)
 
 Bear Indicator: Constructive (1/8)
   - At least one index CMF negative (min -0.24)
   - No prior week snapshot yet - week-over-week checks skipped
 
-CSP candidates: 3 pass all gates, 13 watch-only
-  - IREN $25.0 2026-08-21 (32D) -> 84.86% ann.
-  - DRAM $43.0 2026-08-21 (32D) -> 70.82% ann.
-  - ASML $1600.0 2026-08-21 (32D) -> 45.55% ann.
+CSP candidates: 5 pass all gates, 14 watch-only
+  - IREN $30.0 2026-08-21 (32D) -> 94.67% ann.
+  - DRAM $44.0 2026-08-21 (32D) -> 65.07% ann.
+  - MRVL $160.0 2026-08-21 (32D) -> 51.9% ann.
+  - ASML $1540.0 2026-08-21 (32D) -> 29.18% ann.
+  - XLK $160.0 2026-08-21 (32D) -> 15.61% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-07-17)
-  - sectors: EOD (obs 2026-07-17)
-  - volatility: EOD (obs 2026-07-17)
+  - breadth: EOD (obs 2026-07-20)
+  - sectors: EOD (obs 2026-07-20)
+  - volatility: EOD (obs 2026-07-20)
   - rates: EOD (obs 2026-07-16)
   - news: EOD (obs 2026-07-20)
   - earnings: EOD (obs 2026-07-20)
