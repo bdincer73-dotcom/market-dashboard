@@ -34,4 +34,11 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/ docs/
           git diff --cached --quiet || git commit -m "Weekly dashboard run: $(date -u +%Y-%m-%d)"
-          git push
+          # Rebase onto whatever's on origin/main right before pushing, in case
+          # another commit (manual push, daily run, etc.) landed while this
+          # job was building. Retries a few times in case of a tight race.
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && break
+            echo "push attempt $i failed, retrying..."
+            sleep $((RANDOM % 10 + 1))
+          done
