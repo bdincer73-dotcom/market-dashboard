@@ -55,6 +55,18 @@
   footer h2 { font-size:0.85rem; color: var(--muted); margin-bottom:10px; }
   .health-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; color: var(--muted); }
   .notes { font-size:0.75rem; color: var(--muted); margin-top:2px; }
+  details.legend { margin-bottom:20px; border:1px solid var(--border); border-radius:10px; background: var(--card); }
+  details.legend summary { cursor:pointer; padding:10px 16px; font-size:0.85rem; font-weight:600; list-style:none; }
+  details.legend summary::-webkit-details-marker { display:none; }
+  details.legend summary::before { content: "▸ "; color: var(--muted); }
+  details.legend[open] summary::before { content: "▾ "; }
+  .legend-body { padding: 0 16px 16px 16px; }
+  .legend-group { margin-bottom:14px; }
+  .legend-group:last-child { margin-bottom:0; }
+  .legend-group h3 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color: var(--muted); margin:0 0 8px 0; font-weight:600; }
+  .legend-row { display:flex; align-items:baseline; gap:8px; font-size:0.82rem; padding:3px 0; }
+  .legend-row .badge, .legend-row .status-pill { flex-shrink:0; }
+  .legend-row .desc { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -66,6 +78,32 @@
     </div>
     <div class="badge {{ regime }}">{{ regime }} {{ regime_label }}</div>
   </header>
+
+  <details class="legend">
+    <summary>Legend — what the colors mean</summary>
+    <div class="legend-body">
+      <div class="legend-group">
+        <h3>Regime call (top badge + "Why this regime")</h3>
+        <div class="legend-row"><span class="badge GREEN">GREEN</span><span class="desc">normal risk — breadth stable/rising, RSP confirming, VIX calm, leadership broad. No rule tripped.</span></div>
+        <div class="legend-row"><span class="badge AMBER">AMBER</span><span class="desc">selective — at least one warning rule tripped (mixed breadth, rising VIX, narrow leadership, or missing data). Trade smaller, demand a better discount, favor cleaner liquidity.</span></div>
+        <div class="legend-row"><span class="badge RED">RED</span><span class="desc">protect cash — breadth deteriorating, RSP underperforming, or volatility/term-structure stress. Default to cash over new risk.</span></div>
+      </div>
+      <div class="legend-group">
+        <h3>Bear Indicator (weekly only, separate 0-8 score)</h3>
+        <div class="legend-row"><span class="badge Constructive">🟢 Constructive</span><span class="desc">0-1 of 8 bearish conditions tripped</span></div>
+        <div class="legend-row"><span class="badge Watch">🟡 Watch</span><span class="desc">2-3 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Cautionary">🟠 Cautionary</span><span class="desc">4-5 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Bearish">🔴 Bearish</span><span class="desc">6-8 of 8 tripped</span></div>
+      </div>
+      <div class="legend-group">
+        <h3>Data freshness (next to every tile, and in the footer)</h3>
+        <div class="legend-row"><span class="status-pill LIVE">LIVE / EOD</span><span class="desc">fresh, usable data for this run</span></div>
+        <div class="legend-row"><span class="status-pill STALE">STALE</span><span class="desc">retrieved, but older than expected for this run</span></div>
+        <div class="legend-row"><span class="status-pill FAILED">FAILED</span><span class="desc">could not be retrieved this run — shown honestly rather than guessed or carried forward</span></div>
+      </div>
+      <div class="notes">All regime/Bear Indicator thresholds are tunable in <code>config/thresholds.yaml</code> — edit that file, not the code, to make the dashboard more or less sensitive.</div>
+    </div>
+  </details>
 
   {% if bear_indicator is not none %}
   <div class="card" style="margin-bottom:24px;">
@@ -168,6 +206,7 @@
 
   <div class="card" style="margin-bottom:24px;">
     <h2>Why this regime</h2>
+    <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
     <ul class="reasons">
       {% for r in reasons %}<li>{{ r }}</li>{% endfor %}
     </ul>

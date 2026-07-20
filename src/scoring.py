@@ -62,19 +62,25 @@ def score(breadth_env, sectors_env, vol_env, rates_env, prev_breadth, prev_secto
     if d20 is not None and d50 is not None:
         if d20 <= b["deteriorating_delta_max"] and d50 <= b["deteriorating_delta_max"]:
             red = True
-            reasons.append(f"RED: 20D breadth Δ{d20} and 50D breadth Δ{d50} deteriorating together")
+            reasons.append(
+                f"RED: 20D breadth Δ{d20} and 50D breadth Δ{d50} both deteriorating "
+                f"(both ≤ {b['deteriorating_delta_max']} threshold)"
+            )
     if d200 is not None and d200 < 0:
         red = True
-        reasons.append(f"RED: 200D breadth weakening (Δ{d200})")
+        reasons.append(f"RED: 200D breadth weakening (Δ{d200}, any decline triggers this)")
     if rsp_vs_spy_5d is not None and rsp_vs_spy_5d < s["rsp_underperform_5d"]:
         red = True
-        reasons.append(f"RED: RSP underperforming SPY over 5D ({rsp_vs_spy_5d} pts)")
+        reasons.append(
+            f"RED: RSP underperforming SPY over 5D "
+            f"({rsp_vs_spy_5d} pts < {s['rsp_underperform_5d']} threshold)"
+        )
     if vix_level is not None and vix_level > v["elevated_high"]:
         red = True
-        reasons.append(f"RED: VIX elevated at {vix_level} (> {v['elevated_high']})")
+        reasons.append(f"RED: VIX elevated at {vix_level} (> {v['elevated_high']} threshold)")
     if is_backwardation:
         red = True
-        reasons.append("RED: VIX term structure in backwardation (stress signal)")
+        reasons.append("RED: VIX term structure in backwardation (VIX3M < VIX - a stress signal)")
 
     if red:
         regime = "RED"
@@ -84,16 +90,27 @@ def score(breadth_env, sectors_env, vol_env, rates_env, prev_breadth, prev_secto
         amber = False
         if d20 is not None and (b["deteriorating_delta_max"] < d20 < b["stable_delta_min"]):
             amber = True
-            reasons.append(f"AMBER: breadth mixed (20D Δ{d20})")
+            reasons.append(
+                f"AMBER: breadth mixed (20D Δ{d20}, between the "
+                f"{b['deteriorating_delta_max']}/{b['stable_delta_min']} stable-vs-deteriorating bounds)"
+            )
         if vix_5d_change is not None and vix_5d_change >= v["rising_5d"]:
             amber = True
-            reasons.append(f"AMBER: VIX rising sharply over 5D (Δ{vix_5d_change})")
+            reasons.append(
+                f"AMBER: VIX rising sharply over 5D (Δ{vix_5d_change} ≥ {v['rising_5d']} threshold)"
+            )
         if narrow_leadership:
             amber = True
-            reasons.append("AMBER: sector leadership narrow/defensive")
+            reasons.append(
+                f"AMBER: sector leadership narrow/defensive "
+                f"(top {s['narrow_leadership_rank_threshold']} ranked sectors are all defensive)"
+            )
         if vix_level is not None and not (v["calm_low"] <= vix_level <= v["calm_high"]):
             amber = True
-            reasons.append(f"AMBER: VIX outside calm band ({vix_level})")
+            reasons.append(
+                f"AMBER: VIX outside calm band ({vix_level}, calm range is "
+                f"{v['calm_low']}–{v['calm_high']})"
+            )
         if failed_modules:
             amber = True
             reasons.append(f"AMBER: insufficient data - failed module(s) {failed_modules}")
@@ -103,7 +120,10 @@ def score(breadth_env, sectors_env, vol_env, rates_env, prev_breadth, prev_secto
 
         regime = "AMBER" if amber else "GREEN"
         if regime == "GREEN":
-            reasons.append("GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad")
+            reasons.append(
+                "GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad "
+                "- no rule tripped"
+            )
 
     payload = {
         "breadth_delta_20d": d20,
