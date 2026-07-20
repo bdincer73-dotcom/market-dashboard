@@ -213,6 +213,75 @@
   </div>
 
   <div class="card" style="margin-bottom:24px;">
+    <h2>CSP candidates
+      <span class="status-pill {{ options_chain.status }}">{{ options_chain.status }}</span>
+    </h2>
+    {% if options_chain.status != 'FAILED' %}
+    <div class="notes" style="margin-bottom:10px;">
+      One representative strike per ticker, {{ options_chain.payload.dte_window[0] }}-{{ options_chain.payload.dte_window[1] }} DTE window.
+      Gates: return ≥ target, spread/OI liquidity, no earnings before expiry. Delta is an estimate (Black-Scholes from implied vol) - not a broker Greek.
+      {% if candidates %}{{ candidates.candidate_count }} pass all gates · {{ candidates.watch_only_count }} watch-only (failed a gate){% endif %}
+    </div>
+    {% if candidates and candidates.candidates %}
+    <table>
+      <tr><th>Ticker</th><th>Spot</th><th>Strike</th><th>Expiry</th><th>DTE</th><th>Mid</th><th>Ann. return</th><th>Δ (est.)</th><th>Spread%</th><th>OI</th></tr>
+      {% for c in candidates.candidates %}
+      <tr>
+        <td>{{ c.ticker }}</td>
+        <td>{{ c.spot }}</td>
+        <td>{{ c.pick.strike }}</td>
+        <td>{{ c.pick.expiry }}</td>
+        <td>{{ c.pick.dte }}</td>
+        <td>{{ c.pick.mid }}</td>
+        <td class="pos">{{ c.pick.annualized_return_pct }}%</td>
+        <td>{{ c.pick.delta_est }}</td>
+        <td>{{ c.pick.spread_pct }}</td>
+        <td>{{ c.pick.open_interest }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <div class="notes">No candidates passed all gates this run.</div>
+    {% endif %}
+    {% if candidates and candidates.watch_only %}
+    <div class="notes" style="margin-top:12px; font-weight:600;">Watch only (failed a gate):</div>
+    <ul class="reasons">
+      {% for c in candidates.watch_only %}
+      <li>{{ c.ticker }}: {{ c.pick.fail_reasons|join('; ') if c.pick else 'no usable data' }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% else %}
+    <div class="notes">{{ options_chain.notes }}</div>
+    {% endif %}
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Earnings risk — your positions
+      <span class="status-pill {{ earnings.status }}">{{ earnings.status }}</span>
+    </h2>
+    {% if earnings.status != 'FAILED' %}
+    <div class="notes" style="margin-bottom:10px;">Next {{ earnings.payload.lookahead_days }} days · TBD dates are treated as risk, not certainty.</div>
+    <table>
+      <tr><th>Ticker</th><th>Report date</th><th>When</th><th>Days out</th><th>Confirmed</th></tr>
+      {% for ticker, e in earnings.payload.tickers.items() %}
+        {% if e.status == 'SCHEDULED' %}
+        <tr>
+          <td>{{ ticker }}</td>
+          <td>{{ e.event.date }}</td>
+          <td>{{ e.event.hour }}</td>
+          <td>{{ e.event.days_to_event }}</td>
+          <td>{{ '✓' if e.event.confirmed else 'TBD' }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    {% else %}
+    <div class="notes">{{ earnings.notes }}</div>
+    {% endif %}
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
     <h2>Market news — your positions
       <span class="status-pill {{ news.status }}">{{ news.status }}</span>
     </h2>

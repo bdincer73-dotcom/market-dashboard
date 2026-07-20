@@ -17,8 +17,8 @@ from datetime import datetime, timezone
 
 import yaml
 
-from src import store, scoring, publish
-from src.collectors import breadth, sectors, volatility, rates, news, bear_indicator
+from src import store, scoring, publish, candidate_scoring
+from src.collectors import breadth, sectors, volatility, rates, news, bear_indicator, earnings, options_chain
 
 CONFIG_PATH = __file__.replace("src/main.py", "config/thresholds.yaml")
 
@@ -52,10 +52,21 @@ def run(run_type: str) -> dict:
     vol_env = volatility.collect()
     rates_env = rates.collect()
     news_env = news.collect()
+    earnings_env = earnings.collect()
+    options_env = options_chain.collect()
 
-    core_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env]
+    core_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env]
     for e in core_envelopes:
         print(f"  - {e.module}: {e.status} (obs {e.observation_date}) {e.notes}")
+
+    # R2 candidate scoring - needs both earnings and options chain data.
+    candidates = None
+    if earnings_env.status != "FAILED" and options_env.status != "FAILED":
+        candidates = candidate_scoring.score_all(options_env.payload, earnings_env.payload, thresholds)
+        print(
+            f"  - candidates: {candidates['candidate_count']} pass all gates, "
+            f"{candidates['watch_only_count']} watch-only"
+        )
 
     # Bear Indicator is weekly-cadence by design (ported from a weekly-updated
     # tracker) - only collected/scored on the Saturday run, not every day.
@@ -97,13 +108,24 @@ def run(run_type: str) -> dict:
                     {"score": bear_score, **bear_env.payload},
                 )
 
+        earnings_snapshot_id = store.save_snapshot(conn, run_id, earnings_env)
+        options_snapshot_id = store.save_snapshot(conn, run_id, options_env)
+        if candidates is not None:
+            store.save_calculated(
+                conn, run_id, run_type, candidate_scoring.CALC_VERSION,
+                [earnings_snapshot_id, options_snapshot_id],
+                f"{candidates['candidate_count']}_candidates",
+                [c["ticker"] for c in candidates["candidates"]],
+                candidates,
+            )
+
     breadth_deltas = {
         "d20": calc_payload.get("breadth_delta_20d"),
         "d50": calc_payload.get("breadth_delta_50d"),
         "d200": calc_payload.get("breadth_delta_200d"),
     }
 
-    health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env]
+    health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env]
     if bear_env is not None:
         health_envelopes.append(bear_env)
 
@@ -121,6 +143,9 @@ def run(run_type: str) -> dict:
         "volatility": vol_env,
         "rates": rates_env,
         "news": news_env,
+        "earnings": earnings_env,
+        "options_chain": options_env,
+        "candidates": candidates,
         "bear_indicator": bear_env,
         "bear_score": bear_score,
         "bear_signal": bear_signal,

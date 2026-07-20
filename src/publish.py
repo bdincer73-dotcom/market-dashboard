@@ -74,6 +74,27 @@ def render_summary(context: dict, run_type: str, run_date: str) -> str:
         else:
             lines.append(f"Bear Indicator: FAILED - {context['bear_indicator'].notes}")
 
+    candidates = context.get("candidates")
+    if candidates is not None:
+        lines.append("")
+        lines.append(
+            f"CSP candidates: {candidates['candidate_count']} pass all gates, "
+            f"{candidates['watch_only_count']} watch-only"
+        )
+        for c in candidates["candidates"]:
+            lines.append(
+                f"  - {c['ticker']} ${c['pick']['strike']} {c['pick']['expiry']} "
+                f"({c['pick']['dte']}D) -> {c['pick']['annualized_return_pct']}% ann."
+            )
+
+    earnings = context.get("earnings")
+    if earnings is not None:
+        lines.append("")
+        if earnings.status != "FAILED":
+            lines.append(f"Earnings scheduled: {earnings.payload['scheduled_count']} tickers in next {earnings.payload['lookahead_days']}D")
+        else:
+            lines.append(f"Earnings: FAILED - {earnings.notes}")
+
     news = context.get("news")
     if news is not None:
         lines.append("")

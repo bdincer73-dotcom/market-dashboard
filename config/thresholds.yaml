@@ -39,6 +39,14 @@ watchlist:
   min_return_target_pct: 3.5
   min_dte: 30
   max_dte: 40
+  # Liquidity gate (blueprint: "Bid/ask width >10% of mid, low OI, or missing
+  # Greeks" -> exclude from action list, retain in watch section).
+  max_spread_pct_of_mid: 10.0
+  min_open_interest: 10
+  # Target delta band for a "typical" CSP seller - informational only, not a
+  # hard gate. Candidates outside this range still show, just not favored.
+  target_delta_low: -0.30
+  target_delta_high: -0.10
   earnings_exclusion_days: 30
 
 freshness:
