@@ -74,9 +74,9 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Daily run · 2026-07-20 · generated 2026-07-20T01:04:05+00:00</div>
+      <div class="sub">Daily run · 2026-07-20 · generated 2026-07-20T01:22:01+00:00</div>
     </div>
-    <div class="badge RED">RED protect cash</div>
+    <div class="badge AMBER">AMBER selective</div>
   </header>
 
   <details class="legend" open>
@@ -106,18 +106,62 @@
   </details>
 
   
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Bear Indicator (weekly) <span class="status-pill STALE">STALE</span>
+      
+      <span class="badge Constructive">🟢 Constructive — 1/8</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-07-19 — carried forward from the last Saturday run; recomputes weekly.
+    </div>
+    
+    <div class="grid" style="margin-bottom:12px;">
+      
+        
+        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.1364</span></div>
+        
+      
+        
+        <div class="metric"><span>VOO CMF(20)</span><span class="v">-0.032</span></div>
+        
+      
+        
+        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1517</span></div>
+        
+      
+        
+        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0258</span></div>
+        
+      
+        
+        <div class="metric"><span>RSP CMF(20)</span><span class="v">-0.2371</span></div>
+        
+      
+      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Mixed (above 50, below 20)</span></div>
+      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">64.6% / 69.0%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">6.2%</span></div>
+    </div>
+    <ul class="reasons">
+      <li>At least one index CMF negative (min -0.24)</li><li>No prior week snapshot yet - week-over-week checks skipped</li>
+    </ul>
+    <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
+    
+  </div>
+  
 
   <div class="grid">
     <div class="card">
       <h2>Breadth <span class="status-pill EOD">EOD</span></h2>
       
-      <div class="metric"><span>% above 20D SMA</span><span class="v">58.7%</span></div>
-      <div class="metric"><span>% above 50D SMA</span><span class="v">64.5%</span></div>
-      <div class="metric"><span>% above 200D SMA</span><span class="v">68.9%</span></div>
-      <div class="metric"><span>Constituent coverage</span><span class="v">99.2%</span></div>
+      <div class="metric"><span>% above 20D SMA</span><span class="v">58.8%</span></div>
+      <div class="metric"><span>% above 50D SMA</span><span class="v">64.6%</span></div>
+      <div class="metric"><span>% above 200D SMA</span><span class="v">69.0%</span></div>
+      <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
       
       <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
-        <span class="v">-0.1 / -0.1 / -0.1</span></div>
+        <span class="v">0.1 / 0.1 / 0.1</span></div>
       
       
     </div>
@@ -279,7 +323,7 @@
     <h2>Why this regime</h2>
     <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
     <ul class="reasons">
-      <li>RED: 200D breadth weakening (Δ-0.1, any decline triggers this)</li>
+      <li>AMBER: VIX rising sharply over 5D (Δ3.74 ≥ 3.0 threshold)</li>
     </ul>
   </div>
 
@@ -291,7 +335,7 @@
     <div class="notes" style="margin-bottom:10px;">
       One representative strike per ticker, 30-40 DTE window.
       Gates: return ≥ target, spread/OI liquidity, no earnings before expiry. Delta is an estimate (Black-Scholes from implied vol) - not a broker Greek.
-      4 pass all gates · 15 watch-only (failed a gate)
+      3 pass all gates · 13 watch-only (failed a gate)
     </div>
     
     <table>
@@ -324,19 +368,6 @@
       </tr>
       
       <tr>
-        <td>MRVL</td>
-        <td>188.68</td>
-        <td>160.0</td>
-        <td>2026-08-21</td>
-        <td>32</td>
-        <td>9.0</td>
-        <td class="pos">64.16%</td>
-        <td>-0.233</td>
-        <td>10.0</td>
-        <td>1206</td>
-      </tr>
-      
-      <tr>
         <td>ASML</td>
         <td>1747.58</td>
         <td>1600.0</td>
@@ -357,11 +388,7 @@
       
       <li>BE: earnings on 2026-07-28 falls before this expiry (32D out)</li>
       
-      <li>APLD: earnings on 2026-07-27 falls before this expiry (32D out)</li>
-      
       <li>STX: bid/ask spread 11.8% > 10.0% of mid; earnings on 2026-07-28 falls before this expiry (32D out)</li>
-      
-      <li>TER: earnings on 2026-07-28 falls before this expiry (32D out)</li>
       
       <li>WDC: earnings on 2026-08-05 falls before this expiry (32D out)</li>
       
@@ -373,6 +400,8 @@
       
       <li>INTC: earnings on 2026-07-23 falls before this expiry (32D out)</li>
       
+      <li>TER: open interest 1 < 10 minimum; earnings on 2026-07-28 falls before this expiry (39D out)</li>
+      
       <li>GLW: earnings on 2026-07-28 falls before this expiry (32D out)</li>
       
       <li>LRCX: earnings on 2026-07-29 falls before this expiry (32D out)</li>
@@ -380,8 +409,6 @@
       <li>CLS: earnings on 2026-07-27 falls before this expiry (32D out)</li>
       
       <li>VRT: earnings on 2026-07-29 falls before this expiry (32D out)</li>
-      
-      <li>SOFI: bid/ask spread 25.5% > 10.0% of mid; earnings on 2026-07-29 falls before this expiry (39D out)</li>
       
       <li>XLK: bid/ask spread 32.7% > 10.0% of mid; open interest 2 < 10 minimum</li>
       
@@ -1090,40 +1117,45 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:03:30+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:20:04+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:03:31+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:20:05+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:03:32+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T01:20:05+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-20T01:03:32+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-20T01:20:06+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:03:48+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:20:21+00:00</span>
     </div>
     
     <div class="health-row">
       <span>earnings · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:03:51+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:20:22+00:00</span>
     </div>
     
     <div class="health-row">
       <span>options_chain · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:04:05+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T01:22:01+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260720T010245Z</div>
+    <div class="health-row">
+      <span>bear_indicator · yfinance + breadth module</span>
+      <span><span class="status-pill STALE">STALE</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:40+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260720T011926Z</div>
   </footer>
 </div>
 </body>

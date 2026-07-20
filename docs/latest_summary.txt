@@ -1,13 +1,16 @@
 MARKET DASHBOARD — DAILY — 2026-07-20
-Regime: RED (protect cash)
+Regime: AMBER (selective)
 
 Why:
-  - RED: 200D breadth weakening (Δ-0.1, any decline triggers this)
+  - AMBER: VIX rising sharply over 5D (Δ3.74 ≥ 3.0 threshold)
 
-CSP candidates: 4 pass all gates, 15 watch-only
+Bear Indicator: Constructive (1/8)
+  - At least one index CMF negative (min -0.24)
+  - No prior week snapshot yet - week-over-week checks skipped
+
+CSP candidates: 3 pass all gates, 13 watch-only
   - IREN $25.0 2026-08-21 (32D) -> 84.86% ann.
   - DRAM $43.0 2026-08-21 (32D) -> 70.82% ann.
-  - MRVL $160.0 2026-08-21 (32D) -> 64.16% ann.
   - ASML $1600.0 2026-08-21 (32D) -> 45.55% ann.
 
 Earnings scheduled: 15 tickers in next 60D
@@ -22,3 +25,4 @@ Data health:
   - news: EOD (obs 2026-07-20)
   - earnings: EOD (obs 2026-07-20)
   - options_chain: EOD (obs 2026-07-20)
+  - bear_indicator: STALE (obs 2026-07-17)
