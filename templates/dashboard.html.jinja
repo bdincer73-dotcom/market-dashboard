@@ -107,13 +107,16 @@
 
   {% if bear_indicator is not none %}
   <div class="card" style="margin-bottom:24px;">
-    <h2>Bear Indicator (weekly)
+    <h2>Bear Indicator (weekly) <span class="status-pill {{ bear_indicator.status }}">{{ bear_indicator.status }}</span>
       {% if bear_indicator.status != 'FAILED' %}
       <span class="badge {{ bear_signal }}">{{ bear_icon }} {{ bear_signal }} — {{ bear_score }}/8</span>
       {% else %}
       <span class="status-pill FAILED">FAILED</span>
       {% endif %}
     </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of {{ bear_as_of }}{% if bear_indicator.status == 'STALE' %} — carried forward from the last Saturday run; recomputes weekly{% else %} — computed fresh this run{% endif %}.
+    </div>
     {% if bear_indicator.status != 'FAILED' %}
     <div class="grid" style="margin-bottom:12px;">
       {% for t in ['SPY','VOO','IWV','QQQ','RSP'] %}

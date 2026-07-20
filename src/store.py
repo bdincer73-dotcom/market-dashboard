@@ -118,6 +118,23 @@ def envelope_now() -> str:
     return now_utc_iso()
 
 
+def get_latest_calculated(conn, calc_version: str):
+    """Most recent calculated_signals row for a given calc_version, regardless
+    of run_type. Used to carry forward the weekly-only Bear Indicator reading
+    onto daily dashboards instead of it disappearing between Saturdays."""
+    row = conn.execute(
+        """SELECT * FROM calculated_signals WHERE calc_version = ?
+           ORDER BY run_id DESC LIMIT 1""",
+        (calc_version,),
+    ).fetchone()
+    if row is None:
+        return None
+    d = dict(row)
+    d["reasons"] = json.loads(d["reasons_json"])
+    d["payload"] = json.loads(d["payload_json"])
+    return d
+
+
 def get_snapshot_history(conn, module: str, limit: int = 10):
     rows = conn.execute(
         """SELECT * FROM raw_snapshots WHERE module = ? AND status != 'FAILED'

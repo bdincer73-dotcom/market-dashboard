@@ -19,6 +19,7 @@ import yaml
 
 from src import store, scoring, publish, candidate_scoring
 from src.collectors import breadth, sectors, volatility, rates, news, bear_indicator, earnings, options_chain
+from src.envelope import Envelope
 
 CONFIG_PATH = __file__.replace("src/main.py", "config/thresholds.yaml")
 
@@ -73,8 +74,10 @@ def run(run_type: str) -> dict:
     bear_env = None
     bear_score = bear_signal = None
     bear_reasons = []
+    bear_as_of = None
     if run_type == "weekly" and breadth_env.status != "FAILED":
         bear_env = bear_indicator.collect(breadth_env.payload)
+        bear_as_of = run_date
         print(f"  - {bear_env.module}: {bear_env.status} (obs {bear_env.observation_date}) {bear_env.notes}")
 
     with store.connect() as conn:
@@ -107,6 +110,31 @@ def run(run_type: str) -> dict:
                     [bear_snapshot_id], bear_signal, bear_reasons,
                     {"score": bear_score, **bear_env.payload},
                 )
+        else:
+            # Not a weekly run (or weekly breadth failed) - carry the most
+            # recent weekly reading forward instead of letting the card
+            # disappear from the dashboard between Saturdays. Marked STALE
+            # (not EOD) since it's not fresh for *this* run, with a clear
+            # as-of date so it's never mistaken for a live update.
+            carried_snapshot = store.get_previous_snapshot(conn, "bear_indicator", run_id)
+            carried_calc = store.get_latest_calculated(conn, "bear-indicator-v1")
+            if carried_snapshot and carried_calc:
+                bear_env = Envelope(
+                    module=carried_snapshot["module"],
+                    source=carried_snapshot["source"],
+                    retrieved_at=carried_snapshot["retrieved_at"],
+                    observation_date=carried_snapshot["observation_date"],
+                    status="STALE",
+                    payload=carried_snapshot["payload"],
+                    notes=(
+                        f"Carried forward - Bear Indicator only recomputes on the weekly "
+                        f"(Saturday) run. Next fresh reading this coming Saturday."
+                    ),
+                )
+                bear_score = carried_calc["payload"]["score"]
+                bear_signal = carried_calc["regime"]
+                bear_reasons = carried_calc["reasons"]
+                bear_as_of = carried_calc["run_id"][:4] + "-" + carried_calc["run_id"][4:6] + "-" + carried_calc["run_id"][6:8]
 
         earnings_snapshot_id = store.save_snapshot(conn, run_id, earnings_env)
         options_snapshot_id = store.save_snapshot(conn, run_id, options_env)
@@ -150,6 +178,7 @@ def run(run_type: str) -> dict:
         "bear_score": bear_score,
         "bear_signal": bear_signal,
         "bear_reasons": bear_reasons,
+        "bear_as_of": bear_as_of,
         "bear_icon": bear_indicator.SIGNAL_ICON.get(bear_signal) if bear_signal else None,
         "module_health": build_module_health(health_envelopes),
         "calc_version": scoring.CALC_VERSION,
