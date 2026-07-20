@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Dashboard — 2026-07-19 (Weekly)</title>
+<title>Market Dashboard — 2026-07-20 (Daily)</title>
 <style>
   :root {
     --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
@@ -55,6 +55,18 @@
   footer h2 { font-size:0.85rem; color: var(--muted); margin-bottom:10px; }
   .health-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; color: var(--muted); }
   .notes { font-size:0.75rem; color: var(--muted); margin-top:2px; }
+  details.legend { margin-bottom:20px; border:1px solid var(--border); border-radius:10px; background: var(--card); }
+  details.legend summary { cursor:pointer; padding:10px 16px; font-size:0.85rem; font-weight:600; list-style:none; }
+  details.legend summary::-webkit-details-marker { display:none; }
+  details.legend summary::before { content: "▸ "; color: var(--muted); }
+  details.legend[open] summary::before { content: "▾ "; }
+  .legend-body { padding: 0 16px 16px 16px; }
+  .legend-group { margin-bottom:14px; }
+  .legend-group:last-child { margin-bottom:0; }
+  .legend-group h3 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color: var(--muted); margin:0 0 8px 0; font-weight:600; }
+  .legend-row { display:flex; align-items:baseline; gap:8px; font-size:0.82rem; padding:3px 0; }
+  .legend-row .badge, .legend-row .status-pill { flex-shrink:0; }
+  .legend-row .desc { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -62,52 +74,37 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Weekly run · 2026-07-19 · generated 2026-07-19T23:57:40+00:00</div>
+      <div class="sub">Daily run · 2026-07-20 · generated 2026-07-20T00:18:37+00:00</div>
     </div>
     <div class="badge AMBER">AMBER selective</div>
   </header>
 
-  
-  <div class="card" style="margin-bottom:24px;">
-    <h2>Bear Indicator (weekly)
-      
-      <span class="badge Constructive">🟢 Constructive — 1/8</span>
-      
-    </h2>
-    
-    <div class="grid" style="margin-bottom:12px;">
-      
-        
-        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.1364</span></div>
-        
-      
-        
-        <div class="metric"><span>VOO CMF(20)</span><span class="v">-0.032</span></div>
-        
-      
-        
-        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1517</span></div>
-        
-      
-        
-        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0258</span></div>
-        
-      
-        
-        <div class="metric"><span>RSP CMF(20)</span><span class="v">-0.2371</span></div>
-        
-      
-      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Mixed (above 50, below 20)</span></div>
-      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
-      <div class="metric"><span>% above 50D / 200D</span><span class="v">64.6% / 69.0%</span></div>
-      <div class="metric"><span>Net New Hi %</span><span class="v">6.2%</span></div>
+  <details class="legend">
+    <summary>Legend — what the colors mean</summary>
+    <div class="legend-body">
+      <div class="legend-group">
+        <h3>Regime call (top badge + "Why this regime")</h3>
+        <div class="legend-row"><span class="badge GREEN">GREEN</span><span class="desc">normal risk — breadth stable/rising, RSP confirming, VIX calm, leadership broad. No rule tripped.</span></div>
+        <div class="legend-row"><span class="badge AMBER">AMBER</span><span class="desc">selective — at least one warning rule tripped (mixed breadth, rising VIX, narrow leadership, or missing data). Trade smaller, demand a better discount, favor cleaner liquidity.</span></div>
+        <div class="legend-row"><span class="badge RED">RED</span><span class="desc">protect cash — breadth deteriorating, RSP underperforming, or volatility/term-structure stress. Default to cash over new risk.</span></div>
+      </div>
+      <div class="legend-group">
+        <h3>Bear Indicator (weekly only, separate 0-8 score)</h3>
+        <div class="legend-row"><span class="badge Constructive">🟢 Constructive</span><span class="desc">0-1 of 8 bearish conditions tripped</span></div>
+        <div class="legend-row"><span class="badge Watch">🟡 Watch</span><span class="desc">2-3 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Cautionary">🟠 Cautionary</span><span class="desc">4-5 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Bearish">🔴 Bearish</span><span class="desc">6-8 of 8 tripped</span></div>
+      </div>
+      <div class="legend-group">
+        <h3>Data freshness (next to every tile, and in the footer)</h3>
+        <div class="legend-row"><span class="status-pill LIVE">LIVE / EOD</span><span class="desc">fresh, usable data for this run</span></div>
+        <div class="legend-row"><span class="status-pill STALE">STALE</span><span class="desc">retrieved, but older than expected for this run</span></div>
+        <div class="legend-row"><span class="status-pill FAILED">FAILED</span><span class="desc">could not be retrieved this run — shown honestly rather than guessed or carried forward</span></div>
+      </div>
+      <div class="notes">All regime/Bear Indicator thresholds are tunable in <code>config/thresholds.yaml</code> — edit that file, not the code, to make the dashboard more or less sensitive.</div>
     </div>
-    <ul class="reasons">
-      <li>At least one index CMF negative (min -0.24)</li><li>No prior week snapshot yet - week-over-week checks skipped</li>
-    </ul>
-    <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
-    
-  </div>
+  </details>
+
   
 
   <div class="grid">
@@ -280,8 +277,9 @@
 
   <div class="card" style="margin-bottom:24px;">
     <h2>Why this regime</h2>
+    <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
     <ul class="reasons">
-      <li>AMBER: VIX rising sharply over 5D (Δ3.74)</li>
+      <li>AMBER: VIX rising sharply over 5D (Δ3.74 ≥ 3.0 threshold)</li>
     </ul>
   </div>
 
@@ -368,16 +366,6 @@
             <span class="src">— ChartMill · 2026-07-17T12:10+00:00</span>
           </div>
           
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=05939657d6c850e1eebf82da32b184016550b8b3393b7ffd86aea3de083daf7d" target="_blank" rel="noopener">Steven Cress' Top 2 Stocks H2 2026</a>
-            <span class="src">— SeekingAlpha · 2026-07-16T16:42+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=ba8b117d7ffb16a9a6f7e842ce71018650d7c19b589f2385ff60cf0be04f38cf" target="_blank" rel="noopener">Celestica: The Margin Supporting 35x Was Not There In 2023</a>
-            <span class="src">— SeekingAlpha · 2026-07-16T09:26+00:00</span>
-          </div>
-          
         </div>
         
       
@@ -393,11 +381,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=bd7312625d869564314bc0b37c5affd7d0c4adfe0f1ec89175cf01a90bc2d215" target="_blank" rel="noopener">IPG Photonics Targets Medical Laser Growth With €300M Lumibird Medical Deal</a>
             <span class="src">— Yahoo · 2026-07-17T14:05+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=eec3217290a10ec063680087ba18a7cce53e9971ec864a5f4584bc7b86e17a0c" target="_blank" rel="noopener">Explore the top gainers and losers within the S&P500 index in today's session.</a>
-            <span class="src">— ChartMill · 2026-07-16T19:05+00:00</span>
           </div>
           
         </div>
@@ -442,18 +425,18 @@
           <div class="ticker-label">INTC</div>
           
           <div class="headline">
+            <a href="https://finnhub.io/api/news?id=381b96e3e8a157353670cdb29b9c4285ded5af32c0e5163c6da0492e9eac4140" target="_blank" rel="noopener">Dow Jones Futures Fall, Oil Prices Jump As U.S.-Iran Attacks Escalate; Google, Tesla Ahead</a>
+            <span class="src">— Yahoo · 2026-07-19T23:54+00:00</span>
+          </div>
+          
+          <div class="headline">
             <a href="https://finnhub.io/api/news?id=e0f9e247df0a38e00157410065843753ea1f9d9dccefa641bc9eb23bf6cefaf6" target="_blank" rel="noopener">Jobs, GM, Tesla, Alphabet, Intel, Verizon, and More to Watch This Week</a>
             <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
           </div>
           
           <div class="headline">
-            <a href="https://finnhub.io/api/news?id=8bd227e6d0343eba3d115653de1746b42e3939c952218d6491a4447aa4681fe9" target="_blank" rel="noopener">Wall Street Brunch: Tesla Reports With Earnings In Full Swing</a>
-            <span class="src">— SeekingAlpha · 2026-07-19T14:23+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=8aadacb94d59443b40baf30216e25c7dab6dfa2c850d90e8a16449dd09e63eda" target="_blank" rel="noopener">Big Tech Needs to Justify AI Spending as Investors Dump Stocks</a>
-            <span class="src">— Yahoo · 2026-07-19T13:00+00:00</span>
+            <a href="https://finnhub.io/api/news?id=9fa38029c483430a7d062a084576c345cbe797b843ee4fde2c6972aba8a1793a" target="_blank" rel="noopener">AI Bubble Fears, Earnings and Other Can't Miss Items this Week</a>
+            <span class="src">— Yahoo · 2026-07-19T17:00+00:00</span>
           </div>
           
         </div>
@@ -471,11 +454,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=fdf9fa8053dcb2ebc6e7011714316cf415e0b3a41eb5ce4cfb0d7befaccb12ae" target="_blank" rel="noopener">Reported Earlier, Bakkt Reports FY2025 GAAP Revenue Of $2.3B, Down 32.1% YoY, As Company Completes Restructuring And Pivots To Digital Financial Infrastructure</a>
             <span class="src">— Benzinga · 2026-07-17T12:02+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=2a8a6198034c8b00d6080f9c93b0f778e6b0438ba1344150ba7a2c8e45cc80bf" target="_blank" rel="noopener">CoinShares Bitcoin Mining ETF: Contracted AI Revenue Supports A Buy</a>
-            <span class="src">— SeekingAlpha · 2026-07-16T19:06+00:00</span>
           </div>
           
         </div>
@@ -532,11 +510,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=3f1b08d2ee0205293d0085cf41f1a038381ffc7ce07c93dc645fe56c4d8ba482" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a>
             <span class="src">— Benzinga · 2026-07-18T08:31+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=6687650c0a850e6ffbc1612e618c05555af52d1dfcb2e74f21c24b2b98e277cd" target="_blank" rel="noopener">SoFi Could Beat In Q2 And Still Sell Off</a>
-            <span class="src">— SeekingAlpha · 2026-07-16T14:27+00:00</span>
           </div>
           
         </div>
@@ -681,6 +654,11 @@
           <div class="ticker-label">GOOGL</div>
           
           <div class="headline">
+            <a href="https://finnhub.io/api/news?id=381b96e3e8a157353670cdb29b9c4285ded5af32c0e5163c6da0492e9eac4140" target="_blank" rel="noopener">Dow Jones Futures Fall, Oil Prices Jump As U.S.-Iran Attacks Escalate; Google, Tesla Ahead</a>
+            <span class="src">— Yahoo · 2026-07-19T23:54+00:00</span>
+          </div>
+          
+          <div class="headline">
             <a href="https://finnhub.io/api/news?id=997793e45b0c86e9c1aab9eabece5cd0ac524a8e09f0332d1643f9d2579891c5" target="_blank" rel="noopener">Alphabet's Gemini 3.5 Pro Is Late and the Stock Is Slipping. Is the AI Leader Falling Behind?</a>
             <span class="src">— Yahoo · 2026-07-19T20:43+00:00</span>
           </div>
@@ -688,11 +666,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
             <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=308477a3a691723819d8660b03972b7bba7455ed3bce1d33e4fe11b8b47647fa" target="_blank" rel="noopener">Warren Buffett Takes Credit for Berkshire’s Alphabet Stock Buy: ‘I Initiated It’</a>
-            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
           </div>
           
         </div>
@@ -703,6 +676,11 @@
           <div class="ticker-label">MSFT</div>
           
           <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a5a93cae588b0d1e3f0880061ad4544d003099f85ff2c428fb3114bfe4d3b2aa" target="_blank" rel="noopener">Microsoft Earnings: The One Key Commentary I Am Looking For</a>
+            <span class="src">— SeekingAlpha · 2026-07-19T19:52+00:00</span>
+          </div>
+          
+          <div class="headline">
             <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
             <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
           </div>
@@ -710,11 +688,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=048fb0464ab5411597521963e065f8144dfc962b87340b753459fa815f43aa9c" target="_blank" rel="noopener">Apple Just Hit an All-Time High. HSBC Thinks It Can Climb Even Higher</a>
             <span class="src">— Yahoo · 2026-07-19T16:30+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=fed73052de862ab0a149e55fa3aebcb17bfaa2271b7277f4cc46b6feb725ff23" target="_blank" rel="noopener">I Can’t Stop Buying Alphabet Because The AI Talent Narrative is Wrong</a>
-            <span class="src">— Yahoo · 2026-07-19T16:12+00:00</span>
           </div>
           
         </div>
@@ -747,18 +720,18 @@
           <div class="ticker-label">AMZN</div>
           
           <div class="headline">
+            <a href="https://finnhub.io/api/news?id=53325a2ad4f0ed7a4ff404f670b6d6de71c4895d5aad481e74a83ca9b1b030a5" target="_blank" rel="noopener">Anthropic's Potential $1.2 Trillion IPO Could Make This Stock a Major Beneficiary</a>
+            <span class="src">— Yahoo · 2026-07-19T23:50+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5e2392f8716fb494dd860f67e7f3b4b432e21f2a5c28261ccafd3a0ebb0149a0" target="_blank" rel="noopener">AI Expectations Hit a Fever Pitch</a>
+            <span class="src">— Yahoo · 2026-07-19T22:46+00:00</span>
+          </div>
+          
+          <div class="headline">
             <a href="https://finnhub.io/api/news?id=964a3dea91ae6d8bafaad85a15705797f55ad28037224dc868067de12e4a165a" target="_blank" rel="noopener">Amazon closes another major facility, nearly 500 workers affected</a>
             <span class="src">— Yahoo · 2026-07-19T21:47+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
-            <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=987af1306be00e06d9d04d8f5798cde2af064659e638781d64e5aa5ced70fdc3" target="_blank" rel="noopener">Amazon’s Trillion-Dollar Capex Gamble vs Shopify’s Lean Profitability Strategy</a>
-            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
           </div>
           
         </div>
@@ -791,18 +764,18 @@
           <div class="ticker-label">NVDA</div>
           
           <div class="headline">
-            <a href="https://finnhub.io/api/news?id=9b81e0ef192098936a76d242f1265c40e027f74eea85d5de713de97626cd2ba4" target="_blank" rel="noopener">Netflix: Down Nearly 50% Over the Past Year, Is the Stock a Buy on This Latest Dip? Here's the Real Issue Behind the Stock's Decline.</a>
-            <span class="src">— Yahoo · 2026-07-19T21:50+00:00</span>
+            <a href="https://finnhub.io/api/news?id=23e52432bdfcdbec06da85080bba6a683cec46bb11c4400f1fb4b8908a690845" target="_blank" rel="noopener">Oil Pulls the Market Lower Again</a>
+            <span class="src">— Yahoo · 2026-07-19T23:35+00:00</span>
           </div>
           
           <div class="headline">
-            <a href="https://finnhub.io/api/news?id=f437986f92068b38f3d4a4b110334fcb867cd19842bd077f85713ff5cac8bec2" target="_blank" rel="noopener">Prediction: Investors Will Be Happy if They Buy AMD Stock Before the Company's Big AI Event on July 22</a>
-            <span class="src">— Yahoo · 2026-07-19T21:37+00:00</span>
+            <a href="https://finnhub.io/api/news?id=3d4bfe490ddbc2556d2b77a4d45d2933d8b31af3df32db6b4c575af2099e4086" target="_blank" rel="noopener">TSMC expects 'strong, multi-year' demand for AI chips as it ramps up Arizona investment</a>
+            <span class="src">— Yahoo · 2026-07-19T23:14+00:00</span>
           </div>
           
           <div class="headline">
-            <a href="https://finnhub.io/api/news?id=297fcd5756bc2dddd81fa50b3a1a008ec9e800e06ba9cca7163c3ae901342ebb" target="_blank" rel="noopener">Prediction: These Will Be the 2 Best Nuclear Energy Stocks to Buy for the Next 5 Years</a>
-            <span class="src">— Yahoo · 2026-07-19T21:27+00:00</span>
+            <a href="https://finnhub.io/api/news?id=cb67b124656bf1c579513abc793afd993f6bd5b4bf35d0b3a04a4d065ca2598a" target="_blank" rel="noopener">Even With Elon Musk's SpaceX Stock (SPCX) Down Below Its IPO Price, I'd Still Rather Buy This Dividend Stock in July</a>
+            <span class="src">— Yahoo · 2026-07-19T22:58+00:00</span>
           </div>
           
         </div>
@@ -813,6 +786,11 @@
           <div class="ticker-label">TSLA</div>
           
           <div class="headline">
+            <a href="https://finnhub.io/api/news?id=381b96e3e8a157353670cdb29b9c4285ded5af32c0e5163c6da0492e9eac4140" target="_blank" rel="noopener">Dow Jones Futures Fall, Oil Prices Jump As U.S.-Iran Attacks Escalate; Google, Tesla Ahead</a>
+            <span class="src">— Yahoo · 2026-07-19T23:54+00:00</span>
+          </div>
+          
+          <div class="headline">
             <a href="https://finnhub.io/api/news?id=cf240d853bc9b17ad78e5549560a0d6764c4357fd2cf7e96c8ba6505745dbd98" target="_blank" rel="noopener">Mercedes Benz (XTRA:MBG) Unveils CLA 250 Plus To Take On Tesla Model 3</a>
             <span class="src">— Yahoo · 2026-07-19T21:07+00:00</span>
           </div>
@@ -820,11 +798,6 @@
           <div class="headline">
             <a href="https://finnhub.io/api/news?id=1bdef07d5a9b11eb87543cc89126f7c1d666122a313fd070b3b78fce34c63a66" target="_blank" rel="noopener">Elon Musk's Tesla Remains One of the Last Great Founder-Led Tech Giants. Is the Stock a Buy Before July 22?</a>
             <span class="src">— Yahoo · 2026-07-19T19:25+00:00</span>
-          </div>
-          
-          <div class="headline">
-            <a href="https://finnhub.io/api/news?id=e0f9e247df0a38e00157410065843753ea1f9d9dccefa641bc9eb23bf6cefaf6" target="_blank" rel="noopener">Jobs, GM, Tesla, Alphabet, Intel, Verizon, and More to Watch This Week</a>
-            <span class="src">— Yahoo · 2026-07-19T18:00+00:00</span>
           </div>
           
         </div>
@@ -839,35 +812,30 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:21+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T00:18:18+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:23+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T00:18:20+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:24+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-20T00:18:20+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-19T23:57:25+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-16 · retrieved 2026-07-20T00:18:21+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-19 · retrieved 2026-07-19T23:57:39+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-20 · retrieved 2026-07-20T00:18:37+00:00</span>
     </div>
     
-    <div class="health-row">
-      <span>bear_indicator · yfinance + breadth module</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-17 · retrieved 2026-07-19T23:57:40+00:00</span>
-    </div>
-    
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260719T235643Z</div>
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260720T001718Z</div>
   </footer>
 </div>
 </body>
