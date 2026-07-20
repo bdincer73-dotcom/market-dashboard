@@ -1,4 +1,4 @@
-# Market Dashboard — R1 (market core) + news + Bear Indicator
+# Market Dashboard — R1 (market core) + news + Bear Indicator + R2 (CSP candidates)
 
 Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 + 11 sector SPDRs), volatility (VIX/VIX9D/VIX3M/VVIX), and Treasury yields
@@ -6,7 +6,7 @@ Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 a static HTML dashboard. Built per "Python + GitHub Actions + static HTML" —
 the recommended v1 path in the blueprint.
 
-Two additions on top of R1:
+Additions on top of R1:
 - **Market news** for your watchlist tickers (`config/watchlist.yaml`, sourced
   from your Options P&L Tracker's Open Positions/Cash Collateral/Stock Holdings
   tabs), via Finnhub's free company-news endpoint.
@@ -16,10 +16,17 @@ Two additions on top of R1:
   into an 0-8 composite score and a Bearish/Cautionary/Watch/Constructive
   signal. Uses the tracker's original 8-condition formula (see "Known
   limitations" for why, not the newer formula from the 7/11 row).
+- **R2 — CSP candidate screening** (daily): earnings calendar joins (Finnhub),
+  put option chains (yfinance, free — see caveat below), and the blueprint's
+  return/liquidity/event gates. One representative strike per watchlist
+  ticker, picked by proximity to a target delta band among strikes that pass
+  all gates; tickers that fail a gate still show up in a "watch only" list
+  with the specific reason, instead of disappearing.
 
-**Scope note:** the CSP/covered-call candidate scoring, earnings-date joins,
-and option-chain gates from the blueprint's R2 are still not built — this adds
-news and the Bear Indicator on top of R1, not the full R2.
+**R2 scope actually built:** cash-secured put candidates only (no covered
+calls yet), screening only (doesn't track your actual open positions'
+assignment risk — that's still manual via your tracker). See "Known
+limitations" for the option-chain data-quality caveat.
 
 ## Pipeline
 
@@ -27,11 +34,12 @@ news and the Bear Indicator on top of R1, not the full R2.
 source → validate → normalize → calculate → score → publish → archive
 ```
 
-- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates, news, bear_indicator)
-- `config/watchlist.yaml` — tickers for the news section (and future R2 candidate scoring)
+- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates, news, bear_indicator, earnings, options_chain)
+- `config/watchlist.yaml` — tickers for news and R2 candidate scoring
 - `src/envelope.py` — the common shape every collector returns (status LIVE/EOD/STALE/FAILED)
 - `src/store.py` — SQLite archive: raw snapshots (immutable) + calculated signals, so every number is traceable and any past dashboard is reproducible
-- `src/scoring.py` — rules engine, thresholds in `config/thresholds.yaml`
+- `src/scoring.py` — regime rules engine, thresholds in `config/thresholds.yaml`
+- `src/candidate_scoring.py` — R2 CSP candidate gates (return/liquidity/event), same thresholds file
 - `src/publish.py` + `templates/dashboard.html.jinja` — renders `docs/latest.html` (+ `docs/index.html`, identical) and an immutable `docs/archive/<date>-<run_type>.html`. Output lives in `docs/` specifically so GitHub Pages can serve it directly.
 - `src/main.py` — orchestrates the full run
 
@@ -138,11 +146,25 @@ number with no LIVE/EOD/STALE/FAILED label).
   for Saturdays. The sector rank history needed for that is already being
   archived in `raw_snapshots`, so it's a `src/scoring.py` + template addition
   when you're ready for R2, not a data-collection gap.
-- **Earnings risk and the CSP/covered-call watchlist** are entirely R2 — no
-  candidate scoring, no options data, no exposure/cash-band logic yet.
 - **yfinance** is unofficial and occasionally rate-limits bulk requests. If a
   run shows more FAILED tiles than usual, it's most often this — rerun via
   the Actions tab's "Run workflow" button.
+- **This is not a broker feed - verify before you trade.** CSP candidate bid/ask,
+  open interest, and implied vol come from yfinance's free option chain, which
+  can lag real-time and occasionally shows stale or zero quotes. Delta is
+  *estimated* via Black-Scholes from that implied vol, not a real broker Greek.
+  Treat every candidate as a starting point to check against your actual
+  broker quote before entering a trade, not an execution-ready number.
+- **R2 covers cash-secured puts only** — no covered-call candidates on your
+  actual holdings (CLS, BRR, XLK) yet, and it doesn't track your *existing*
+  open positions' assignment risk (cushion %, ITM flags) - that's still your
+  tracker's Open Positions tab. This build only screens for *new* CSP entries.
+- **Exposure/cash-band logic** (R3: portfolio-level concentration caps, cash
+  reserve bands) isn't built - each candidate is scored independently of what
+  you already hold or how much collateral is already committed.
+- **Candidate picks are one strike per ticker**, chosen by proximity to a
+  target delta band (config/thresholds.yaml) among gate-passing strikes, not
+  an exhaustive list of every viable strike/expiry combination.
 - **Bear Indicator formula**: the tracker used one 8-condition boolean formula
   for its 6/12-7/02 rows, then switched to a differently-scaled continuous
   formula for the 7/11 row while keeping the same 🔴≥6/🟠≥4/🟡≥2 bucket
