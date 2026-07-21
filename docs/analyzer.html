@@ -88,7 +88,8 @@
   <div class="card" id="uploadCard">
     <h2>1. Upload your tracker</h2>
     <div class="desc">Works with the Options P&amp;L Tracker workbook (.xlsx). Reads the Open Positions, Cash
-      Collateral, Stock Holdings, and Earnings Watch tabs if present — sheets it can't find are just skipped.</div>
+      Collateral, Stock Holdings, Earnings Watch, and Wheel Recovery tabs if present — sheets it can't find
+      are just skipped.</div>
     <div class="upload-zone" id="dropZone">
       <label class="upload-btn" for="fileInput">Choose file…</label>
       <input type="file" id="fileInput" accept=".xlsx,.xls">
@@ -149,11 +150,23 @@
       </table></div>
     </div>
 
+    <div class="card" id="wheelCard" style="display:none;">
+      <h2>Open covered calls</h2>
+      <div class="desc">From your Wheel Recovery tab — calls you've already written, with strike vs. basis and
+        call-away assessment as recorded in your file.</div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Ticker</th><th>Acct</th><th>Shares</th><th>Basis</th><th>Strike</th><th>Expiry</th>
+          <th>DTE</th><th>Contracts</th><th>Prem/sh</th><th>Basis after CC</th><th>Spot</th>
+          <th>If called P&amp;L</th><th>Assessment</th></tr></thead>
+        <tbody id="wheelBody"></tbody>
+      </table></div>
+    </div>
+
     <div class="card" id="ccCard">
-      <h2>Covered call calculator</h2>
-      <div class="desc">Not fetched — this tool has no live options data source. Enter a quote you're looking
-        at (from your broker) and it'll compute annualized return locally, same math as the CSP screener
-        on the main dashboard.</div>
+      <h2>Plan a new covered call</h2>
+      <div class="desc">Not fetched — this tool has no live options data source for strikes you haven't written
+        yet. Enter a quote you're looking at (from your broker) and it'll compute annualized return locally,
+        same math as the CSP screener on the main dashboard.</div>
       <div class="cc-form">
         <div class="field"><label class="small">Ticker</label><select id="ccTicker"></select></div>
         <div class="field"><label class="small">Shares held</label><input type="text" id="ccShares" class="num-input" readonly></div>
@@ -451,6 +464,63 @@ function renderEarnings() {
   card.style.display = 'block';
 }
 
+function renderWheel() {
+  const card = document.getElementById('wheelCard');
+  const rows = sheetToRows('Wheel Recovery');
+  if (!rows) { card.style.display = 'none'; return; }
+
+  const header = findHeader(rows, {
+    ticker: 'ticker', acct: 'acct', shares: 'shares', basis: 'assigned', strike: 'cc strike',
+    expiry: 'cc expiry', contracts: 'contracts', premsh: 'cc prem', basisAfter: 'basis after',
+    spot: 'spot', ifCalled: 'if called', assessment: 'assessment'
+  }, 10);
+  if (!header) {
+    card.style.display = 'none';
+    return;
+  }
+  const data = dataRowsAfter(rows, header.rowIdx + 1);
+  const c = header.cols;
+
+  // Title row usually reads e.g. "Covered Calls WRITTEN 07/13/2026 (executed, not planned)" — pull the
+  // date out so it's clear how fresh this snapshot is (this tab isn't necessarily updated as often as
+  // Open Positions).
+  let asOf = '';
+  for (let r = 0; r < header.rowIdx; r++) {
+    const cell = rows[r] && rows[r][0];
+    const m = cell && String(cell).match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+    if (m) { asOf = m[1]; break; }
+  }
+
+  const positions = data.filter(row => row[c.ticker]).map(row => ({
+    ticker: row[c.ticker], acct: row[c.acct], shares: row[c.shares], basis: row[c.basis],
+    strike: row[c.strike], expiry: row[c.expiry], dte: daysUntil(row[c.expiry]),
+    contracts: row[c.contracts], premsh: row[c.premsh], basisAfter: row[c.basisAfter],
+    spot: row[c.spot], ifCalled: row[c.ifCalled], assessment: row[c.assessment]
+  }));
+
+  const body = positions.map(p => {
+    const assessText = (p.assessment || '').toString();
+    const belowBasis = assessText.includes('⚠️') || assessText.toLowerCase().includes('below basis');
+    const ifCalledClass = Number(p.ifCalled) < 0 ? 'neg' : 'pos';
+    return '<tr><td>' + esc(p.ticker) + '</td><td>' + esc(p.acct) + '</td><td>' + esc(p.shares) + '</td>' +
+      '<td>' + money(p.basis) + '</td><td>' + money(p.strike) + '</td><td>' + fmtDate(p.expiry) + '</td>' +
+      '<td>' + (p.dte !== null ? p.dte + 'd' : '—') + '</td><td>' + esc(p.contracts) + '</td>' +
+      '<td>' + money(p.premsh) + '</td><td>' + money(p.basisAfter) + '</td><td>' + money(p.spot) + '</td>' +
+      '<td class="' + ifCalledClass + '">' + money(p.ifCalled) + '</td>' +
+      '<td class="' + (belowBasis ? 'flag-itm' : 'flag-ok') + '">' + esc(assessText) + '</td></tr>';
+  }).join('');
+
+  document.getElementById('wheelBody').innerHTML = body ||
+    '<tr><td colspan="13" style="color:var(--muted);">No open covered calls found in this tab.</td></tr>';
+
+  const descEl = card.querySelector('.desc');
+  if (asOf) {
+    descEl.textContent = 'From your Wheel Recovery tab, marked as of ' + asOf +
+      ' — check this is still current, this tab may lag your Open Positions tab. Calls you\'ve already written, with strike vs. basis and call-away assessment as recorded in your file.';
+  }
+  card.style.display = positions.length ? 'block' : 'none';
+}
+
 function populateCoveredCallTickers() {
   const sel = document.getElementById('ccTicker');
   sel.innerHTML = parsedHoldings.map(h => '<option value="' + esc(h.ticker) + '">' + esc(h.ticker) + ' (' + esc(h.account) + ', ' + esc(h.shares) + ' sh)</option>').join('');
@@ -495,6 +565,7 @@ function renderAll() {
   renderExposure();
   renderHoldings();
   renderEarnings();
+  renderWheel();
   const sheetNames = workbook.SheetNames.join(', ');
   document.getElementById('loadedSummary').textContent =
     (n || 0) + ' open position(s) found · sheets in file: ' + sheetNames;

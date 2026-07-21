@@ -68,11 +68,18 @@ What it shows:
 - **Stock holdings** — your current shares, cost basis, and market value.
 - **Earnings watch** — upcoming reports and their read-through, as recorded
   in your tracker.
-- **Covered call calculator** — a manual annualized-return calculator for
-  your held tickers. It does not screen live option chains (no data source
-  for that without a backend) — you type in a strike/expiry/premium you're
-  looking at and it computes the math locally, same formula as the R2
-  CSP screener.
+- **Open covered calls** — calls you've already written, pulled from your
+  Wheel Recovery tab: strike vs. assigned basis, spot, and the call-away
+  assessment your tracker already computes. Flags strikes sitting below
+  basis. Shows the "marked as of" date from that tab since it isn't
+  necessarily updated as often as Open Positions.
+- **Plan a new covered call** — a manual calculator for a strike you
+  haven't written yet. This one genuinely can't read from the file, since
+  the tracker only records calls after you've written them, not available
+  strikes to choose from — there's no live option chain data source in a
+  page with no backend. You type in a strike/expiry/premium you're looking
+  at and it computes annualized return locally, same formula as the R2 CSP
+  screener.
 
 If a sheet or column it expects isn't present, that section just says so
 and skips itself rather than guessing — same "honest gaps" rule as the rest
