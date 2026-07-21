@@ -1,4 +1,4 @@
-# Market Dashboard — R1 (market core) + news + Bear Indicator + R2 (CSP candidates)
+# Market Dashboard — R1 (market core) + news + Bear Indicator + R2 (CSP candidates) + Portfolio Analyzer
 
 Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 + 11 sector SPDRs), volatility (VIX/VIX9D/VIX3M/VVIX), and Treasury yields
@@ -27,6 +27,56 @@ Additions on top of R1:
 calls yet), screening only (doesn't track your actual open positions'
 assignment risk — that's still manual via your tracker). See "Known
 limitations" for the option-chain data-quality caveat.
+
+- **Portfolio Analyzer** (`docs/analyzer.html`) — a separate, privacy-first
+  page for the assignment-risk/exposure/covered-call view the R2 dashboard
+  intentionally doesn't publish. You upload your tracker workbook and it
+  runs entirely client-side (see "Portfolio Analyzer" section below) — no
+  position data ever touches this public repo or site.
+
+## Portfolio Analyzer — private, single-session, no storage
+
+The public dashboard above is safe to publish because it only ever contains
+market-wide data and your watchlist tickers — never your actual position
+sizes, strikes, or account values. But an assignment-risk monitor and
+sector-concentration view *do* need that data, and that's not something to
+publish to a public GitHub Pages site.
+
+Instead, `docs/analyzer.html` is a standalone page with no backend at all:
+
+- You upload your tracker `.xlsx` file through a file picker.
+- Parsing happens with [SheetJS](https://sheetjs.com/) running in your
+  browser — the file is read with the browser's local `FileReader` API and
+  never sent over the network, to this site or anywhere else.
+- It reads whatever numbers are already in your Open Positions, Cash
+  Collateral, Stock Holdings, and Earnings Watch tabs (current price,
+  cushion %, risk flag, sector, market value) — it does **not** fetch live
+  quotes from any API, so there's no external call at all once the page has
+  loaded.
+- Nothing is written to cookies or `localStorage`. All state lives in a
+  JavaScript variable in that tab. Close or reload the tab and it's gone;
+  reopening the URL starts from a blank upload screen every time.
+- It's still served from the same public GitHub Pages URL
+  (`.../analyzer.html`) since the page itself contains no data — only the
+  file *you* choose to open in your own browser does.
+
+What it shows:
+- **Assignment risk** — every open position from your Open Positions tab,
+  sorted by tightest cushion, with the ITM/Near flags you already track.
+- **Exposure & concentration** — collateral grouped by sector from your Cash
+  Collateral tab, with an adjustable concentration-cap line (default 35%).
+- **Stock holdings** — your current shares, cost basis, and market value.
+- **Earnings watch** — upcoming reports and their read-through, as recorded
+  in your tracker.
+- **Covered call calculator** — a manual annualized-return calculator for
+  your held tickers. It does not screen live option chains (no data source
+  for that without a backend) — you type in a strike/expiry/premium you're
+  looking at and it computes the math locally, same formula as the R2
+  CSP screener.
+
+If a sheet or column it expects isn't present, that section just says so
+and skips itself rather than guessing — same "honest gaps" rule as the rest
+of this project.
 
 ## Pipeline
 
@@ -155,13 +205,16 @@ number with no LIVE/EOD/STALE/FAILED label).
   *estimated* via Black-Scholes from that implied vol, not a real broker Greek.
   Treat every candidate as a starting point to check against your actual
   broker quote before entering a trade, not an execution-ready number.
-- **R2 covers cash-secured puts only** — no covered-call candidates on your
-  actual holdings (CLS, BRR, XLK) yet, and it doesn't track your *existing*
-  open positions' assignment risk (cushion %, ITM flags) - that's still your
-  tracker's Open Positions tab. This build only screens for *new* CSP entries.
-- **Exposure/cash-band logic** (R3: portfolio-level concentration caps, cash
-  reserve bands) isn't built - each candidate is scored independently of what
-  you already hold or how much collateral is already committed.
+- **R2 covers cash-secured puts only** — no live covered-call *candidate
+  screening* (needs a real option chain, which the private analyzer
+  deliberately doesn't fetch — see Portfolio Analyzer above) - this build
+  only screens for *new* CSP entries.
+- **Assignment risk and sector concentration** now live in
+  `docs/analyzer.html` (Portfolio Analyzer, private/client-side, upload your
+  tracker) rather than the public dashboard - kept separate on purpose so
+  your actual position data never has to go into this public repo. Cash
+  reserve bands (needs your total account value) still aren't built - not
+  something to compute even client-side without you providing that number.
 - **Candidate picks are one strike per ticker**, chosen by proximity to a
   target delta band (config/thresholds.yaml) among gate-passing strikes, not
   an exhaustive list of every viable strike/expiry combination.

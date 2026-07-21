@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Analyzer (Private) — Market Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
+    --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+  h1 { font-size: 1.4rem; margin: 0; }
+  .sub { color: var(--muted); font-size: 0.85rem; }
+  a.backlink { color: var(--muted); font-size:0.8rem; }
+  .privacy-banner { background: rgba(30,142,62,0.10); border:1px solid var(--green); border-radius:10px;
+    padding:14px 16px; margin-bottom:20px; font-size:0.85rem; line-height:1.5; }
+  .privacy-banner b { color: var(--green); }
+  .card { background: var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .card h2 { font-size:1rem; margin:0 0 4px 0; }
+  .card .desc { color: var(--muted); font-size:0.8rem; margin-bottom:12px; }
+  table { width:100%; border-collapse: collapse; font-size:0.85rem; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  th { color: var(--muted); font-weight:600; position: sticky; top:0; background: var(--card); }
+  .tbl-scroll { overflow-x:auto; }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+  .flag-itm { color: var(--red); font-weight:700; }
+  .flag-near { color: var(--amber); font-weight:600; }
+  .flag-ok { color: var(--muted); }
+  .badge { display:inline-block; padding:2px 10px; border-radius:999px; font-size:0.72rem; font-weight:600; }
+  .badge.over { background: rgba(217,48,37,0.15); color: var(--red); }
+  .badge.under { background: rgba(30,142,62,0.12); color: var(--green); }
+  .bar-row { display:flex; align-items:center; gap:10px; padding:6px 0; font-size:0.85rem; }
+  .bar-label { width:220px; flex-shrink:0; display:flex; justify-content:space-between; gap:8px; }
+  .bar-track { flex:1; height:10px; background:#0b0d11; border-radius:6px; overflow:hidden; border:1px solid var(--border); }
+  .bar-fill { height:100%; border-radius:6px; }
+  .bar-fill.ok { background: var(--green); } .bar-fill.warn { background: var(--red); }
+  .upload-zone { border:2px dashed var(--border); border-radius:10px; padding:32px; text-align:center; }
+  .upload-zone.drag { border-color: var(--green); background: rgba(30,142,62,0.06); }
+  .upload-zone input[type=file] { display:none; }
+  .upload-btn { display:inline-block; background: var(--green); color:#fff; padding:10px 20px; border-radius:8px;
+    font-weight:600; cursor:pointer; font-size:0.9rem; }
+  #fileStatus { margin-top:10px; font-size:0.8rem; color: var(--muted); }
+  .clear-btn { background:none; border:1px solid var(--border); color: var(--muted); padding:6px 14px;
+    border-radius:8px; font-size:0.78rem; cursor:pointer; }
+  .clear-btn:hover { border-color: var(--red); color: var(--red); }
+  .err { background: rgba(217,48,37,0.1); border:1px solid var(--red); color: var(--red);
+    padding:10px 14px; border-radius:8px; font-size:0.85rem; margin-bottom:12px; }
+  .warn-box { background: rgba(232,163,61,0.1); border:1px solid var(--amber); color: var(--amber);
+    padding:10px 14px; border-radius:8px; font-size:0.8rem; margin-bottom:12px; }
+  label.small { font-size:0.78rem; color: var(--muted); }
+  input.num-input { background:#0b0d11; border:1px solid var(--border); color: var(--text); border-radius:6px;
+    padding:5px 8px; font-size:0.85rem; width:80px; }
+  .cc-form { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; margin-bottom:14px;
+    padding-bottom:14px; border-bottom:1px dashed var(--border); }
+  .cc-form .field { display:flex; flex-direction:column; gap:4px; }
+  .cc-form select, .cc-form input { background:#0b0d11; border:1px solid var(--border); color: var(--text);
+    border-radius:6px; padding:6px 8px; font-size:0.85rem; }
+  .cc-form button { background: var(--green); border:none; color:#fff; padding:7px 16px; border-radius:6px;
+    font-weight:600; cursor:pointer; font-size:0.85rem; }
+  .foot-note { font-size:0.72rem; color: var(--muted); margin-top:8px; }
+  #results { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Portfolio Analyzer <span style="color:var(--muted); font-weight:400;">(private, single-session)</span></h1>
+      <div class="sub">Upload your tracker file to see it here — nothing leaves this browser tab.</div>
+    </div>
+    <a class="backlink" href="index.html">&larr; Back to market dashboard</a>
+  </header>
+
+  <div class="privacy-banner">
+    🔒 <b>This page runs entirely in your browser.</b> Your file is read locally with JavaScript and never
+    uploaded to any server — this site has no backend to send it to. Nothing is written to cookies or
+    browser storage. Everything shown below exists only in this tab's memory and disappears the moment you
+    close or reload the page. Reopening this URL later starts with a blank slate; you'll need to upload the
+    file again each time.
+  </div>
+
+  <div class="card" id="uploadCard">
+    <h2>1. Upload your tracker</h2>
+    <div class="desc">Works with the Options P&amp;L Tracker workbook (.xlsx). Reads the Open Positions, Cash
+      Collateral, Stock Holdings, and Earnings Watch tabs if present — sheets it can't find are just skipped.</div>
+    <div class="upload-zone" id="dropZone">
+      <label class="upload-btn" for="fileInput">Choose file…</label>
+      <input type="file" id="fileInput" accept=".xlsx,.xls">
+      <div id="fileStatus">or drag a .xlsx file here</div>
+    </div>
+  </div>
+
+  <div id="errorBox"></div>
+
+  <div id="results">
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h2 style="margin-bottom:2px;" id="loadedFileName"></h2>
+        <div class="desc" style="margin-bottom:0;" id="loadedSummary"></div>
+      </div>
+      <button class="clear-btn" onclick="clearAll()">Clear &amp; start over</button>
+    </div>
+
+    <div class="card" id="assignmentCard" style="display:none;">
+      <h2>Assignment risk — open positions</h2>
+      <div class="desc">Pulled straight from your Open Positions tab (your own EOD prices — this tool doesn't
+        fetch live quotes). Sorted by cushion, tightest first.</div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Ticker</th><th>Type</th><th>Strike</th><th>Expiry</th><th>DTE</th><th>Contracts</th>
+          <th>Current</th><th>Cushion</th><th>Cushion %</th><th>Flag</th></tr></thead>
+        <tbody id="assignmentBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" id="exposureCard" style="display:none;">
+      <h2>Exposure &amp; concentration</h2>
+      <div class="desc">Collateral committed to open short puts, grouped by sector (from your Cash Collateral
+        tab). Set your own concentration cap below.</div>
+      <div style="margin-bottom:12px;">
+        <label class="small">Flag sectors above
+          <input type="number" class="num-input" id="capInput" value="35" min="1" max="100"> % of total collateral
+        </label>
+      </div>
+      <div id="exposureBars"></div>
+    </div>
+
+    <div class="card" id="holdingsCard" style="display:none;">
+      <h2>Stock holdings</h2>
+      <div class="desc">From your Stock Holdings tab — current shares, cost basis, and market value.</div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Ticker</th><th>Account</th><th>Shares</th><th>Cost/sh</th><th>Close</th>
+          <th>Mkt Value</th><th>Unrealized</th></tr></thead>
+        <tbody id="holdingsBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" id="earningsCard" style="display:none;">
+      <h2>Earnings watch</h2>
+      <div class="desc">From your Earnings Watch tab — upcoming reports and what they read through to.</div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Company</th><th>Report date</th><th>Time</th><th>Read-through</th><th>Your positions affected</th></tr></thead>
+        <tbody id="earningsBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" id="ccCard">
+      <h2>Covered call calculator</h2>
+      <div class="desc">Not fetched — this tool has no live options data source. Enter a quote you're looking
+        at (from your broker) and it'll compute annualized return locally, same math as the CSP screener
+        on the main dashboard.</div>
+      <div class="cc-form">
+        <div class="field"><label class="small">Ticker</label><select id="ccTicker"></select></div>
+        <div class="field"><label class="small">Shares held</label><input type="text" id="ccShares" class="num-input" readonly></div>
+        <div class="field"><label class="small">Strike ($)</label><input type="number" id="ccStrike" class="num-input"></div>
+        <div class="field"><label class="small">Expiry</label><input type="date" id="ccExpiry" class="num-input" style="width:140px;"></div>
+        <div class="field"><label class="small">Premium (mid, $/contract)</label><input type="number" id="ccPremium" class="num-input"></div>
+        <div class="field"><button onclick="computeCoveredCall()">Calculate</button></div>
+      </div>
+      <div id="ccResult" style="font-size:0.88rem;"></div>
+      <div class="foot-note">Annualized return = premium / (strike × 100) × (365 / DTE). Estimate only —
+        verify against your broker's actual quote before entering a trade.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let workbook = null;
+let parsedHoldings = [];
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+function clearAll() {
+  workbook = null; parsedHoldings = [];
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('errorBox').innerHTML = '';
+  document.getElementById('fileStatus').textContent = 'or drag a .xlsx file here';
+  fileInput.value = '';
+}
+
+function handleFile(file) {
+  document.getElementById('errorBox').innerHTML = '';
+  document.getElementById('fileStatus').textContent = 'Reading ' + file.name + ' locally…';
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      workbook = XLSX.read(data, { type: 'array', cellDates: true });
+      document.getElementById('fileStatus').textContent = 'Loaded ' + file.name + ' (' + Math.round(file.size/1024) + ' KB) — not stored anywhere, just held in this tab.';
+      document.getElementById('loadedFileName').textContent = file.name;
+      renderAll();
+    } catch (err) {
+      showError('Could not read this file as an Excel workbook: ' + err.message);
+    }
+  };
+  reader.onerror = () => showError('Could not read the file from disk.');
+  reader.readAsArrayBuffer(file);
+}
+
+function showError(msg) {
+  document.getElementById('errorBox').innerHTML = '<div class="err">' + msg + '</div>';
+}
+
+// --- generic sheet helpers -------------------------------------------------
+
+function sheetToRows(sheetName) {
+  if (!workbook.Sheets[sheetName]) return null;
+  return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, raw: true, defval: null });
+}
+
+function norm(v) {
+  if (v === null || v === undefined) return '';
+  return String(v).replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+// Scans the first N rows for a header row containing all of `mustInclude`
+// (substring match, case-insensitive). Returns {rowIdx, cols: {key: colIdx}}.
+function findHeader(rows, columnMap, scanRows) {
+  scanRows = scanRows || 10;
+  const keys = Object.keys(columnMap);
+  for (let r = 0; r < Math.min(scanRows, rows.length); r++) {
+    const row = rows[r].map(norm);
+    const cols = {};
+    let allFound = true;
+    for (const key of keys) {
+      const needle = columnMap[key];
+      const idx = row.findIndex(c => c.includes(needle));
+      if (idx === -1) { allFound = false; break; }
+      cols[key] = idx;
+    }
+    if (allFound) return { rowIdx: r, cols };
+  }
+  return null;
+}
+
+function dataRowsAfter(rows, startIdx) {
+  const out = [];
+  for (let r = startIdx; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row || row.every(c => c === null || c === undefined || c === '')) break;
+    if (row[0] && String(row[0]).trim().toUpperCase() === 'TOTAL') break;
+    out.push(row);
+  }
+  return out;
+}
+
+function fmtDate(v) {
+  if (v instanceof Date) return v.toISOString().slice(0, 10);
+  if (typeof v === 'string') return v.slice(0, 10);
+  return v || '—';
+}
+
+function daysUntil(v) {
+  let d;
+  if (v instanceof Date) d = v;
+  else if (typeof v === 'string') d = new Date(v);
+  else return null;
+  if (isNaN(d.getTime())) return null;
+  const now = new Date();
+  const diffMs = d.setHours(0,0,0,0) - now.setHours(0,0,0,0);
+  return Math.round(diffMs / 86400000);
+}
+
+function money(v) {
+  if (v === null || v === undefined || v === '') return '—';
+  const n = Number(v);
+  if (isNaN(n)) return String(v);
+  return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString(undefined, {maximumFractionDigits: 0});
+}
+
+function pct(v) {
+  if (v === null || v === undefined || v === '') return '—';
+  const n = Number(v);
+  if (isNaN(n)) return String(v);
+  return (n * 100).toFixed(1) + '%';
+}
+
+// --- section renderers -------------------------------------------------
+
+function renderAssignmentRisk() {
+  const card = document.getElementById('assignmentCard');
+  const rows = sheetToRows('Open Positions');
+  if (!rows) { card.style.display = 'none'; return; }
+
+  const header = findHeader(rows, {
+    account: 'account', ticker: 'ticker', type: 'type', strike: 'strike',
+    expiry: 'expiry', contracts: 'contracts', current: 'current', cushionAmt: 'cushion ($',
+    cushionPct: 'cushion (%', flag: 'risk flag'
+  });
+  if (!header) {
+    card.style.display = 'block';
+    document.getElementById('assignmentBody').innerHTML =
+      '<tr><td colspan="10" style="color:var(--muted);">Couldn\'t find an "Open Positions" tab with the expected columns (Ticker, Strike, Current Price, Cushion, Risk Flag). Skipped.</td></tr>';
+    return;
+  }
+  const data = dataRowsAfter(rows, header.rowIdx + 1);
+  const c = header.cols;
+  const positions = data.map(row => ({
+    ticker: row[c.ticker], type: row[c.type], strike: row[c.strike], expiry: row[c.expiry],
+    dte: daysUntil(row[c.expiry]), contracts: row[c.contracts], current: row[c.current],
+    cushionAmt: row[c.cushionAmt], cushionPct: row[c.cushionPct], flag: row[c.flag]
+  })).filter(p => p.ticker);
+
+  positions.sort((a, b) => (Number(a.cushionPct) || 0) - (Number(b.cushionPct) || 0));
+
+  const body = positions.map(p => {
+    const flagText = (p.flag || '').toString();
+    let flagClass = 'flag-ok', flagLabel = flagText || 'OK';
+    if (flagText.toLowerCase().includes('itm')) { flagClass = 'flag-itm'; }
+    else if (flagText.toLowerCase().includes('near')) { flagClass = 'flag-near'; }
+    const cushionClass = (Number(p.cushionAmt) < 0) ? 'neg' : 'pos';
+    return '<tr><td>' + esc(p.ticker) + '</td><td>' + esc(p.type) + '</td><td>' + money(p.strike) + '</td>' +
+      '<td>' + fmtDate(p.expiry) + '</td><td>' + (p.dte !== null ? p.dte + 'd' : '—') + '</td>' +
+      '<td>' + esc(p.contracts) + '</td><td>' + money(p.current) + '</td>' +
+      '<td class="' + cushionClass + '">' + money(p.cushionAmt) + '</td>' +
+      '<td class="' + cushionClass + '">' + pct(p.cushionPct) + '</td>' +
+      '<td class="' + flagClass + '">' + esc(flagLabel) + '</td></tr>';
+  }).join('');
+
+  document.getElementById('assignmentBody').innerHTML = body ||
+    '<tr><td colspan="10" style="color:var(--muted);">No open positions found in this tab.</td></tr>';
+  card.style.display = 'block';
+  return positions.length;
+}
+
+function renderExposure() {
+  const card = document.getElementById('exposureCard');
+  const rows = sheetToRows('Cash Collateral');
+  if (!rows) { card.style.display = 'none'; return; }
+
+  const header = findHeader(rows, { ticker: 'ticker', sector: 'sector' }, 10);
+  if (!header) {
+    card.style.display = 'block';
+    document.getElementById('exposureBars').innerHTML =
+      '<div style="color:var(--muted); font-size:0.85rem;">Couldn\'t find a "Cash Collateral" tab with Ticker/Sector columns. Skipped.</div>';
+    return;
+  }
+  // Combined collateral $ is the column right before "% of Total"; find it by header text.
+  const headerRow = rows[header.rowIdx].map(norm);
+  let collateralIdx = headerRow.findIndex((c, i) => c.includes('collateral') && i > header.cols.ticker);
+  // there may be 3 "Collateral" columns (individual/IRA/combined) - take the last one before "% of total"
+  const pctIdx = headerRow.findIndex(c => c.includes('% of total'));
+  for (let i = headerRow.length - 1; i >= 0; i--) {
+    if (headerRow[i].includes('collateral') && (pctIdx === -1 || i < pctIdx)) { collateralIdx = i; break; }
+  }
+  const data = dataRowsAfter(rows, header.rowIdx + 1);
+  const bySector = {};
+  let total = 0;
+  data.forEach(row => {
+    const sector = row[header.cols.sector] || 'Unclassified';
+    const amt = Number(row[collateralIdx]) || 0;
+    if (amt <= 0) return;
+    bySector[sector] = (bySector[sector] || 0) + amt;
+    total += amt;
+  });
+
+  const cap = Number(document.getElementById('capInput').value) || 35;
+  const entries = Object.entries(bySector).sort((a, b) => b[1] - a[1]);
+
+  function draw() {
+    const capNow = Number(document.getElementById('capInput').value) || 35;
+    const html = entries.map(([sector, amt]) => {
+      const p = total > 0 ? (amt / total * 100) : 0;
+      const over = p > capNow;
+      return '<div class="bar-row"><div class="bar-label"><span>' + esc(sector) + '</span>' +
+        '<span>' + p.toFixed(1) + '% · ' + money(amt) + '</span></div>' +
+        '<div class="bar-track"><div class="bar-fill ' + (over ? 'warn' : 'ok') + '" style="width:' + Math.min(p,100) + '%"></div></div>' +
+        (over ? '<span class="badge over">over cap</span>' : '') + '</div>';
+    }).join('');
+    document.getElementById('exposureBars').innerHTML = html +
+      '<div class="foot-note">Total collateral committed: ' + money(total) + '. Sector mapping comes from your Cash Collateral tab.</div>';
+  }
+  document.getElementById('capInput').oninput = draw;
+  draw();
+  card.style.display = 'block';
+}
+
+function renderHoldings() {
+  const card = document.getElementById('holdingsCard');
+  const rows = sheetToRows('Stock Holdings');
+  if (!rows) { card.style.display = 'none'; return; }
+
+  const header = findHeader(rows, {
+    account: 'account', ticker: 'ticker', shares: 'shares', cost: 'cost $/sh',
+    close: 'close $', mktvalue: 'mkt value', unreal: 'unreal'
+  }, 10);
+  if (!header) {
+    card.style.display = 'block';
+    document.getElementById('holdingsBody').innerHTML =
+      '<tr><td colspan="7" style="color:var(--muted);">Couldn\'t find a "Stock Holdings" tab with the expected columns. Skipped.</td></tr>';
+    return;
+  }
+  const data = dataRowsAfter(rows, header.rowIdx + 1);
+  const c = header.cols;
+  parsedHoldings = data.filter(row => row[c.ticker]).map(row => ({
+    ticker: row[c.ticker], account: row[c.account], shares: Number(row[c.shares]) || 0,
+    cost: row[c.cost], close: row[c.close], mktvalue: row[c.mktvalue], unreal: row[c.unreal]
+  }));
+
+  const body = parsedHoldings.map(h => {
+    const unrealClass = Number(h.unreal) < 0 ? 'neg' : 'pos';
+    return '<tr><td>' + esc(h.ticker) + '</td><td>' + esc(h.account) + '</td><td>' + esc(h.shares) + '</td>' +
+      '<td>' + money(h.cost) + '</td><td>' + money(h.close) + '</td><td>' + money(h.mktvalue) + '</td>' +
+      '<td class="' + unrealClass + '">' + money(h.unreal) + '</td></tr>';
+  }).join('');
+  document.getElementById('holdingsBody').innerHTML = body ||
+    '<tr><td colspan="7" style="color:var(--muted);">No stock holdings found in this tab.</td></tr>';
+  card.style.display = 'block';
+
+  populateCoveredCallTickers();
+}
+
+function renderEarnings() {
+  const card = document.getElementById('earningsCard');
+  const rows = sheetToRows('Earnings Watch');
+  if (!rows) { card.style.display = 'none'; return; }
+
+  const header = findHeader(rows, {
+    company: 'company', reportdate: 'report date', time: 'time',
+    readthrough: 'read-through', positions: 'positions affected'
+  }, 10);
+  if (!header) {
+    card.style.display = 'block';
+    document.getElementById('earningsBody').innerHTML =
+      '<tr><td colspan="5" style="color:var(--muted);">Couldn\'t find an "Earnings Watch" tab with the expected columns. Skipped.</td></tr>';
+    return;
+  }
+  const data = dataRowsAfter(rows, header.rowIdx + 1);
+  const c = header.cols;
+  const body = data.filter(row => row[c.company]).map(row => {
+    return '<tr><td>' + esc(row[c.company]) + '</td><td>' + esc(row[c.reportdate]) + '</td>' +
+      '<td>' + esc(row[c.time]) + '</td><td>' + esc(row[c.readthrough]) + '</td>' +
+      '<td>' + esc(row[c.positions]) + '</td></tr>';
+  }).join('');
+  document.getElementById('earningsBody').innerHTML = body ||
+    '<tr><td colspan="5" style="color:var(--muted);">No earnings entries found in this tab.</td></tr>';
+  card.style.display = 'block';
+}
+
+function populateCoveredCallTickers() {
+  const sel = document.getElementById('ccTicker');
+  sel.innerHTML = parsedHoldings.map(h => '<option value="' + esc(h.ticker) + '">' + esc(h.ticker) + ' (' + esc(h.account) + ', ' + esc(h.shares) + ' sh)</option>').join('');
+  if (parsedHoldings.length) {
+    sel.onchange = () => {
+      const h = parsedHoldings.find(x => x.ticker === sel.value);
+      document.getElementById('ccShares').value = h ? h.shares : '';
+    };
+    sel.onchange();
+  }
+  document.getElementById('ccCard').style.display = parsedHoldings.length ? 'block' : 'none';
+}
+
+function computeCoveredCall() {
+  const strike = Number(document.getElementById('ccStrike').value);
+  const premium = Number(document.getElementById('ccPremium').value);
+  const expiryStr = document.getElementById('ccExpiry').value;
+  const resultEl = document.getElementById('ccResult');
+  if (!strike || !premium || !expiryStr) {
+    resultEl.innerHTML = '<div class="warn-box">Enter strike, expiry, and premium.</div>';
+    return;
+  }
+  const dte = daysUntil(new Date(expiryStr + 'T00:00:00'));
+  if (dte === null || dte <= 0) {
+    resultEl.innerHTML = '<div class="warn-box">Expiry must be a future date.</div>';
+    return;
+  }
+  const annualized = (premium / (strike * 100)) * (365 / dte) * 100;
+  resultEl.innerHTML = '<div class="metric-line"><b>' + dte + ' DTE</b> · premium yield ' +
+    (premium / (strike * 100) * 100).toFixed(2) + '% · <b style="color:var(--green);">' +
+    annualized.toFixed(1) + '% annualized</b></div>';
+}
+
+function esc(v) {
+  if (v === null || v === undefined) return '';
+  return String(v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function renderAll() {
+  document.getElementById('results').style.display = 'block';
+  const n = renderAssignmentRisk();
+  renderExposure();
+  renderHoldings();
+  renderEarnings();
+  const sheetNames = workbook.SheetNames.join(', ');
+  document.getElementById('loadedSummary').textContent =
+    (n || 0) + ' open position(s) found · sheets in file: ' + sheetNames;
+}
+</script>
+</body>
+</html>
