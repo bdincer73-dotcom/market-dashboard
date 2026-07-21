@@ -87,9 +87,9 @@
 
   <div class="card" id="uploadCard">
     <h2>1. Upload your tracker</h2>
-    <div class="desc">Works with the Options P&amp;L Tracker workbook (.xlsx). Reads the Open Positions, Cash
-      Collateral, Stock Holdings, Earnings Watch, and Wheel Recovery tabs if present — sheets it can't find
-      are just skipped.</div>
+    <div class="desc">Works with either your full Options P&amp;L Tracker workbook, <b style="color:var(--text);">or</b>
+      a quick "Positions" export straight from Fidelity (Positions page &rarr; Download &rarr; Excel). It
+      figures out which one you gave it automatically.</div>
     <div class="upload-zone" id="dropZone">
       <label class="upload-btn" for="fileInput">Choose file…</label>
       <input type="file" id="fileInput" accept=".xlsx,.xls">
@@ -159,6 +159,15 @@
           <th>DTE</th><th>Contracts</th><th>Prem/sh</th><th>Basis after CC</th><th>Spot</th>
           <th>If called P&amp;L</th><th>Assessment</th></tr></thead>
         <tbody id="wheelBody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" id="cashCard" style="display:none;">
+      <h2>Cash &amp; money market</h2>
+      <div class="desc">Sweep balances by account, from your Fidelity export.</div>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>Account</th><th>Balance</th></tr></thead>
+        <tbody id="cashBody"></tbody>
       </table></div>
     </div>
 
@@ -290,9 +299,21 @@ function daysUntil(v) {
 
 function money(v) {
   if (v === null || v === undefined || v === '') return '—';
+  if (typeof v === 'number' && isNaN(v)) return '—'; // defensive: a real NaN (not a non-numeric string) always means "unavailable"
   const n = Number(v);
   if (isNaN(n)) return String(v);
   return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString(undefined, {maximumFractionDigits: 0});
+}
+
+// Fidelity sometimes puts a literal "--" string in a numeric cell when a
+// value isn't available (e.g. cost basis on an assigned lot). Number('--')
+// is NaN, and NaN silently poisons downstream arithmetic (365-NaN=NaN, then
+// shows as the literal text "NaN" in the UI) unless every consumer treats
+// it as "unavailable" up front.
+function numOrNull(v) {
+  if (v === null || v === undefined || v === '') return null;
+  const n = Number(v);
+  return isNaN(n) ? null : n;
 }
 
 function pct(v) {
@@ -300,6 +321,265 @@ function pct(v) {
   const n = Number(v);
   if (isNaN(n)) return String(v);
   return (n * 100).toFixed(1) + '%';
+}
+
+// --- Fidelity "Positions" export format --------------------------------
+//
+// A one-click export from Fidelity's Positions page: a single flat sheet,
+// one row per holding/option/cash-sweep line, across all your accounts.
+// No sector tags, no pre-computed cushion/basis — those are derived here
+// from what IS in the file (quantity sign, description text, and other
+// rows in the same export), never invented.
+
+const MONTHS = { JAN:0, FEB:1, MAR:2, APR:3, MAY:4, JUN:5, JUL:6, AUG:7, SEP:8, OCT:9, NOV:10, DEC:11 };
+const OPTION_DESC_RE = /^(\S+)\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2})\s+(\d{4})\s+\$([\d,]+\.?\d*)\s+(CALL|PUT)/i;
+
+function parseOptionDescription(desc) {
+  if (!desc) return null;
+  const m = String(desc).match(OPTION_DESC_RE);
+  if (!m) return null;
+  const [, ticker, mon, day, year, strikeStr, type] = m;
+  const expiry = new Date(Number(year), MONTHS[mon.toUpperCase()], Number(day));
+  return { ticker, expiry, strike: Number(strikeStr.replace(/,/g, '')), type: type.toUpperCase() };
+}
+
+// Looks for a sheet whose header row has the Fidelity Positions export's
+// signature columns. Returns the sheet name, or null if this isn't that format.
+function detectFidelitySheet() {
+  for (const sn of workbook.SheetNames) {
+    const rows = sheetToRows(sn);
+    if (!rows || !rows.length) continue;
+    const header = findHeader(rows, {
+      acct: 'account number', acctName: 'account name', symbol: 'symbol', desc: 'description',
+      qty: 'quantity', last: 'last price', currentValue: 'current value',
+      totalGainDollar: 'total gain/loss dollar', costBasisTotal: 'cost basis total',
+      avgCostBasis: 'average cost basis'
+    }, 3);
+    if (header) return { sheetName: sn, header };
+  }
+  return null;
+}
+
+function parseFidelityPositions(sheetName, header) {
+  const rows = sheetToRows(sheetName);
+  const c = header.cols;
+  const out = { equities: [], shortPuts: [], shortCalls: [], longOptions: [], cash: [], asOf: '' };
+
+  // "Date downloaded Jul-20-2026 at 10:51 p.m ET" footer line, if present.
+  for (const row of rows) {
+    const cell = row[0];
+    if (cell && String(cell).startsWith('Date downloaded')) { out.asOf = String(cell).replace('Date downloaded ', ''); break; }
+  }
+
+  for (let r = header.rowIdx + 1; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row) continue;
+    const acctNum = row[c.acct], symbol = row[c.symbol], desc = row[c.desc], qty = row[c.qty];
+    if (!acctNum || !symbol) continue; // disclaimer/blank rows
+    if (String(symbol).trim() === 'Pending activity') continue;
+
+    const acctName = row[c.acctName] || String(acctNum);
+    if (desc && String(desc).startsWith('HELD IN')) {
+      out.cash.push({ account: acctName, value: row[c.currentValue] });
+      continue;
+    }
+    const opt = parseOptionDescription(desc);
+    if (opt) {
+      const contracts = Math.abs(Number(qty) || 0);
+      const rec = {
+        ticker: opt.ticker, type: opt.type, strike: opt.strike, expiry: opt.expiry,
+        account: acctName, contracts, qty: Number(qty) || 0,
+        lastPrice: row[c.last], avgCostBasis: row[c.avgCostBasis] ?? null,
+        costBasisTotal: row[c.costBasisTotal] ?? null,
+        totalGainLossDollar: row[c.totalGainDollar] ?? null,
+      };
+      if (Number(qty) < 0 && opt.type === 'PUT') out.shortPuts.push(rec);
+      else if (Number(qty) < 0 && opt.type === 'CALL') out.shortCalls.push(rec);
+      else out.longOptions.push(rec);
+      continue;
+    }
+    // Plain equity/ETF row: has a Quantity and isn't an option or cash sweep.
+    if (qty !== null && qty !== undefined && qty !== '') {
+      out.equities.push({
+        ticker: symbol, account: acctName, shares: Number(qty) || 0,
+        avgCost: row[c.avgCostBasis] ?? null, last: row[c.last],
+        costBasisTotal: row[c.costBasisTotal] ?? null,
+        currentValue: row[c.currentValue] ?? null,
+        unreal: row[c.totalGainDollar] ?? null,
+      });
+    }
+  }
+  return out;
+}
+
+function renderFidelityHoldings(data) {
+  const card = document.getElementById('holdingsCard');
+  card.querySelector('.desc').textContent = 'From your Fidelity export — current shares, cost basis, and market value across every account.';
+  parsedHoldings = data.equities.map(e => ({
+    ticker: e.ticker, account: e.account, shares: e.shares,
+    cost: e.avgCost, close: e.last, mktvalue: e.currentValue, unreal: e.unreal
+  }));
+  const body = parsedHoldings.map(h => {
+    const unrealClass = Number(h.unreal) < 0 ? 'neg' : 'pos';
+    return '<tr><td>' + esc(h.ticker) + '</td><td>' + esc(h.account) + '</td><td>' + esc(h.shares) + '</td>' +
+      '<td>' + money(h.cost) + '</td><td>' + money(h.close) + '</td><td>' + money(h.mktvalue) + '</td>' +
+      '<td class="' + unrealClass + '">' + money(h.unreal) + '</td></tr>';
+  }).join('');
+  document.getElementById('holdingsBody').innerHTML = body ||
+    '<tr><td colspan="7" style="color:var(--muted);">No stock/ETF holdings found in this export.</td></tr>';
+  card.style.display = 'block';
+  populateCoveredCallTickers();
+}
+
+function renderFidelityAssignment(data) {
+  const card = document.getElementById('assignmentCard');
+  card.querySelector('.desc').textContent = 'Short puts from your Fidelity export. "Spot" only shows when you also ' +
+    'hold that ticker as shares in this same export — Fidelity\'s Positions download doesn\'t include quotes for ' +
+    'tickers you don\'t hold, so cushion is left blank rather than guessed for those.';
+  const spotByTicker = {};
+  data.equities.forEach(e => { spotByTicker[e.ticker] = Number(e.last); });
+
+  const positions = data.shortPuts.map(p => {
+    const spot = spotByTicker[p.ticker];
+    const hasSpot = spot !== undefined && !isNaN(spot);
+    const cushionAmt = hasSpot ? (spot - p.strike) : null;
+    const cushionPct = hasSpot ? (cushionAmt / p.strike) : null;
+    let flag = 'spot n/a', flagClass = 'flag-ok';
+    if (hasSpot) {
+      if (spot < p.strike) { flag = '⚠️ ITM'; flagClass = 'flag-itm'; }
+      else if (cushionPct < 0.05) { flag = 'Near'; flagClass = 'flag-near'; }
+      else { flag = 'OK'; flagClass = 'flag-ok'; }
+    }
+    return { ...p, dte: daysUntil(p.expiry), current: hasSpot ? spot : null, cushionAmt, cushionPct, flag, flagClass };
+  });
+  positions.sort((a, b) => {
+    const av = a.cushionPct === null ? 999 : a.cushionPct, bv = b.cushionPct === null ? 999 : b.cushionPct;
+    return av - bv;
+  });
+
+  const body = positions.map(p => {
+    const cushionClass = p.cushionAmt === null ? '' : (p.cushionAmt < 0 ? 'neg' : 'pos');
+    return '<tr><td>' + esc(p.ticker) + '</td><td>Put</td><td>' + money(p.strike) + '</td>' +
+      '<td>' + fmtDate(p.expiry) + '</td><td>' + (p.dte !== null ? p.dte + 'd' : '—') + '</td>' +
+      '<td>' + esc(p.contracts) + '</td><td>' + (p.current === null ? '—' : money(p.current)) + '</td>' +
+      '<td class="' + cushionClass + '">' + (p.cushionAmt === null ? '—' : money(p.cushionAmt)) + '</td>' +
+      '<td class="' + cushionClass + '">' + (p.cushionPct === null ? '—' : pct(p.cushionPct)) + '</td>' +
+      '<td class="' + p.flagClass + '">' + esc(p.flag) + '</td></tr>';
+  }).join('');
+  document.getElementById('assignmentBody').innerHTML = body ||
+    '<tr><td colspan="10" style="color:var(--muted);">No open short puts found in this export.</td></tr>';
+  card.style.display = 'block';
+  return positions.length;
+}
+
+function renderFidelityExposure(data) {
+  const card = document.getElementById('exposureCard');
+  card.querySelector('h2').textContent = 'Exposure & concentration (by ticker)';
+  card.querySelector('.desc').textContent = 'This export has no sector tags, so collateral is grouped by ' +
+    'underlying ticker instead (strike × contracts × 100 per short put). Upload your full tracker workbook ' +
+    'for a sector-level view.';
+  const byTicker = {};
+  let total = 0;
+  data.shortPuts.forEach(p => {
+    const amt = p.strike * p.contracts * 100;
+    byTicker[p.ticker] = (byTicker[p.ticker] || 0) + amt;
+    total += amt;
+  });
+  const entries = Object.entries(byTicker).sort((a, b) => b[1] - a[1]);
+
+  function draw() {
+    const capNow = Number(document.getElementById('capInput').value) || 35;
+    const html = entries.map(([ticker, amt]) => {
+      const p = total > 0 ? (amt / total * 100) : 0;
+      const over = p > capNow;
+      return '<div class="bar-row"><div class="bar-label"><span>' + esc(ticker) + '</span>' +
+        '<span>' + p.toFixed(1) + '% · ' + money(amt) + '</span></div>' +
+        '<div class="bar-track"><div class="bar-fill ' + (over ? 'warn' : 'ok') + '" style="width:' + Math.min(p,100) + '%"></div></div>' +
+        (over ? '<span class="badge over">over cap</span>' : '') + '</div>';
+    }).join('');
+    document.getElementById('exposureBars').innerHTML = html +
+      '<div class="foot-note">Total put collateral: ' + money(total) + '. Covered-call collateral (held shares) not included here.</div>';
+  }
+  document.getElementById('capInput').oninput = draw;
+  draw();
+  card.style.display = entries.length ? 'block' : 'none';
+}
+
+function renderFidelityCoveredCalls(data) {
+  const card = document.getElementById('wheelCard');
+  card.querySelector('h2').textContent = 'Open short calls';
+  const descEl = card.querySelector('.desc');
+  if (data.asOf) descEl.textContent = 'From your Fidelity export, downloaded ' + data.asOf + '. "Covered" checks ' +
+    'whether you hold at least 100 shares per contract of that ticker in the same account.';
+
+  const sharesByAcctTicker = {};
+  data.equities.forEach(e => { sharesByAcctTicker[e.account + '|' + e.ticker] = e.shares; });
+  const costByAcctTicker = {};
+  data.equities.forEach(e => { costByAcctTicker[e.account + '|' + e.ticker] = e.avgCost; });
+
+  const calls = data.shortCalls.map(cCall => {
+    const key = cCall.account + '|' + cCall.ticker;
+    const sharesHeld = sharesByAcctTicker[key] || 0;
+    const covered = sharesHeld >= cCall.contracts * 100;
+    const basis = covered ? numOrNull(costByAcctTicker[key]) : null;
+    const premsh = numOrNull(cCall.avgCostBasis);
+    const basisAfter = (basis !== null && premsh !== null) ? (basis - premsh) : null;
+    const spot = covered ? numOrNull((data.equities.find(e => e.account === cCall.account && e.ticker === cCall.ticker) || {}).last) : null;
+    let assessment = covered ? '' : 'Not covered by shares in this account in this export';
+    let ifCalled = null;
+    if (covered && basisAfter !== null) {
+      ifCalled = (cCall.strike - basisAfter) * 100 * cCall.contracts;
+      if (cCall.strike < basis) {
+        assessment = '⚠️ Strike below basis — locks a loss if called';
+      } else if (spot !== null) {
+        const otm = (cCall.strike - spot) / spot * 100;
+        assessment = otm < 10 ? ('🟡 ' + otm.toFixed(0) + '% OTM — moderate call-away odds')
+                              : ('🔵 ' + otm.toFixed(0) + '% OTM — low call-away odds, yield only');
+      } else {
+        assessment = 'Strike above basis';
+      }
+    } else if (covered) {
+      assessment = 'Basis not available in this export for this lot';
+    }
+    return { ...cCall, dte: daysUntil(cCall.expiry), covered, basis, basisAfter, spot, ifCalled, assessment };
+  });
+
+  const body = calls.map(cCall => {
+    const belowBasis = (cCall.assessment || '').includes('⚠️');
+    const ifCalledClass = cCall.ifCalled === null ? '' : (cCall.ifCalled < 0 ? 'neg' : 'pos');
+    return '<tr><td>' + esc(cCall.ticker) + '</td><td>' + esc(cCall.account) + '</td>' +
+      '<td>' + (cCall.covered ? '✓ Yes' : 'No') + '</td>' +
+      '<td>' + (cCall.basis === null ? '—' : money(cCall.basis)) + '</td><td>' + money(cCall.strike) + '</td>' +
+      '<td>' + fmtDate(cCall.expiry) + '</td><td>' + (cCall.dte !== null ? cCall.dte + 'd' : '—') + '</td>' +
+      '<td>' + esc(cCall.contracts) + '</td><td>' + (cCall.avgCostBasis === null ? '—' : money(cCall.avgCostBasis)) + '</td>' +
+      '<td>' + (cCall.basisAfter === null ? '—' : money(cCall.basisAfter)) + '</td>' +
+      '<td>' + (cCall.spot === null ? '—' : money(cCall.spot)) + '</td>' +
+      '<td class="' + ifCalledClass + '">' + (cCall.ifCalled === null ? '—' : money(cCall.ifCalled)) + '</td>' +
+      '<td class="' + (belowBasis ? 'flag-itm' : 'flag-ok') + '">' + esc(cCall.assessment) + '</td></tr>';
+  }).join('');
+
+  // Re-purpose the existing wheel table's header row for "Covered" in place of "Shares".
+  const theadRow = card.querySelector('thead tr');
+  theadRow.innerHTML = '<th>Ticker</th><th>Acct</th><th>Covered</th><th>Basis</th><th>Strike</th><th>Expiry</th>' +
+    '<th>DTE</th><th>Contracts</th><th>Prem/sh</th><th>Basis after CC</th><th>Spot</th><th>If called P&amp;L</th><th>Assessment</th>';
+
+  document.getElementById('wheelBody').innerHTML = body ||
+    '<tr><td colspan="13" style="color:var(--muted);">No open short calls found in this export.</td></tr>';
+  card.style.display = calls.length ? 'block' : 'none';
+}
+
+function renderFidelityCash(data) {
+  const card = document.getElementById('cashCard');
+  if (!data.cash.length) { card.style.display = 'none'; return; }
+  let total = 0;
+  const body = data.cash.map(row => {
+    const v = Number(row.value) || 0;
+    total += v;
+    return '<tr><td>' + esc(row.account) + '</td><td>' + money(v) + '</td></tr>';
+  }).join('');
+  document.getElementById('cashBody').innerHTML = body +
+    '<tr><td><b>Total</b></td><td><b>' + money(total) + '</b></td></tr>';
+  card.style.display = 'block';
 }
 
 // --- section renderers -------------------------------------------------
@@ -561,14 +841,44 @@ function esc(v) {
 
 function renderAll() {
   document.getElementById('results').style.display = 'block';
-  const n = renderAssignmentRisk();
-  renderExposure();
-  renderHoldings();
-  renderEarnings();
-  renderWheel();
-  const sheetNames = workbook.SheetNames.join(', ');
-  document.getElementById('loadedSummary').textContent =
-    (n || 0) + ' open position(s) found · sheets in file: ' + sheetNames;
+  document.getElementById('earningsCard').style.display = 'none';
+  document.getElementById('cashCard').style.display = 'none';
+
+  const fid = detectFidelitySheet();
+  let n;
+  if (fid) {
+    const data = parseFidelityPositions(fid.sheetName, fid.header);
+    n = renderFidelityAssignment(data);
+    renderFidelityExposure(data);
+    renderFidelityHoldings(data);
+    renderFidelityCoveredCalls(data);
+    renderFidelityCash(data);
+    document.getElementById('loadedSummary').textContent =
+      (n || 0) + ' open short put(s), ' + data.shortCalls.length + ' short call(s), ' +
+      data.equities.length + ' holding(s) found' + (data.asOf ? ' · downloaded ' + data.asOf : '');
+  } else {
+    // reset any labels a previous Fidelity-format load may have overwritten
+    document.getElementById('assignmentCard').querySelector('.desc').textContent =
+      'Pulled straight from your Open Positions tab (your own EOD prices — this tool doesn\'t fetch live quotes). Sorted by cushion, tightest first.';
+    document.getElementById('exposureCard').querySelector('h2').textContent = 'Exposure & concentration';
+    document.getElementById('exposureCard').querySelector('.desc').textContent =
+      'Collateral committed to open short puts, grouped by sector (from your Cash Collateral tab). Set your own concentration cap below.';
+    document.getElementById('holdingsCard').querySelector('.desc').textContent =
+      'From your Stock Holdings tab — current shares, cost basis, and market value.';
+    document.getElementById('wheelCard').querySelector('h2').textContent = 'Open covered calls';
+    const wheelThead = document.getElementById('wheelCard').querySelector('thead tr');
+    wheelThead.innerHTML = '<th>Ticker</th><th>Acct</th><th>Shares</th><th>Basis</th><th>Strike</th><th>Expiry</th>' +
+      '<th>DTE</th><th>Contracts</th><th>Prem/sh</th><th>Basis after CC</th><th>Spot</th><th>If called P&amp;L</th><th>Assessment</th>';
+
+    n = renderAssignmentRisk();
+    renderExposure();
+    renderHoldings();
+    renderEarnings();
+    renderWheel();
+    const sheetNames = workbook.SheetNames.join(', ');
+    document.getElementById('loadedSummary').textContent =
+      (n || 0) + ' open position(s) found · sheets in file: ' + sheetNames;
+  }
 }
 </script>
 </body>

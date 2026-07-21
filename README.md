@@ -42,6 +42,21 @@ sizes, strikes, or account values. But an assignment-risk monitor and
 sector-concentration view *do* need that data, and that's not something to
 publish to a public GitHub Pages site.
 
+It accepts two different file formats and auto-detects which one you gave it:
+
+- **Your full tracker workbook** — reads Open Positions, Cash Collateral, Stock
+  Holdings, Earnings Watch, and Wheel Recovery.
+- **A quick Fidelity "Positions" export** (Positions page → Download → Excel,
+  no manual maintenance needed) — reads it as one flat sheet across every
+  account. Short puts become the assignment-risk table; short calls become
+  the covered-call table (flagged covered/not-covered by checking held
+  shares in the same account); equities become the holdings table; cash
+  sweep balances get their own summary. Sector tags don't exist in this
+  export, so concentration is grouped by ticker instead. Cushion/spot is
+  only shown for tickers you also hold as shares in the same export —
+  Fidelity's download doesn't include quotes for tickers you don't hold, so
+  that's left blank rather than guessed.
+
 Instead, `docs/analyzer.html` is a standalone page with no backend at all:
 
 - You upload your tracker `.xlsx` file through a file picker.
