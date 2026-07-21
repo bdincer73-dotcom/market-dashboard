@@ -64,6 +64,14 @@
   .cc-form button { background: var(--green); border:none; color:#fff; padding:7px 16px; border-radius:6px;
     font-weight:600; cursor:pointer; font-size:0.85rem; }
   .foot-note { font-size:0.72rem; color: var(--muted); margin-top:8px; }
+  .spots-box { background: rgba(232,163,61,0.06); border:1px solid var(--border); border-radius:8px;
+    padding:12px 14px; margin-bottom:12px; }
+  .spots-box .spots-title { font-size:0.8rem; color: var(--amber); font-weight:600; margin-bottom:8px; }
+  .spots-grid { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:10px; }
+  .spots-field { display:flex; align-items:center; gap:6px; font-size:0.82rem; }
+  .spots-field input { width:80px; }
+  .spots-box button { background: var(--green); border:none; color:#fff; padding:6px 14px; border-radius:6px;
+    font-weight:600; cursor:pointer; font-size:0.8rem; }
   #results { display:none; }
 </style>
 </head>
@@ -112,6 +120,7 @@
       <h2>Assignment risk — open positions</h2>
       <div class="desc">Pulled straight from your Open Positions tab (your own EOD prices — this tool doesn't
         fetch live quotes). Sorted by cushion, tightest first.</div>
+      <div id="missingSpotsBox"></div>
       <div class="tbl-scroll"><table>
         <thead><tr><th>Ticker</th><th>Type</th><th>Strike</th><th>Expiry</th><th>DTE</th><th>Contracts</th>
           <th>Current</th><th>Cushion</th><th>Cushion %</th><th>Flag</th></tr></thead>
@@ -194,6 +203,8 @@
 <script>
 let workbook = null;
 let parsedHoldings = [];
+let lastFidelityData = null;
+let manualSpotOverrides = {}; // ticker -> user-typed current price, in-memory only, cleared on clearAll()
 
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
@@ -207,7 +218,8 @@ dropZone.addEventListener('drop', e => {
 });
 
 function clearAll() {
-  workbook = null; parsedHoldings = [];
+  workbook = null; parsedHoldings = []; lastFidelityData = null; manualSpotOverrides = {};
+  document.getElementById('missingSpotsBox').innerHTML = '';
   document.getElementById('results').style.display = 'none';
   document.getElementById('errorBox').innerHTML = '';
   document.getElementById('fileStatus').textContent = 'or drag a .xlsx file here';
@@ -434,14 +446,16 @@ function renderFidelityHoldings(data) {
 function renderFidelityAssignment(data) {
   const card = document.getElementById('assignmentCard');
   card.querySelector('.desc').textContent = 'Short puts from your Fidelity export. "Spot" only shows when you also ' +
-    'hold that ticker as shares in this same export — Fidelity\'s Positions download doesn\'t include quotes for ' +
-    'tickers you don\'t hold, so cushion is left blank rather than guessed for those.';
+    'hold that ticker as shares in this same export, or you\'ve typed a price in below — Fidelity\'s Positions ' +
+    'download doesn\'t include quotes for tickers you don\'t hold, so cushion is left blank rather than guessed.';
   const spotByTicker = {};
   data.equities.forEach(e => { spotByTicker[e.ticker] = Number(e.last); });
 
   const positions = data.shortPuts.map(p => {
-    const spot = spotByTicker[p.ticker];
-    const hasSpot = spot !== undefined && !isNaN(spot);
+    const override = numOrNull(manualSpotOverrides[p.ticker]);
+    const fromHoldings = spotByTicker[p.ticker];
+    const spot = override !== null ? override : (fromHoldings !== undefined && !isNaN(fromHoldings) ? fromHoldings : null);
+    const hasSpot = spot !== null;
     const cushionAmt = hasSpot ? (spot - p.strike) : null;
     const cushionPct = hasSpot ? (cushionAmt / p.strike) : null;
     let flag = 'spot n/a', flagClass = 'flag-ok';
@@ -449,6 +463,7 @@ function renderFidelityAssignment(data) {
       if (spot < p.strike) { flag = '⚠️ ITM'; flagClass = 'flag-itm'; }
       else if (cushionPct < 0.05) { flag = 'Near'; flagClass = 'flag-near'; }
       else { flag = 'OK'; flagClass = 'flag-ok'; }
+      if (override !== null) flag += ' (typed)';
     }
     return { ...p, dte: daysUntil(p.expiry), current: hasSpot ? spot : null, cushionAmt, cushionPct, flag, flagClass };
   });
@@ -469,7 +484,42 @@ function renderFidelityAssignment(data) {
   document.getElementById('assignmentBody').innerHTML = body ||
     '<tr><td colspan="10" style="color:var(--muted);">No open short puts found in this export.</td></tr>';
   card.style.display = 'block';
+
+  renderMissingSpotsForm(data, spotByTicker);
   return positions.length;
+}
+
+// Compact form for typing in a current price for tickers this export has no
+// quote for (sold options on a name you don't also hold as shares). Values
+// live only in `manualSpotOverrides`, the same in-memory-only state as
+// everything else on this page — never written to storage, never sent
+// anywhere, gone on clear/reload.
+function renderMissingSpotsForm(data, spotByTicker) {
+  const box = document.getElementById('missingSpotsBox');
+  const missingTickers = [...new Set(
+    data.shortPuts.filter(p => spotByTicker[p.ticker] === undefined).map(p => p.ticker)
+  )].sort();
+  if (!missingTickers.length) { box.innerHTML = ''; return; }
+
+  const fields = missingTickers.map(t => {
+    const val = manualSpotOverrides[t] !== undefined ? manualSpotOverrides[t] : '';
+    return '<div class="spots-field"><label>' + esc(t) + '</label>' +
+      '<input type="number" step="0.01" class="num-input spot-override-input" data-ticker="' + esc(t) + '" value="' + esc(val) + '"></div>';
+  }).join('');
+
+  box.innerHTML = '<div class="spots-box">' +
+    '<div class="spots-title">' + missingTickers.length + ' ticker(s) with no quote in this export — type a current price to fill in cushion</div>' +
+    '<div class="spots-grid">' + fields + '</div>' +
+    '<button id="recalcSpotsBtn">Recalculate</button></div>';
+
+  document.getElementById('recalcSpotsBtn').onclick = () => {
+    box.querySelectorAll('.spot-override-input').forEach(input => {
+      const t = input.dataset.ticker;
+      if (input.value !== '') manualSpotOverrides[t] = input.value;
+      else delete manualSpotOverrides[t];
+    });
+    renderFidelityAssignment(lastFidelityData);
+  };
 }
 
 function renderFidelityExposure(data) {
@@ -848,6 +898,7 @@ function renderAll() {
   let n;
   if (fid) {
     const data = parseFidelityPositions(fid.sheetName, fid.header);
+    lastFidelityData = data;
     n = renderFidelityAssignment(data);
     renderFidelityExposure(data);
     renderFidelityHoldings(data);
@@ -857,7 +908,9 @@ function renderAll() {
       (n || 0) + ' open short put(s), ' + data.shortCalls.length + ' short call(s), ' +
       data.equities.length + ' holding(s) found' + (data.asOf ? ' · downloaded ' + data.asOf : '');
   } else {
-    // reset any labels a previous Fidelity-format load may have overwritten
+    // reset any labels/state a previous Fidelity-format load may have left behind
+    document.getElementById('missingSpotsBox').innerHTML = '';
+    lastFidelityData = null;
     document.getElementById('assignmentCard').querySelector('.desc').textContent =
       'Pulled straight from your Open Positions tab (your own EOD prices — this tool doesn\'t fetch live quotes). Sorted by cushion, tightest first.';
     document.getElementById('exposureCard').querySelector('h2').textContent = 'Exposure & concentration';
