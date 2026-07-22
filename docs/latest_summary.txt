@@ -1,4 +1,4 @@
-MARKET DASHBOARD — WEEKLY — 2026-07-22
+MARKET DASHBOARD — DAILY — 2026-07-22
 Regime: GREEN (normal risk)
 
 Why:
@@ -8,21 +8,22 @@ Bear Indicator: Watch (2/8)
   - At least one index CMF negative (min -0.20)
   - Net New Hi% below 2% (1.6%)
 
-CSP candidates: 3 pass all gates, 16 watch-only
-  - IREN $32.0 2026-08-21 (30D) -> 96.19% ann.
-  - DRAM $49.0 2026-08-21 (30D) -> 73.5% ann.
-  - ASML $1580.0 2026-08-21 (30D) -> 29.99% ann.
+CSP candidates: 4 pass all gates, 15 watch-only
+  - IREN $33.0 2026-08-21 (30D) -> 88.85% ann.
+  - DRAM $47.0 2026-08-21 (30D) -> 63.16% ann.
+  - ASML $1580.0 2026-08-21 (30D) -> 29.92% ann.
+  - XLK $165.0 2026-08-21 (30D) -> 17.03% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-07-21)
-  - sectors: EOD (obs 2026-07-21)
-  - volatility: EOD (obs 2026-07-21)
+  - breadth: EOD (obs 2026-07-22)
+  - sectors: EOD (obs 2026-07-22)
+  - volatility: EOD (obs 2026-07-22)
   - rates: EOD (obs 2026-07-20)
   - news: EOD (obs 2026-07-22)
   - earnings: EOD (obs 2026-07-22)
   - options_chain: EOD (obs 2026-07-22)
-  - bear_indicator: EOD (obs 2026-07-21)
+  - bear_indicator: STALE (obs 2026-07-21)
