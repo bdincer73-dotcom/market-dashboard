@@ -41,7 +41,7 @@ def _ma_position(close_series, label: str) -> str:
         return "Above both"
     if not above20 and not above50:
         return "Below both"
-    return "Mixed (above 50, below 20)" if above50 else "Mixed (above 20, below 50)"
+    return "Mixed (>50D, <20D)" if above50 else "Mixed (>20D, <50D)"
 
 
 def collect(breadth_payload: dict) -> Envelope:
