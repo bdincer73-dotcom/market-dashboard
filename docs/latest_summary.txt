@@ -1,29 +1,29 @@
-MARKET DASHBOARD — WEEKLY — 2026-07-25
-Regime: RED (protect cash)
+MARKET DASHBOARD — DAILY — 2026-07-27
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: 20D breadth Δ-7.8 and 50D breadth Δ-5.4 both deteriorating (both ≤ -2.0 threshold)
-  - RED: 200D breadth weakening (Δ-1.4, any decline triggers this)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Watch (3/8)
   - At least one index CMF negative (min -0.25)
   - Net New Hi% below 2% (1.0%)
   - SPY below both 20D and 50D SMA
 
-CSP candidates: 2 pass all gates, 17 watch-only
-  - INTC $90.0 2026-08-28 (34D) -> 100.79% ann.
-  - ASML $1720.0 2026-08-28 (34D) -> 65.54% ann.
+CSP candidates: 3 pass all gates, 16 watch-only
+  - ASML $1545.0 2026-08-28 (32D) -> 56.4% ann.
+  - DRAM $40.0 2026-08-28 (32D) -> 50.76% ann.
+  - INTC $75.0 2026-08-28 (32D) -> 45.62% ann.
 
 Earnings scheduled: 14 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-07-24)
-  - sectors: EOD (obs 2026-07-23)
-  - volatility: EOD (obs 2026-07-23)
+  - breadth: EOD (obs 2026-07-27)
+  - sectors: EOD (obs 2026-07-27)
+  - volatility: EOD (obs 2026-07-27)
   - rates: EOD (obs 2026-07-23)
-  - news: EOD (obs 2026-07-25)
-  - earnings: EOD (obs 2026-07-25)
-  - options_chain: EOD (obs 2026-07-25)
-  - bear_indicator: EOD (obs 2026-07-23)
+  - news: EOD (obs 2026-07-27)
+  - earnings: EOD (obs 2026-07-27)
+  - options_chain: EOD (obs 2026-07-27)
+  - bear_indicator: STALE (obs 2026-07-23)
