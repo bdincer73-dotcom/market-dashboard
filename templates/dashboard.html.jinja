@@ -108,6 +108,7 @@
         <div class="legend-row"><span class="badge Watch">🟡 Watch</span><span class="desc">2-3 of 8 tripped</span></div>
         <div class="legend-row"><span class="badge Cautionary">🟠 Cautionary</span><span class="desc">4-5 of 8 tripped</span></div>
         <div class="legend-row"><span class="badge Bearish">🔴 Bearish</span><span class="desc">6-8 of 8 tripped</span></div>
+        <div class="notes" style="margin-top:6px;">CMF (Chaikin Money Flow) is a -1 to +1 oscillator, not a percentage — positive means net buying pressure, negative means net selling. It's a different kind of metric from the % stats next to it (breadth, Net New Hi%), which measure share of market.</div>
       </div>
       <div class="legend-group">
         <h3>Data freshness (next to every tile, and in the footer)</h3>
@@ -135,7 +136,7 @@
     <div class="grid bear-grid" style="margin-bottom:12px;">
       {% for t in ['SPY','VOO','IWV','QQQ','RSP'] %}
         {% if bear_indicator.payload.cmf[t] is defined %}
-        <div class="metric"><span>{{ t }} CMF(20)</span><span class="v">{{ bear_indicator.payload.cmf[t] }}</span></div>
+        <div class="metric"><span>{{ t }} CMF(20)</span><span class="v">{{ bear_indicator.payload.cmf[t] }} <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         {% endif %}
       {% endfor %}
       <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">{{ bear_indicator.payload.spy_vs_ma }}</span></div>
