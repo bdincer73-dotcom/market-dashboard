@@ -1,4 +1,4 @@
-MARKET DASHBOARD — DAILY — 2026-07-27
+MARKET DASHBOARD — DAILY — 2026-07-28
 Regime: GREEN (normal risk)
 
 Why:
@@ -10,20 +10,20 @@ Bear Indicator: Watch (3/8)
   - SPY below both 20D and 50D SMA
 
 CSP candidates: 3 pass all gates, 16 watch-only
-  - ASML $1545.0 2026-08-28 (32D) -> 56.4% ann.
-  - DRAM $40.0 2026-08-28 (32D) -> 50.76% ann.
-  - INTC $75.0 2026-08-28 (32D) -> 45.62% ann.
+  - DRAM $40.0 2026-08-28 (31D) -> 66.52% ann.
+  - ASML $1485.0 2026-08-28 (31D) -> 57.48% ann.
+  - INTC $70.0 2026-08-28 (31D) -> 39.19% ann.
 
-Earnings scheduled: 14 tickers in next 60D
+Earnings scheduled: 12 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-07-27)
-  - sectors: EOD (obs 2026-07-27)
-  - volatility: EOD (obs 2026-07-27)
-  - rates: EOD (obs 2026-07-23)
-  - news: EOD (obs 2026-07-27)
-  - earnings: EOD (obs 2026-07-27)
-  - options_chain: EOD (obs 2026-07-27)
+  - breadth: EOD (obs 2026-07-28)
+  - sectors: EOD (obs 2026-07-28)
+  - volatility: EOD (obs 2026-07-28)
+  - rates: EOD (obs 2026-07-24)
+  - news: EOD (obs 2026-07-28)
+  - earnings: EOD (obs 2026-07-28)
+  - options_chain: EOD (obs 2026-07-28)
   - bear_indicator: STALE (obs 2026-07-23)
