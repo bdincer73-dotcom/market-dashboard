@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Dashboard — 2026-08-01 (Daily)</title>
+<title>Market Dashboard — 2026-08-01 (Weekly)</title>
 <style>
   :root {
     --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
@@ -92,11 +92,11 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Daily run · 2026-08-01 · generated 2026-08-01T02:32:58+00:00</div>
+      <div class="sub">Weekly run · 2026-08-01 · generated 2026-08-01T02:45:46+00:00</div>
     </div>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <a href="analyzer.html" class="analyzer-link">🔒 Portfolio Analyzer</a>
-      <div class="badge RED">RED protect cash</div>
+      <div class="badge GREEN">GREEN normal risk</div>
     </div>
   </header>
 
@@ -142,50 +142,83 @@
 
   
   <div class="card" style="margin-bottom:24px;">
-    <h2>Bear Indicator (weekly) <span class="status-pill STALE">STALE</span>
+    <h2>Bear Indicator (weekly) <span class="status-pill EOD">EOD</span>
       
-      <span class="badge Watch">🟡 Watch — 3/8</span>
+      <span class="badge Watch">🟡 Watch — 2/8</span>
       
     </h2>
     <div class="notes" style="margin-bottom:8px;">
-      As of 2026-07-25 — carried forward from the last Saturday run; recomputes weekly.
+      As of 2026-08-01 — computed fresh this run.
     </div>
     
     <div class="grid bear-grid" style="margin-bottom:12px;">
       
         
-        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.1798 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.0983 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>VOO CMF(20)</span><span class="v">0.0875 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>VOO CMF(20)</span><span class="v">0.0981 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1391 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1713 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0343 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0056 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>RSP CMF(20)</span><span class="v">-0.2462 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>RSP CMF(20)</span><span class="v">-0.0906 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
-      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Below both</span></div>
-      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Mixed (above 50, below 20)</span></div>
-      <div class="metric"><span>% above 50D / 200D</span><span class="v">59.6% / 65.8%</span></div>
-      <div class="metric"><span>Net New Hi %</span><span class="v">1.0%</span></div>
+      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Above both</span></div>
+      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">62.8% / 68.4%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">0.2%</span></div>
     </div>
     <ul class="reasons">
-      <li>At least one index CMF negative (min -0.25)</li><li>Net New Hi% below 2% (1.0%)</li><li>SPY below both 20D and 50D SMA</li>
+      <li>At least one index CMF negative (min -0.09)</li><li>Net New Hi% below 2% (0.2%)</li>
     </ul>
     <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
     
   </div>
   
 
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>FOMO Fragility Index (weekly) <span class="status-pill EOD">EOD</span>
+      
+      <span class="badge fomo-building">🟡 Building — 59.1/100</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-08-01 — computed fresh this run.
+      Euphoria/top companion to the Bear Indicator above — catches a levered, crowded, over-extended market, not a downtrend.
+    </div>
+    
+    <div class="fomo-axes">
+      <div class="fomo-axis">
+        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>20.0/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:20.0%; background:var(--red);"></div></div>
+      </div>
+      <div class="fomo-axis">
+        <div class="label"><span>Leverage <span style="opacity:0.6;">(40%)</span></span><b>77.0/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:77.0%; background:var(--red);"></div></div>
+      </div>
+      <div class="fomo-axis">
+        <div class="label"><span>Crowding <span style="opacity:0.6;">(25%)</span></span><b>85.1/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:85.1%; background:var(--red);"></div></div>
+      </div>
+    </div>
+    <ul class="reasons">
+      <li>Stretch: 5.9% of NDX names >2σ above 50D mean, 65.3% above 200DMA, RSI(14) 39.9</li><li>Leverage: margin debt +49.0% YoY, net investor credit -1.06$T, VXN 26.0 (as of Jun-26 for margin/credit)</li><li>Crowding: top 10 NDX names = 65.4% of index weight, AI-hardware basket correlation 0.70</li><li>2 of 3 axes individually above the 70 hot threshold</li>
+    </ul>
+    <div class="fomo-action"><b>Action:</b> Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).</div>
+    <div class="notes" style="margin-top:8px;">margin/credit data as of Jun-26 (FINRA publishes ~4 weeks after month-end - this lags the price-based axes). NDX weights from slickcharts.com, an unofficial aggregator, not the exchange or Invesco directly.</div>
+    
+  </div>
   
 
   <div class="grid">
@@ -198,7 +231,7 @@
       <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
       
       <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
-        <span class="v">0.6 / 0.0 / -0.2</span></div>
+        <span class="v">0.0 / 0.0 / 0.0</span></div>
       
       
     </div>
@@ -360,7 +393,7 @@
     <h2>Why this regime</h2>
     <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
     <ul class="reasons">
-      <li>RED: 200D breadth weakening (Δ-0.2, any decline triggers this)</li>
+      <li>GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped</li>
     </ul>
   </div>
 
@@ -1118,45 +1151,50 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:32:27+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:45:13+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:32:28+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:45:14+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:32:29+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:45:14+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-07-30 · retrieved 2026-08-01T02:32:29+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-30 · retrieved 2026-08-01T02:45:15+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:32:47+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:45:31+00:00</span>
     </div>
     
     <div class="health-row">
       <span>earnings · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:32:50+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:45:34+00:00</span>
     </div>
     
     <div class="health-row">
       <span>options_chain · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:32:58+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-01 · retrieved 2026-08-01T02:45:41+00:00</span>
     </div>
     
     <div class="health-row">
       <span>bear_indicator · yfinance + breadth module</span>
-      <span><span class="status-pill STALE">STALE</span> obs 2026-07-23 · retrieved 2026-07-25T14:40:11+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:45:41+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260801T023136Z</div>
+    <div class="health-row">
+      <span>fomo_fragility · slickcharts (NDX weights, unofficial) + yfinance (OHLCV/VXN) + finra.org (margin, official)</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-07-31 · retrieved 2026-08-01T02:45:46+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v1 · run_id 20260801T024445Z</div>
   </footer>
 </div>
 </body>

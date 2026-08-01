@@ -1,13 +1,19 @@
-MARKET DASHBOARD — DAILY — 2026-08-01
-Regime: RED (protect cash)
+MARKET DASHBOARD — WEEKLY — 2026-08-01
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: 200D breadth weakening (Δ-0.2, any decline triggers this)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
-Bear Indicator: Watch (3/8)
-  - At least one index CMF negative (min -0.25)
-  - Net New Hi% below 2% (1.0%)
-  - SPY below both 20D and 50D SMA
+Bear Indicator: Watch (2/8)
+  - At least one index CMF negative (min -0.09)
+  - Net New Hi% below 2% (0.2%)
+
+FOMO Fragility Index: 🟡 Building (59.1/100)
+  - Stretch: 5.9% of NDX names >2σ above 50D mean, 65.3% above 200DMA, RSI(14) 39.9
+  - Leverage: margin debt +49.0% YoY, net investor credit -1.06$T, VXN 26.0 (as of Jun-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.4% of index weight, AI-hardware basket correlation 0.70
+  - 2 of 3 axes individually above the 70 hot threshold
+  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
 CSP candidates: 3 pass all gates, 15 watch-only
   - BE $190.0 2026-09-04 (34D) -> 128.43% ann.
@@ -26,4 +32,5 @@ Data health:
   - news: EOD (obs 2026-08-01)
   - earnings: EOD (obs 2026-08-01)
   - options_chain: EOD (obs 2026-08-01)
-  - bear_indicator: STALE (obs 2026-07-23)
+  - bear_indicator: EOD (obs 2026-07-31)
+  - fomo_fragility: EOD (obs 2026-07-31)
