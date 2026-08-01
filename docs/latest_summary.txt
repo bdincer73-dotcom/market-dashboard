@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-07-31
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-08-01
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: 200D breadth weakening (Δ-0.2, any decline triggers this)
 
 Bear Indicator: Watch (3/8)
   - At least one index CMF negative (min -0.25)
@@ -10,9 +10,9 @@ Bear Indicator: Watch (3/8)
   - SPY below both 20D and 50D SMA
 
 CSP candidates: 3 pass all gates, 15 watch-only
-  - INTC $88.0 2026-09-04 (35D) -> 80.94% ann.
-  - BE $160.0 2026-09-04 (35D) -> 60.94% ann.
-  - SOFI $14.5 2026-09-04 (35D) -> 28.05% ann.
+  - BE $190.0 2026-09-04 (34D) -> 128.43% ann.
+  - DRAM $45.0 2026-09-04 (34D) -> 82.3% ann.
+  - SOFI $15.0 2026-09-04 (34D) -> 32.92% ann.
 
 Earnings scheduled: 5 tickers in next 60D
 
@@ -22,8 +22,8 @@ Data health:
   - breadth: EOD (obs 2026-07-31)
   - sectors: EOD (obs 2026-07-31)
   - volatility: EOD (obs 2026-07-31)
-  - rates: EOD (obs 2026-07-29)
-  - news: EOD (obs 2026-07-31)
-  - earnings: EOD (obs 2026-07-31)
-  - options_chain: EOD (obs 2026-07-31)
+  - rates: EOD (obs 2026-07-30)
+  - news: EOD (obs 2026-08-01)
+  - earnings: EOD (obs 2026-08-01)
+  - options_chain: EOD (obs 2026-08-01)
   - bear_indicator: STALE (obs 2026-07-23)
