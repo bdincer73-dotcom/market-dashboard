@@ -28,6 +28,18 @@
   .badge.Cautionary  { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
   .badge.Watch       { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
   .badge.Constructive{ background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fomo-green    { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fomo-building { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
+  .badge.fomo-elevated { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.fomo-reduce   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .fomo-axes { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-bottom:12px; }
+  .fomo-axis { background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
+  .fomo-axis .label { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-bottom:6px; }
+  .fomo-axis .label b { color:var(--text); font-weight:600; }
+  .fomo-axis .bar-track { background: var(--border); border-radius:999px; height:8px; overflow:hidden; }
+  .fomo-axis .bar-fill { height:100%; border-radius:999px; }
+  .fomo-action { font-size:0.85rem; padding:10px 12px; border-radius:8px; margin-top:8px;
+    background: rgba(255,255,255,0.03); border:1px solid var(--border); }
   .news-ticker { margin-bottom: 14px; }
   .news-ticker:last-child { margin-bottom: 0; }
   .news-ticker .ticker-label { font-weight:700; font-size:0.85rem; margin-bottom:4px; }
@@ -111,6 +123,14 @@
         <div class="notes" style="margin-top:6px;">CMF (Chaikin Money Flow) is a -1 to +1 oscillator, not a percentage — positive means net buying pressure, negative means net selling. It's a different kind of metric from the % stats next to it (breadth, Net New Hi%), which measure share of market.</div>
       </div>
       <div class="legend-group">
+        <h3>FOMO Fragility Index (weekly only, euphoria/top companion to the Bear Indicator)</h3>
+        <div class="legend-row"><span class="badge fomo-green">🟢 No euphoria</span><span class="desc">composite &lt; 40</span></div>
+        <div class="legend-row"><span class="badge fomo-building">🟡 Building</span><span class="desc">composite 40-59</span></div>
+        <div class="legend-row"><span class="badge fomo-elevated">🟠 Elevated FOMO</span><span class="desc">composite 60-74</span></div>
+        <div class="legend-row"><span class="badge fomo-reduce">🔴 REDUCE — fragile top</span><span class="desc">composite ≥ 75 AND at least 2 of the 3 axes individually above 70</span></div>
+        <div class="notes" style="margin-top:6px;">Three axes — Stretch (price over-extension), Leverage (margin debt + suppressed vol), Crowding (concentration + correlation) — combine into a 0-100 composite. RED requires the conjunction of a high composite AND multiple hot axes at once: "expensive but stable" alone won't trigger it, by design.</div>
+      </div>
+      <div class="legend-group">
         <h3>Data freshness (next to every tile, and in the footer)</h3>
         <div class="legend-row"><span class="status-pill LIVE">LIVE / EOD</span><span class="desc">fresh, usable data for this run</span></div>
         <div class="legend-row"><span class="status-pill STALE">STALE</span><span class="desc">retrieved, but older than expected for this run</span></div>
@@ -150,6 +170,45 @@
     <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
     {% else %}
     <div class="notes">{{ bear_indicator.notes }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if fomo_indicator is not none %}
+  <div class="card" style="margin-bottom:24px;">
+    <h2>FOMO Fragility Index (weekly) <span class="status-pill {{ fomo_indicator.status }}">{{ fomo_indicator.status }}</span>
+      {% if fomo_indicator.status != 'FAILED' %}
+      <span class="badge fomo-{{ fomo_band }}">{{ fomo_signal }} — {{ fomo_calc.score }}/100</span>
+      {% else %}
+      <span class="status-pill FAILED">FAILED</span>
+      {% endif %}
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of {{ fomo_as_of }}{% if fomo_indicator.status == 'STALE' %} — carried forward from the last Saturday run; recomputes weekly{% else %} — computed fresh this run{% endif %}.
+      Euphoria/top companion to the Bear Indicator above — catches a levered, crowded, over-extended market, not a downtrend.
+    </div>
+    {% if fomo_indicator.status != 'FAILED' %}
+    <div class="fomo-axes">
+      <div class="fomo-axis">
+        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>{{ fomo_calc.axis_stretch }}/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ fomo_calc.axis_stretch }}%; background:var(--red);"></div></div>
+      </div>
+      <div class="fomo-axis">
+        <div class="label"><span>Leverage <span style="opacity:0.6;">(40%)</span></span><b>{{ fomo_calc.axis_leverage }}/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ fomo_calc.axis_leverage }}%; background:var(--red);"></div></div>
+      </div>
+      <div class="fomo-axis">
+        <div class="label"><span>Crowding <span style="opacity:0.6;">(25%)</span></span><b>{{ fomo_calc.axis_crowding }}/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:{{ fomo_calc.axis_crowding }}%; background:var(--red);"></div></div>
+      </div>
+    </div>
+    <ul class="reasons">
+      {% for r in fomo_reasons %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+    <div class="fomo-action"><b>Action:</b> {{ fomo_calc.action }}</div>
+    <div class="notes" style="margin-top:8px;">{{ fomo_indicator.notes }}</div>
+    {% else %}
+    <div class="notes">{{ fomo_indicator.notes }}</div>
     {% endif %}
   </div>
   {% endif %}

@@ -17,8 +17,11 @@ from datetime import datetime, timezone
 
 import yaml
 
-from src import store, scoring, publish, candidate_scoring
-from src.collectors import breadth, sectors, volatility, rates, news, bear_indicator, earnings, options_chain
+from src import store, scoring, publish, candidate_scoring, fomo_scoring
+from src.collectors import (
+    breadth, sectors, volatility, rates, news, bear_indicator, earnings,
+    options_chain, fomo_fragility,
+)
 from src.envelope import Envelope
 
 CONFIG_PATH = __file__.replace("src/main.py", "config/thresholds.yaml")
@@ -80,11 +83,24 @@ def run(run_type: str) -> dict:
         bear_as_of = run_date
         print(f"  - {bear_env.module}: {bear_env.status} (obs {bear_env.observation_date}) {bear_env.notes}")
 
+    # FOMO Fragility Index - companion euphoria/top indicator to the Bear
+    # Indicator, same weekly-only cadence and same carry-forward pattern.
+    fomo_env = None
+    fomo_band = fomo_signal = None
+    fomo_reasons = []
+    fomo_calc = {}
+    fomo_as_of = None
+    if run_type == "weekly":
+        fomo_env = fomo_fragility.collect()
+        fomo_as_of = run_date
+        print(f"  - {fomo_env.module}: {fomo_env.status} (obs {fomo_env.observation_date}) {fomo_env.notes}")
+
     with store.connect() as conn:
         snapshot_ids = []
         prev_breadth = store.get_previous_snapshot(conn, "breadth", run_id)
         prev_sectors = store.get_previous_snapshot(conn, "sectors", run_id)
         prev_bear = store.get_previous_snapshot(conn, "bear_indicator", run_id) if bear_env else None
+        prev_fomo = store.get_previous_snapshot(conn, "fomo_fragility", run_id) if fomo_env else None
 
         for e in core_envelopes:
             snapshot_ids.append(store.save_snapshot(conn, run_id, e))
@@ -136,6 +152,43 @@ def run(run_type: str) -> dict:
                 bear_reasons = carried_calc["reasons"]
                 bear_as_of = carried_calc["run_id"][:4] + "-" + carried_calc["run_id"][4:6] + "-" + carried_calc["run_id"][6:8]
 
+        if fomo_env is not None:
+            fomo_snapshot_id = store.save_snapshot(conn, run_id, fomo_env)
+            if fomo_env.status != "FAILED":
+                fomo_band, fomo_signal, fomo_reasons, fomo_calc = fomo_scoring.score(
+                    fomo_env.payload, prev_fomo["payload"] if prev_fomo else None
+                )
+                store.save_calculated(
+                    conn, run_id, run_type, fomo_scoring.CALC_VERSION,
+                    [fomo_snapshot_id], fomo_signal, fomo_reasons, fomo_calc,
+                )
+        else:
+            # Not a weekly run - carry the most recent weekly reading forward
+            # (same rationale as the Bear Indicator carry-forward above).
+            carried_fomo_snapshot = store.get_previous_snapshot(conn, "fomo_fragility", run_id)
+            carried_fomo_calc = store.get_latest_calculated(conn, fomo_scoring.CALC_VERSION)
+            if carried_fomo_snapshot and carried_fomo_calc:
+                fomo_env = Envelope(
+                    module=carried_fomo_snapshot["module"],
+                    source=carried_fomo_snapshot["source"],
+                    retrieved_at=carried_fomo_snapshot["retrieved_at"],
+                    observation_date=carried_fomo_snapshot["observation_date"],
+                    status="STALE",
+                    payload=carried_fomo_snapshot["payload"],
+                    notes=(
+                        f"Carried forward - FOMO Fragility Index only recomputes on the weekly "
+                        f"(Saturday) run. Next fresh reading this coming Saturday."
+                    ),
+                )
+                fomo_band = carried_fomo_calc["payload"]["band"]
+                fomo_signal = carried_fomo_calc["regime"]
+                fomo_reasons = carried_fomo_calc["reasons"]
+                fomo_calc = carried_fomo_calc["payload"]
+                fomo_as_of = (
+                    carried_fomo_calc["run_id"][:4] + "-" + carried_fomo_calc["run_id"][4:6]
+                    + "-" + carried_fomo_calc["run_id"][6:8]
+                )
+
         earnings_snapshot_id = store.save_snapshot(conn, run_id, earnings_env)
         options_snapshot_id = store.save_snapshot(conn, run_id, options_env)
         if candidates is not None:
@@ -156,6 +209,8 @@ def run(run_type: str) -> dict:
     health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env]
     if bear_env is not None:
         health_envelopes.append(bear_env)
+    if fomo_env is not None:
+        health_envelopes.append(fomo_env)
 
     context = {
         "run_type": run_type,
@@ -180,6 +235,12 @@ def run(run_type: str) -> dict:
         "bear_reasons": bear_reasons,
         "bear_as_of": bear_as_of,
         "bear_icon": bear_indicator.SIGNAL_ICON.get(bear_signal) if bear_signal else None,
+        "fomo_indicator": fomo_env,
+        "fomo_band": fomo_band,
+        "fomo_signal": fomo_signal,
+        "fomo_reasons": fomo_reasons,
+        "fomo_calc": fomo_calc,
+        "fomo_as_of": fomo_as_of,
         "module_health": build_module_health(health_envelopes),
         "calc_version": scoring.CALC_VERSION,
     }

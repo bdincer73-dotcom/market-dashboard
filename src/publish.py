@@ -74,6 +74,16 @@ def render_summary(context: dict, run_type: str, run_date: str) -> str:
         else:
             lines.append(f"Bear Indicator: FAILED - {context['bear_indicator'].notes}")
 
+    if context.get("fomo_indicator") is not None:
+        lines.append("")
+        if context["fomo_indicator"].status != "FAILED":
+            lines.append(f"FOMO Fragility Index: {context['fomo_signal']} ({context['fomo_calc']['score']}/100)")
+            for r in context["fomo_reasons"]:
+                lines.append(f"  - {r}")
+            lines.append(f"  Action: {context['fomo_calc']['action']}")
+        else:
+            lines.append(f"FOMO Fragility Index: FAILED - {context['fomo_indicator'].notes}")
+
     candidates = context.get("candidates")
     if candidates is not None:
         lines.append("")

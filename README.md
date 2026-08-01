@@ -1,4 +1,4 @@
-# Market Dashboard — R1 (market core) + news + Bear Indicator + R2 (CSP candidates) + Portfolio Analyzer
+# Market Dashboard — R1 (market core) + news + Bear Indicator + FOMO Fragility Index + R2 (CSP candidates) + Portfolio Analyzer
 
 Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 + 11 sector SPDRs), volatility (VIX/VIX9D/VIX3M/VVIX), and Treasury yields
@@ -16,6 +16,15 @@ Additions on top of R1:
   into an 0-8 composite score and a Bearish/Cautionary/Watch/Constructive
   signal. Uses the tracker's original 8-condition formula (see "Known
   limitations" for why, not the newer formula from the 7/11 row).
+- **FOMO Fragility Index** (weekly only, Saturday run) — a companion to the
+  Bear Indicator for the opposite failure mode: not a rolling-over downtrend,
+  but a levered, crowded, over-extended top where one shock forces a
+  liquidation cascade. Three axes — Stretch (price over-extension), Leverage
+  (margin debt + suppressed vol), Crowding (concentration + correlation) —
+  combine into a 0-100 composite and a green/building/elevated/reduce band.
+  RED only fires on the *conjunction* of a high composite AND at least 2 of
+  the 3 axes individually hot — "expensive but stable" alone won't trip it.
+  See "FOMO Fragility Index" section below for data sources and caveats.
 - **R2 — CSP candidate screening** (daily): earnings calendar joins (Finnhub),
   put option chains (yfinance, free — see caveat below), and the blueprint's
   return/liquidity/event gates. One representative strike per watchlist
@@ -100,17 +109,59 @@ If a sheet or column it expects isn't present, that section just says so
 and skips itself rather than guessing — same "honest gaps" rule as the rest
 of this project.
 
+## FOMO Fragility Index
+
+Companion to the weekly Bear Indicator, but for the opposite failure mode:
+the Bear Indicator catches a downtrend (flows/breadth rolling over); this
+catches a levered, crowded, over-extended *top* where one shock forces a
+liquidation cascade. Runs weekly (Saturday), same cadence and carry-forward
+behavior as the Bear Indicator — daily runs show the last Saturday's reading
+marked STALE with an "as of" date rather than letting the card disappear.
+
+Three axes, all from free sources (no paid feeds):
+- **Stretch** (35% weight) — % of Nasdaq-100 names >2σ above their 50D mean,
+  % above 200DMA, NDX RSI(14), and a breadth-divergence flag (index near its
+  20D high while participation is falling week over week).
+- **Leverage** (40% weight, the heaviest — "the fuel") — FINRA margin debt
+  YoY growth, net investor credit balance, and VXN (low VXN = suppressed vol
+  = short-gamma fragility, where a small shock forces forced-selling).
+- **Crowding** (25% weight) — top-10 Nasdaq-100 weight concentration and the
+  average pairwise correlation of a fixed AI-hardware basket (MU, WDC, STX,
+  COHR, GLW, MRVL, TER, LRCX, CLS, ASML).
+
+The three axes combine into a 0-100 composite, banded green (<40) / building
+(40-59) / elevated (60-74) / reduce (≥75). The reduce/RED band additionally
+requires a **conjunction guard**: at least 2 of the 3 axes must individually
+be above 70, not just the composite crossing 75. This is deliberate — a
+market that's merely expensive but otherwise stable shouldn't trip the same
+alarm as one that's expensive, levered, *and* crowded all at once.
+
+Data sources and caveats:
+- **Nasdaq-100 constituents + weights**: [slickcharts.com/nasdaq100](https://www.slickcharts.com/nasdaq100)
+  — an unofficial aggregator, not the exchange or Invesco directly. Used
+  because neither Wikipedia (which breadth.py already scrapes for the S&P
+  500) nor Invesco's own site publishes a scrapable full constituent+weight
+  table for the Nasdaq-100 without a paid feed or a JS-rendered page.
+- **Margin debt / free credit balances**: [FINRA's public margin statistics page](https://www.finra.org/rules-guidance/key-topics/margin-accounts/margin-statistics)
+  — official, government-mandated disclosure, but inherently ~4 weeks lagged
+  (published mid-month for the prior month). The dashboard always shows the
+  "as of" month next to the Leverage axis so this lag is never mistaken for
+  a live number.
+- **VXN, NDX RSI/20D-high, AI-hardware basket**: yfinance, same library used
+  throughout this project.
+
 ## Pipeline
 
 ```
 source → validate → normalize → calculate → score → publish → archive
 ```
 
-- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates, news, bear_indicator, earnings, options_chain)
+- `src/collectors/` — one module per data source (breadth, sectors, volatility, rates, news, bear_indicator, fomo_fragility, earnings, options_chain)
 - `config/watchlist.yaml` — tickers for news and R2 candidate scoring
 - `src/envelope.py` — the common shape every collector returns (status LIVE/EOD/STALE/FAILED)
 - `src/store.py` — SQLite archive: raw snapshots (immutable) + calculated signals, so every number is traceable and any past dashboard is reproducible
 - `src/scoring.py` — regime rules engine, thresholds in `config/thresholds.yaml`
+- `src/fomo_scoring.py` — FOMO Fragility axis scores, composite, and conjunction-guard banding
 - `src/candidate_scoring.py` — R2 CSP candidate gates (return/liquidity/event), same thresholds file
 - `src/publish.py` + `templates/dashboard.html.jinja` — renders `docs/latest.html` (+ `docs/index.html`, identical) and an immutable `docs/archive/<date>-<run_type>.html`. Output lives in `docs/` specifically so GitHub Pages can serve it directly.
 - `src/main.py` — orchestrates the full run
@@ -253,3 +304,12 @@ number with no LIVE/EOD/STALE/FAILED label).
 - **News** only covers headlines (Finnhub free tier) - no sentiment scoring,
   no filtering by relevance to your specific position (strike/expiry), and
   it's not joined to the earnings calendar yet (that's still R2).
+- **FOMO Fragility Index's Nasdaq-100 weights** come from slickcharts.com, an
+  unofficial aggregator - not the exchange or Invesco directly. If its page
+  structure changes, that axis's inputs (and the whole module) will show
+  FAILED rather than silently using stale or guessed weights.
+- **FOMO Fragility Index's margin/leverage data** is inherently ~4 weeks
+  stale (FINRA's own publication lag), on top of the weekly-only cadence -
+  so on any given day you may be looking at margin data that's 4-8 weeks
+  old. The "as of" month is always shown next to the Leverage axis so this
+  is never mistaken for current.
