@@ -279,6 +279,20 @@
       <div class="notes">{{ sectors.notes }}</div>
       {% endif %}
     </div>
+
+    <div class="card">
+      <h2>Consumer Sentiment (UMich) <span class="status-pill {{ consumer_sentiment.status }}">{{ consumer_sentiment.status }}</span></h2>
+      {% if consumer_sentiment.status != 'FAILED' %}
+      <div class="metric"><span>Index level</span><span class="v">{{ consumer_sentiment.payload.level }}</span></div>
+      <div class="metric"><span>MoM change</span>
+        <span class="v {{ 'pos' if consumer_sentiment.payload.change_mom and consumer_sentiment.payload.change_mom > 0 else 'neg' }}">{{ '%+.1f'|format(consumer_sentiment.payload.change_mom) if consumer_sentiment.payload.change_mom is not none else '—' }}</span></div>
+      <div class="metric"><span>YoY change</span>
+        <span class="v {{ 'pos' if consumer_sentiment.payload.change_yoy and consumer_sentiment.payload.change_yoy > 0 else 'neg' }}">{{ '%+.1f'|format(consumer_sentiment.payload.change_yoy) if consumer_sentiment.payload.change_yoy is not none else '—' }}</span></div>
+      <div class="notes">As of {{ consumer_sentiment.payload.as_of_month }} — UMich survey, monthly, FRED-delayed ~1 month by source request.</div>
+      {% else %}
+      <div class="notes">{{ consumer_sentiment.notes }}</div>
+      {% endif %}
+    </div>
   </div>
 
   <div class="card" style="margin-bottom:24px;">
