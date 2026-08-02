@@ -1,4 +1,4 @@
-MARKET DASHBOARD — WEEKLY — 2026-08-01
+MARKET DASHBOARD — DAILY — 2026-08-02
 Regime: GREEN (normal risk)
 
 Why:
@@ -16,9 +16,9 @@ FOMO Fragility Index: 🟡 Building (59.1/100)
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
 CSP candidates: 3 pass all gates, 15 watch-only
-  - BE $190.0 2026-09-04 (34D) -> 128.43% ann.
-  - DRAM $45.0 2026-09-04 (34D) -> 82.3% ann.
-  - SOFI $15.0 2026-09-04 (34D) -> 32.92% ann.
+  - BE $190.0 2026-09-04 (33D) -> 132.32% ann.
+  - DRAM $45.0 2026-09-04 (33D) -> 84.8% ann.
+  - SOFI $15.0 2026-09-04 (33D) -> 33.92% ann.
 
 Earnings scheduled: 5 tickers in next 60D
 
@@ -29,8 +29,9 @@ Data health:
   - sectors: EOD (obs 2026-07-31)
   - volatility: EOD (obs 2026-07-31)
   - rates: EOD (obs 2026-07-30)
-  - news: EOD (obs 2026-08-01)
-  - earnings: EOD (obs 2026-08-01)
-  - options_chain: EOD (obs 2026-08-01)
-  - bear_indicator: EOD (obs 2026-07-31)
-  - fomo_fragility: EOD (obs 2026-07-31)
+  - news: EOD (obs 2026-08-02)
+  - earnings: EOD (obs 2026-08-02)
+  - options_chain: EOD (obs 2026-08-02)
+  - consumer_sentiment: EOD (obs 2026-06-01)
+  - bear_indicator: STALE (obs 2026-07-31)
+  - fomo_fragility: STALE (obs 2026-07-31)
