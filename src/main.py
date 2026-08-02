@@ -20,7 +20,7 @@ import yaml
 from src import store, scoring, publish, candidate_scoring, fomo_scoring
 from src.collectors import (
     breadth, sectors, volatility, rates, news, bear_indicator, earnings,
-    options_chain, fomo_fragility,
+    options_chain, fomo_fragility, consumer_sentiment,
 )
 from src.envelope import Envelope
 
@@ -58,8 +58,9 @@ def run(run_type: str) -> dict:
     news_env = news.collect()
     earnings_env = earnings.collect()
     options_env = options_chain.collect()
+    sentiment_env = consumer_sentiment.collect()
 
-    core_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env]
+    core_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env, sentiment_env]
     for e in core_envelopes:
         print(f"  - {e.module}: {e.status} (obs {e.observation_date}) {e.notes}")
 
@@ -206,7 +207,7 @@ def run(run_type: str) -> dict:
         "d200": calc_payload.get("breadth_delta_200d"),
     }
 
-    health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env]
+    health_envelopes = [breadth_env, sectors_env, vol_env, rates_env, news_env, earnings_env, options_env, sentiment_env]
     if bear_env is not None:
         health_envelopes.append(bear_env)
     if fomo_env is not None:
@@ -225,6 +226,7 @@ def run(run_type: str) -> dict:
         "sectors": sectors_env,
         "volatility": vol_env,
         "rates": rates_env,
+        "consumer_sentiment": sentiment_env,
         "news": news_env,
         "earnings": earnings_env,
         "options_chain": options_env,
