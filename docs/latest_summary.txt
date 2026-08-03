@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-08-02
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-08-03
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: RSP underperforming SPY over 5D (-1.65 pts < -0.5 threshold)
 
 Bear Indicator: Watch (2/8)
   - At least one index CMF negative (min -0.09)
@@ -15,23 +15,25 @@ FOMO Fragility Index: 🟡 Building (59.1/100)
   - 2 of 3 axes individually above the 70 hot threshold
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-CSP candidates: 3 pass all gates, 15 watch-only
-  - BE $190.0 2026-09-04 (33D) -> 132.32% ann.
-  - DRAM $45.0 2026-09-04 (33D) -> 84.8% ann.
-  - SOFI $15.0 2026-09-04 (33D) -> 33.92% ann.
+CSP candidates: 5 pass all gates, 13 watch-only
+  - GLW $140.0 2026-09-04 (32D) -> 97.2% ann.
+  - APLD $25.0 2026-09-04 (32D) -> 73.0% ann.
+  - INTC $82.0 2026-09-04 (32D) -> 68.85% ann.
+  - BE $160.0 2026-09-11 (39D) -> 58.32% ann.
+  - SOFI $15.5 2026-09-04 (32D) -> 24.28% ann.
 
 Earnings scheduled: 5 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-07-31)
-  - sectors: EOD (obs 2026-07-31)
-  - volatility: EOD (obs 2026-07-31)
+  - breadth: EOD (obs 2026-08-03)
+  - sectors: EOD (obs 2026-08-03)
+  - volatility: EOD (obs 2026-08-03)
   - rates: EOD (obs 2026-07-30)
-  - news: EOD (obs 2026-08-02)
-  - earnings: EOD (obs 2026-08-02)
-  - options_chain: EOD (obs 2026-08-02)
+  - news: EOD (obs 2026-08-03)
+  - earnings: EOD (obs 2026-08-03)
+  - options_chain: EOD (obs 2026-08-03)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-07-31)
   - fomo_fragility: STALE (obs 2026-07-31)
