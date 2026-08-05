@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-08-04
+MARKET DASHBOARD — DAILY — 2026-08-05
 Regime: RED (protect cash)
 
 Why:
-  - RED: RSP underperforming SPY over 5D (-3.14 pts < -0.5 threshold)
+  - RED: RSP underperforming SPY over 5D (-4.07 pts < -0.5 threshold)
 
 Bear Indicator: Watch (2/8)
   - At least one index CMF negative (min -0.09)
@@ -15,28 +15,27 @@ FOMO Fragility Index: 🟡 Building (59.1/100)
   - 2 of 3 axes individually above the 70 hot threshold
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-CSP candidates: 8 pass all gates, 10 watch-only
-  - APLD $30.0 2026-09-04 (31D) -> 120.88% ann.
-  - STX $825.0 2026-09-11 (38D) -> 106.82% ann.
-  - LRCX $300.0 2026-09-04 (31D) -> 98.9% ann.
-  - BE $180.0 2026-09-04 (31D) -> 74.44% ann.
-  - DRAM $45.0 2026-09-04 (31D) -> 59.13% ann.
-  - GLW $130.0 2026-09-04 (31D) -> 41.84% ann.
-  - INTC $80.0 2026-09-04 (31D) -> 38.12% ann.
-  - SOFI $16.5 2026-09-04 (31D) -> 26.4% ann.
+CSP candidates: 7 pass all gates, 11 watch-only
+  - BE $200.0 2026-09-04 (30D) -> 100.37% ann.
+  - LRCX $300.0 2026-09-04 (30D) -> 99.85% ann.
+  - APLD $25.0 2026-09-04 (30D) -> 54.51% ann.
+  - GLW $140.0 2026-09-04 (30D) -> 54.32% ann.
+  - DRAM $45.0 2026-09-04 (30D) -> 54.07% ann.
+  - INTC $83.0 2026-09-04 (30D) -> 43.68% ann.
+  - SOFI $16.5 2026-09-11 (37D) -> 21.52% ann.
 
 Earnings scheduled: 5 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-04)
-  - sectors: EOD (obs 2026-08-04)
-  - volatility: EOD (obs 2026-08-04)
-  - rates: EOD (obs 2026-07-31)
-  - news: EOD (obs 2026-08-04)
-  - earnings: EOD (obs 2026-08-04)
-  - options_chain: EOD (obs 2026-08-04)
+  - breadth: EOD (obs 2026-08-05)
+  - sectors: EOD (obs 2026-08-05)
+  - volatility: EOD (obs 2026-08-05)
+  - rates: EOD (obs 2026-08-03)
+  - news: EOD (obs 2026-08-05)
+  - earnings: EOD (obs 2026-08-05)
+  - options_chain: EOD (obs 2026-08-05)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-07-31)
   - fomo_fragility: STALE (obs 2026-07-31)
