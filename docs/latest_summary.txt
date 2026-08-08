@@ -4,10 +4,9 @@ Regime: RED (protect cash)
 Why:
   - RED: RSP underperforming SPY over 5D (-1.15 pts < -0.5 threshold)
 
-Bear Indicator: Watch (3/8)
+Bear Indicator: Watch (2/8)
   - Avg core CMF weak (0.011)
   - At least one index CMF negative (min -0.01)
-  - Flows decelerated sharply vs prior week (0.01 < 60% of 0.09)
 
 FOMO Fragility Index: 🟠 Elevated FOMO (69.1/100)
   - Stretch: 15.0% of NDX names >2σ above 50D mean, 74.0% above 200DMA, RSI(14) 59.7
