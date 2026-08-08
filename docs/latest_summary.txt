@@ -1,24 +1,27 @@
-MARKET DASHBOARD — DAILY — 2026-08-07
+MARKET DASHBOARD — WEEKLY — 2026-08-08
 Regime: RED (protect cash)
 
 Why:
-  - RED: RSP underperforming SPY over 5D (-1.18 pts < -0.5 threshold)
+  - RED: RSP underperforming SPY over 5D (-1.15 pts < -0.5 threshold)
 
-Bear Indicator: Watch (2/8)
-  - At least one index CMF negative (min -0.09)
-  - Net New Hi% below 2% (0.2%)
+Bear Indicator: Watch (3/8)
+  - Avg core CMF weak (0.011)
+  - At least one index CMF negative (min -0.01)
+  - Flows decelerated sharply vs prior week (0.01 < 60% of 0.09)
 
-FOMO Fragility Index: 🟡 Building (59.1/100)
-  - Stretch: 5.9% of NDX names >2σ above 50D mean, 65.3% above 200DMA, RSI(14) 39.9
-  - Leverage: margin debt +49.0% YoY, net investor credit -1.06$T, VXN 26.0 (as of Jun-26 for margin/credit)
-  - Crowding: top 10 NDX names = 65.4% of index weight, AI-hardware basket correlation 0.70
+FOMO Fragility Index: 🟠 Elevated FOMO (69.1/100)
+  - Stretch: 15.0% of NDX names >2σ above 50D mean, 74.0% above 200DMA, RSI(14) 59.7
+  - Leverage: margin debt +49.0% YoY, net investor credit -1.06$T, VXN 22.8 (as of Jun-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.7% of index weight, AI-hardware basket correlation 0.69
   - 2 of 3 axes individually above the 70 hot threshold
-  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
+  Action: Actively raise cash. Close the most collateral-heavy / lowest-cushion puts. Trim convex lottery-ticket positions. Do NOT average down.
 
-CSP candidates: 1 pass all gates, 17 watch-only
-  - BE $175.0 2026-09-11 (35D) -> 53.63% ann.
+CSP candidates: 3 pass all gates, 15 watch-only
+  - BE $195.0 2026-09-11 (34D) -> 86.82% ann.
+  - DRAM $45.0 2026-09-11 (34D) -> 50.58% ann.
+  - SOFI $17.0 2026-09-11 (34D) -> 31.57% ann.
 
-Earnings scheduled: 4 tickers in next 60D
+Earnings scheduled: 5 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
@@ -26,10 +29,10 @@ Data health:
   - breadth: EOD (obs 2026-08-07)
   - sectors: EOD (obs 2026-08-07)
   - volatility: EOD (obs 2026-08-07)
-  - rates: EOD (obs 2026-08-05)
-  - news: EOD (obs 2026-08-07)
-  - earnings: EOD (obs 2026-08-07)
-  - options_chain: EOD (obs 2026-08-07)
+  - rates: EOD (obs 2026-08-06)
+  - news: EOD (obs 2026-08-08)
+  - earnings: EOD (obs 2026-08-08)
+  - options_chain: EOD (obs 2026-08-08)
   - consumer_sentiment: EOD (obs 2026-06-01)
-  - bear_indicator: STALE (obs 2026-07-31)
-  - fomo_fragility: STALE (obs 2026-07-31)
+  - bear_indicator: EOD (obs 2026-08-07)
+  - fomo_fragility: EOD (obs 2026-08-07)
