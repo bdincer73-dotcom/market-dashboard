@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-08-13
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-08-14
+Regime: AMBER (selective)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - AMBER: breadth mixed (20D Δ-1.6, between the -2.0/-1.0 stable-vs-deteriorating bounds)
 
 Bear Indicator: Watch (2/8)
   - Avg core CMF weak (0.011)
@@ -16,32 +16,32 @@ FOMO Fragility Index: 🟠 Elevated FOMO (69.1/100)
   Action: Actively raise cash. Close the most collateral-heavy / lowest-cushion puts. Trim convex lottery-ticket positions. Do NOT average down.
 
 CSP candidates: 13 pass all gates, 5 watch-only
-  - VRT $280.0 2026-09-18 (36D) -> 60.65% ann.
-  - APLD $28.0 2026-09-18 (36D) -> 60.47% ann.
-  - BE $200.0 2026-09-18 (36D) -> 48.26% ann.
-  - GLW $150.0 2026-09-18 (36D) -> 46.1% ann.
-  - CLS $300.0 2026-09-18 (36D) -> 34.81% ann.
-  - CRWV $95.0 2026-09-18 (36D) -> 34.69% ann.
-  - WDC $400.0 2026-09-18 (36D) -> 33.41% ann.
-  - INTC $90.0 2026-09-18 (36D) -> 32.9% ann.
-  - LRCX $280.0 2026-09-18 (36D) -> 28.35% ann.
-  - DRAM $45.0 2026-09-18 (36D) -> 23.88% ann.
-  - ASML $1670.0 2026-09-18 (36D) -> 21.16% ann.
-  - SOFI $16.0 2026-09-18 (36D) -> 16.48% ann.
-  - XLK $170.0 2026-09-18 (36D) -> 6.68% ann.
+  - APLD $28.0 2026-09-18 (35D) -> 70.77% ann.
+  - COHR $310.0 2026-09-18 (35D) -> 65.26% ann.
+  - BE $200.0 2026-09-18 (35D) -> 51.1% ann.
+  - WDC $450.0 2026-09-18 (35D) -> 48.27% ann.
+  - CRWV $92.5 2026-09-18 (35D) -> 44.87% ann.
+  - LRCX $310.0 2026-09-18 (35D) -> 44.41% ann.
+  - INTC $92.5 2026-09-18 (35D) -> 36.87% ann.
+  - GLW $145.0 2026-09-18 (35D) -> 36.18% ann.
+  - DRAM $50.0 2026-09-18 (35D) -> 36.08% ann.
+  - VRT $250.0 2026-09-18 (35D) -> 23.44% ann.
+  - ASML $1660.0 2026-09-18 (35D) -> 20.04% ann.
+  - SOFI $16.0 2026-09-18 (35D) -> 16.29% ann.
+  - XLK $180.0 2026-09-18 (35D) -> 14.25% ann.
 
 Earnings scheduled: 3 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-13)
-  - sectors: EOD (obs 2026-08-13)
-  - volatility: EOD (obs 2026-08-13)
-  - rates: EOD (obs 2026-08-11)
-  - news: EOD (obs 2026-08-13)
-  - earnings: EOD (obs 2026-08-13)
-  - options_chain: EOD (obs 2026-08-13)
+  - breadth: EOD (obs 2026-08-14)
+  - sectors: EOD (obs 2026-08-14)
+  - volatility: EOD (obs 2026-08-14)
+  - rates: EOD (obs 2026-08-12)
+  - news: EOD (obs 2026-08-14)
+  - earnings: EOD (obs 2026-08-14)
+  - options_chain: EOD (obs 2026-08-14)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-08-07)
   - fomo_fragility: STALE (obs 2026-08-07)
