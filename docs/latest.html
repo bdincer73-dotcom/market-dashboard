@@ -95,7 +95,7 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Weekly run · 2026-08-18 · generated 2026-08-18T02:50:42+00:00</div>
+      <div class="sub">Weekly run · 2026-08-18 · generated 2026-08-18T02:57:38+00:00</div>
     </div>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <a href="analyzer.html" class="analyzer-link">🔒 Portfolio Analyzer</a>
@@ -189,7 +189,7 @@
       <div class="metric"><span>Net New Hi %</span><span class="v">2.0%</span></div>
     </div>
     <ul class="reasons">
-      <li>Avg core CMF weak (-0.001)</li><li>At least one index CMF negative (min -0.03)</li><li>%>50DMA dropped >5pts vs prior week (70.6% -> 62.5%)</li>
+      <li>Avg core CMF weak (-0.001)</li><li>At least one index CMF negative (min -0.03)</li><li>Flows decelerated sharply vs prior week (-0.00 < 60% of -0.00)</li>
     </ul>
     <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
     
@@ -200,7 +200,7 @@
   <div class="card" style="margin-bottom:24px;">
     <h2>FOMO Fragility Index (weekly) <span class="status-pill EOD">EOD</span>
       
-      <span class="badge fomo-elevated">🟠 Elevated FOMO — 63.4/100</span>
+      <span class="badge fomo-building">🟡 Building — 58.1/100</span>
       
     </h2>
     <div class="notes" style="margin-bottom:8px;">
@@ -210,8 +210,8 @@
     
     <div class="fomo-axes">
       <div class="fomo-axis">
-        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>50.9/100</b></div>
-        <div class="bar-track"><div class="bar-fill" style="width:50.9%; background:var(--red);"></div></div>
+        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>35.9/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:35.9%; background:var(--red);"></div></div>
       </div>
       <div class="fomo-axis">
         <div class="label"><span>Leverage <span style="opacity:0.6;">(40%)</span></span><b>62.7/100</b></div>
@@ -223,9 +223,9 @@
       </div>
     </div>
     <ul class="reasons">
-      <li>Stretch: 2.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 73.9, breadth diverging (index near 20D high, participation falling)</li><li>Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 21.5 (as of Jul-26 for margin/credit)</li><li>Crowding: top 10 NDX names = 64.5% of index weight, AI-hardware basket correlation 0.68</li>
+      <li>Stretch: 2.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 73.9</li><li>Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 21.5 (as of Jul-26 for margin/credit)</li><li>Crowding: top 10 NDX names = 64.5% of index weight, AI-hardware basket correlation 0.68</li>
     </ul>
-    <div class="fomo-action"><b>Action:</b> Actively raise cash. Close the most collateral-heavy / lowest-cushion puts. Trim convex lottery-ticket positions. Do NOT average down.</div>
+    <div class="fomo-action"><b>Action:</b> Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).</div>
     <div class="notes" style="margin-top:8px;">margin/credit data as of Jul-26 (FINRA publishes ~4 weeks after month-end - this lags the price-based axes). NDX weights from slickcharts.com, an unofficial aggregator, not the exchange or Invesco directly.</div>
     
   </div>
@@ -235,7 +235,7 @@
   <div class="card" style="margin-bottom:24px;">
     <h2>Fed Liquidity Indicator (weekly) <span class="status-pill EOD">EOD</span>
       
-      <span class="badge fedliq-contracting">CONTRACTING — 0.0/100</span>
+      <span class="badge fedliq-contracting">CONTRACTING — 32.4/100</span>
       
     </h2>
     <div class="notes" style="margin-bottom:8px;">
@@ -253,9 +253,9 @@
       </tr>
       <tr>
         <td>Treasury General Account</td>
-        <td>$963950.0B</td>
-        <td class="neg">+56626.0B</td>
-        <td>+207732.0B</td>
+        <td>$964.0B</td>
+        <td class="neg">+56.7B</td>
+        <td>+207.8B</td>
       </tr>
       <tr>
         <td>ON RRP</td>
@@ -266,25 +266,25 @@
       <tr>
         <td>Bank reserves</td>
         
-        <td>$2944.059T</td>
-        <td class="neg">-49290.0B</td>
-        <td>-198662.0B</td>
+        <td>$2.944T</td>
+        <td class="neg">-49.2B</td>
+        <td>-198.6B</td>
         
       </tr>
       <tr>
         <td><b>Net Liquidity</b></td>
-        <td><b>$-957.191T</b></td>
-        <td class="neg"><b>-56613.7B</b></td>
-        <td class="neg"><b>-207715.7B</b></td>
+        <td><b>$5.795T</b></td>
+        <td class="neg"><b>-44.3B</b></td>
+        <td class="neg"><b>-191.4B</b></td>
       </tr>
     </table>
     
     <div class="notes" style="margin-bottom:10px;">4-week Net Liquidity trend (oldest → newest):
-      $-749.475T (2026-07-15) → $-822.876T (2026-07-22) → $-904.040T (2026-07-29) → $-900.577T (2026-08-05) → $-957.191T (2026-08-12)
+      $5.987T (2026-07-15) → $5.917T (2026-07-22) → $5.825T (2026-07-29) → $5.840T (2026-08-05) → $5.795T (2026-08-12)
     </div>
     
     <ul class="reasons">
-      <li>Net Liquidity -56614B this week (Fed assets +11B, TGA +56626B, ON RRP -1B)</li><li>4-week Net Liquidity trend: -207716B</li><li>Bank reserves: -49290B this week, -198662B over 4 weeks</li><li>Drain looks TGA-driven, not Fed QT: TGA +207732B over 4 weeks vs Fed assets +17B - can reverse quickly once Treasury spends the cash back out.</li>
+      <li>Net Liquidity -44B this week (Fed assets +11B, TGA +57B, ON RRP -1B)</li><li>4-week Net Liquidity trend: -191B</li><li>Bank reserves: -49B this week, -199B over 4 weeks</li><li>Drain looks TGA-driven, not Fed QT: TGA +208B over 4 weeks vs Fed assets +17B - can reverse quickly once Treasury spends the cash back out.</li>
     </ul>
     <div class="fomo-action" style="margin-top:8px;"><b>High-beta/AI impact:</b> Headwind for high-beta/AI-adjacent names - contracting liquidity has historically coincided with multiple compression concentrated in the most rate- and duration-sensitive, high-multiple growth names, even when breadth still looks fine.</div>
     <div class="fomo-action" style="margin-top:8px;"><b>CSP sizing implication:</b> Reduce CSP aggressiveness: favor lower-beta / higher-quality underlyings, wider (lower-delta) strikes, and smaller size - even if breadth/technicals still look fine. Contracting liquidity is a reason to lean more conservative than the regime call alone would suggest.</div>
@@ -424,9 +424,9 @@
           <td>8</td>
           <td>XLC</td>
           <td class="neg">-1.89</td>
-          <td class="neg">-0.39</td>
-          <td class="pos">0.15</td>
-          <td class="neg">-3.97</td>
+          <td class="neg">-0.9</td>
+          <td class="pos">0.02</td>
+          <td class="neg">-4.1</td>
         </tr>
         
         <tr>
@@ -1289,60 +1289,60 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:37+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:56:51+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:39+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:56:53+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:39+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:56:53+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-14 · retrieved 2026-08-18T02:49:40+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-14 · retrieved 2026-08-18T02:56:54+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:49:59+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:57:11+00:00</span>
     </div>
     
     <div class="health-row">
       <span>earnings · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:50:03+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:57:14+00:00</span>
     </div>
     
     <div class="health-row">
       <span>options_chain · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:50:22+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:57:27+00:00</span>
     </div>
     
     <div class="health-row">
       <span>consumer_sentiment · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-06-01 · retrieved 2026-08-18T02:50:23+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-06-01 · retrieved 2026-08-18T02:57:27+00:00</span>
     </div>
     
     <div class="health-row">
       <span>bear_indicator · yfinance + breadth module</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:50:24+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:57:28+00:00</span>
     </div>
     
     <div class="health-row">
       <span>fomo_fragility · slickcharts (NDX weights, unofficial) + yfinance (OHLCV/VXN) + finra.org (margin, official)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:50:41+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:57:37+00:00</span>
     </div>
     
     <div class="health-row">
       <span>fed_liquidity · FRED (WALCL, WTREGEN, RRPONTSYD, WRESBAL)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-12 · retrieved 2026-08-18T02:50:42+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-12 · retrieved 2026-08-18T02:57:38+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v2 · run_id 20260818T024818Z</div>
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v2 · run_id 20260818T025555Z</div>
   </footer>
 </div>
 </body>
