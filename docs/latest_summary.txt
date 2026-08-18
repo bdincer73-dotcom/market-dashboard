@@ -1,8 +1,9 @@
-MARKET DASHBOARD — DAILY — 2026-08-17
+MARKET DASHBOARD — DAILY — 2026-08-18
 Regime: RED (protect cash)
 
 Why:
-  - RED: 200D breadth weakening (Δ-0.8, any decline triggers this)
+  - RED: 20D breadth Δ-5.3 and 50D breadth Δ-6.5 both deteriorating (both ≤ -2.0 threshold)
+  - RED: 200D breadth weakening (Δ-2.1 ≤ -2.0 threshold)
 
 Bear Indicator: Watch (3/8)
   - Avg core CMF weak (-0.014)
@@ -15,7 +16,20 @@ FOMO Fragility Index: 🟠 Elevated FOMO (64.1/100)
   - Crowding: top 10 NDX names = 64.7% of index weight, AI-hardware basket correlation 0.68
   Action: Actively raise cash. Close the most collateral-heavy / lowest-cushion puts. Trim convex lottery-ticket positions. Do NOT average down.
 
-CSP candidates: 0 pass all gates, 0 watch-only
+CSP candidates: 13 pass all gates, 6 watch-only
+  - LRCX $330.0 2026-09-18 (31D) -> 63.05% ann.
+  - STX $910.0 2026-09-18 (31D) -> 58.48% ann.
+  - CRWV $95.0 2026-09-18 (31D) -> 56.76% ann.
+  - APLD $27.0 2026-09-18 (31D) -> 54.07% ann.
+  - BE $190.0 2026-09-18 (31D) -> 47.59% ann.
+  - COHR $300.0 2026-09-18 (31D) -> 45.33% ann.
+  - WDC $460.0 2026-09-18 (31D) -> 40.31% ann.
+  - CLS $300.0 2026-09-18 (31D) -> 35.13% ann.
+  - INTC $90.0 2026-09-18 (31D) -> 32.05% ann.
+  - VRT $260.0 2026-09-18 (31D) -> 31.16% ann.
+  - DRAM $50.0 2026-09-18 (31D) -> 27.32% ann.
+  - GLW $145.0 2026-09-18 (31D) -> 24.44% ann.
+  - SOFI $16.0 2026-09-18 (31D) -> 16.19% ann.
 
 Earnings scheduled: 4 tickers in next 60D
 
@@ -25,10 +39,10 @@ Data health:
   - breadth: EOD (obs 2026-08-17)
   - sectors: EOD (obs 2026-08-17)
   - volatility: EOD (obs 2026-08-17)
-  - rates: EOD (obs 2026-08-13)
-  - news: EOD (obs 2026-08-17)
-  - earnings: EOD (obs 2026-08-17)
-  - options_chain: EOD (obs 2026-08-17)
+  - rates: EOD (obs 2026-08-14)
+  - news: EOD (obs 2026-08-18)
+  - earnings: EOD (obs 2026-08-18)
+  - options_chain: EOD (obs 2026-08-18)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-08-14)
   - fomo_fragility: STALE (obs 2026-08-14)
