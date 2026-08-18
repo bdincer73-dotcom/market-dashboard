@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Dashboard — 2026-08-18 (Daily)</title>
+<title>Market Dashboard — 2026-08-18 (Weekly)</title>
 <style>
   :root {
     --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
@@ -95,11 +95,11 @@
   <header>
     <div>
       <h1>Daily + Weekly Market Dashboard</h1>
-      <div class="sub">Daily run · 2026-08-18 · generated 2026-08-18T02:46:33+00:00</div>
+      <div class="sub">Weekly run · 2026-08-18 · generated 2026-08-18T02:50:42+00:00</div>
     </div>
     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <a href="analyzer.html" class="analyzer-link">🔒 Portfolio Analyzer</a>
-      <div class="badge RED">RED protect cash</div>
+      <div class="badge GREEN">GREEN normal risk</div>
     </div>
   </header>
 
@@ -152,44 +152,44 @@
 
   
   <div class="card" style="margin-bottom:24px;">
-    <h2>Bear Indicator (weekly) <span class="status-pill STALE">STALE</span>
+    <h2>Bear Indicator (weekly) <span class="status-pill EOD">EOD</span>
       
       <span class="badge Watch">🟡 Watch — 3/8</span>
       
     </h2>
     <div class="notes" style="margin-bottom:8px;">
-      As of 2026-08-15 — carried forward from the last Saturday run; recomputes weekly.
+      As of 2026-08-18 — computed fresh this run.
     </div>
     
     <div class="grid bear-grid" style="margin-bottom:12px;">
       
         
-        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.0002 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.0127 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>VOO CMF(20)</span><span class="v">-0.0241 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>VOO CMF(20)</span><span class="v">-0.0275 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>IWV CMF(20)</span><span class="v">-0.0374 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>IWV CMF(20)</span><span class="v">-0.0062 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0071 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>QQQ CMF(20)</span><span class="v">0.0152 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
         
-        <div class="metric"><span>RSP CMF(20)</span><span class="v">0.1736 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        <div class="metric"><span>RSP CMF(20)</span><span class="v">0.2062 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
         
       
       <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Above both</span></div>
       <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
-      <div class="metric"><span>% above 50D / 200D</span><span class="v">70.6% / 74.4%</span></div>
-      <div class="metric"><span>Net New Hi %</span><span class="v">3.4%</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">62.5% / 71.5%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">2.0%</span></div>
     </div>
     <ul class="reasons">
-      <li>Avg core CMF weak (-0.014)</li><li>At least one index CMF negative (min -0.04)</li><li>Flows decelerated sharply vs prior week (-0.01 < 60% of 0.01)</li>
+      <li>Avg core CMF weak (-0.001)</li><li>At least one index CMF negative (min -0.03)</li><li>%>50DMA dropped >5pts vs prior week (70.6% -> 62.5%)</li>
     </ul>
     <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
     
@@ -198,39 +198,99 @@
 
   
   <div class="card" style="margin-bottom:24px;">
-    <h2>FOMO Fragility Index (weekly) <span class="status-pill STALE">STALE</span>
+    <h2>FOMO Fragility Index (weekly) <span class="status-pill EOD">EOD</span>
       
-      <span class="badge fomo-elevated">🟠 Elevated FOMO — 64.1/100</span>
+      <span class="badge fomo-elevated">🟠 Elevated FOMO — 63.4/100</span>
       
     </h2>
     <div class="notes" style="margin-bottom:8px;">
-      As of 2026-08-15 — carried forward from the last Saturday run; recomputes weekly.
+      As of 2026-08-18 — computed fresh this run.
       Euphoria/top companion to the Bear Indicator above — catches a levered, crowded, over-extended market, not a downtrend.
     </div>
     
     <div class="fomo-axes">
       <div class="fomo-axis">
-        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>51.3/100</b></div>
-        <div class="bar-track"><div class="bar-fill" style="width:51.3%; background:var(--red);"></div></div>
+        <div class="label"><span>Stretch <span style="opacity:0.6;">(35%)</span></span><b>50.9/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:50.9%; background:var(--red);"></div></div>
       </div>
       <div class="fomo-axis">
-        <div class="label"><span>Leverage <span style="opacity:0.6;">(40%)</span></span><b>64.0/100</b></div>
-        <div class="bar-track"><div class="bar-fill" style="width:64.0%; background:var(--red);"></div></div>
+        <div class="label"><span>Leverage <span style="opacity:0.6;">(40%)</span></span><b>62.7/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:62.7%; background:var(--red);"></div></div>
       </div>
       <div class="fomo-axis">
-        <div class="label"><span>Crowding <span style="opacity:0.6;">(25%)</span></span><b>82.2/100</b></div>
-        <div class="bar-track"><div class="bar-fill" style="width:82.2%; background:var(--red);"></div></div>
+        <div class="label"><span>Crowding <span style="opacity:0.6;">(25%)</span></span><b>81.9/100</b></div>
+        <div class="bar-track"><div class="bar-fill" style="width:81.9%; background:var(--red);"></div></div>
       </div>
     </div>
     <ul class="reasons">
-      <li>Stretch: 11.0% of NDX names >2σ above 50D mean, 74.0% above 200DMA, RSI(14) 70.5</li><li>Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 20.7 (as of Jul-26 for margin/credit)</li><li>Crowding: top 10 NDX names = 64.7% of index weight, AI-hardware basket correlation 0.68</li>
+      <li>Stretch: 2.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 73.9, breadth diverging (index near 20D high, participation falling)</li><li>Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 21.5 (as of Jul-26 for margin/credit)</li><li>Crowding: top 10 NDX names = 64.5% of index weight, AI-hardware basket correlation 0.68</li>
     </ul>
     <div class="fomo-action"><b>Action:</b> Actively raise cash. Close the most collateral-heavy / lowest-cushion puts. Trim convex lottery-ticket positions. Do NOT average down.</div>
-    <div class="notes" style="margin-top:8px;">Carried forward - FOMO Fragility Index only recomputes on the weekly (Saturday) run. Next fresh reading this coming Saturday.</div>
+    <div class="notes" style="margin-top:8px;">margin/credit data as of Jul-26 (FINRA publishes ~4 weeks after month-end - this lags the price-based axes). NDX weights from slickcharts.com, an unofficial aggregator, not the exchange or Invesco directly.</div>
     
   </div>
   
 
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Fed Liquidity Indicator (weekly) <span class="status-pill EOD">EOD</span>
+      
+      <span class="badge fedliq-contracting">CONTRACTING — 0.0/100</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-08-18 — computed fresh this run.
+      Macro overlay for CSP sizing — independent of breadth/technicals; a Contracting reading can justify smaller/safer sizing even when the regime call above looks fine.
+    </div>
+    
+    <table style="margin-bottom:12px;">
+      <tr><th>Component</th><th>Latest</th><th>1-week move</th><th>4-week move</th></tr>
+      <tr>
+        <td>Fed balance sheet</td>
+        <td>$6.760T</td>
+        <td class="pos">+11.4B</td>
+        <td>+17.0B</td>
+      </tr>
+      <tr>
+        <td>Treasury General Account</td>
+        <td>$963950.0B</td>
+        <td class="neg">+56626.0B</td>
+        <td>+207732.0B</td>
+      </tr>
+      <tr>
+        <td>ON RRP</td>
+        <td>$0.7B</td>
+        <td class="pos">-0.9B</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Bank reserves</td>
+        
+        <td>$2944.059T</td>
+        <td class="neg">-49290.0B</td>
+        <td>-198662.0B</td>
+        
+      </tr>
+      <tr>
+        <td><b>Net Liquidity</b></td>
+        <td><b>$-957.191T</b></td>
+        <td class="neg"><b>-56613.7B</b></td>
+        <td class="neg"><b>-207715.7B</b></td>
+      </tr>
+    </table>
+    
+    <div class="notes" style="margin-bottom:10px;">4-week Net Liquidity trend (oldest → newest):
+      $-749.475T (2026-07-15) → $-822.876T (2026-07-22) → $-904.040T (2026-07-29) → $-900.577T (2026-08-05) → $-957.191T (2026-08-12)
+    </div>
+    
+    <ul class="reasons">
+      <li>Net Liquidity -56614B this week (Fed assets +11B, TGA +56626B, ON RRP -1B)</li><li>4-week Net Liquidity trend: -207716B</li><li>Bank reserves: -49290B this week, -198662B over 4 weeks</li><li>Drain looks TGA-driven, not Fed QT: TGA +207732B over 4 weeks vs Fed assets +17B - can reverse quickly once Treasury spends the cash back out.</li>
+    </ul>
+    <div class="fomo-action" style="margin-top:8px;"><b>High-beta/AI impact:</b> Headwind for high-beta/AI-adjacent names - contracting liquidity has historically coincided with multiple compression concentrated in the most rate- and duration-sensitive, high-multiple growth names, even when breadth still looks fine.</div>
+    <div class="fomo-action" style="margin-top:8px;"><b>CSP sizing implication:</b> Reduce CSP aggressiveness: favor lower-beta / higher-quality underlyings, wider (lower-delta) strikes, and smaller size - even if breadth/technicals still look fine. Contracting liquidity is a reason to lean more conservative than the regime call alone would suggest.</div>
+    <div class="notes" style="margin-top:8px;"></div>
+    
+  </div>
   
 
   <div class="grid">
@@ -243,7 +303,7 @@
       <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
       
       <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
-        <span class="v">-5.3 / -6.5 / -2.1</span></div>
+        <span class="v">0.0 / 0.0 / 0.0</span></div>
       
       
     </div>
@@ -382,9 +442,9 @@
           <td>10</td>
           <td>XLRE <small>(def.)</small></td>
           <td class="neg">-0.97</td>
-          <td class="neg">-0.33</td>
-          <td class="neg">-1.3</td>
-          <td class="neg">-5.42</td>
+          <td class="pos">0.97</td>
+          <td class="neg">-0.88</td>
+          <td class="neg">-5.0</td>
         </tr>
         
         <tr>
@@ -417,7 +477,7 @@
     <h2>Why this regime</h2>
     <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
     <ul class="reasons">
-      <li>RED: 20D breadth Δ-5.3 and 50D breadth Δ-6.5 both deteriorating (both ≤ -2.0 threshold)</li><li>RED: 200D breadth weakening (Δ-2.1 ≤ -2.0 threshold)</li>
+      <li>GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped</li>
     </ul>
   </div>
 
@@ -1229,55 +1289,60 @@
     
     <div class="health-row">
       <span>breadth · yfinance (constituents: wikipedia)</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:46:07+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:37+00:00</span>
     </div>
     
     <div class="health-row">
       <span>sectors · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:46:08+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:39+00:00</span>
     </div>
     
     <div class="health-row">
       <span>volatility · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:46:08+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:49:39+00:00</span>
     </div>
     
     <div class="health-row">
       <span>rates · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-14 · retrieved 2026-08-18T02:46:09+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-14 · retrieved 2026-08-18T02:49:40+00:00</span>
     </div>
     
     <div class="health-row">
       <span>news · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:46:25+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:49:59+00:00</span>
     </div>
     
     <div class="health-row">
       <span>earnings · Finnhub</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:46:28+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:50:03+00:00</span>
     </div>
     
     <div class="health-row">
       <span>options_chain · yfinance</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:46:33+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-18 · retrieved 2026-08-18T02:50:22+00:00</span>
     </div>
     
     <div class="health-row">
       <span>consumer_sentiment · FRED</span>
-      <span><span class="status-pill EOD">EOD</span> obs 2026-06-01 · retrieved 2026-08-18T02:46:33+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-06-01 · retrieved 2026-08-18T02:50:23+00:00</span>
     </div>
     
     <div class="health-row">
       <span>bear_indicator · yfinance + breadth module</span>
-      <span><span class="status-pill STALE">STALE</span> obs 2026-08-14 · retrieved 2026-08-15T13:33:50+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:50:24+00:00</span>
     </div>
     
     <div class="health-row">
       <span>fomo_fragility · slickcharts (NDX weights, unofficial) + yfinance (OHLCV/VXN) + finra.org (margin, official)</span>
-      <span><span class="status-pill STALE">STALE</span> obs 2026-08-14 · retrieved 2026-08-15T13:33:56+00:00</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-17 · retrieved 2026-08-18T02:50:41+00:00</span>
     </div>
     
-    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v2 · run_id 20260818T024538Z</div>
+    <div class="health-row">
+      <span>fed_liquidity · FRED (WALCL, WTREGEN, RRPONTSYD, WRESBAL)</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-08-12 · retrieved 2026-08-18T02:50:42+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v2 · run_id 20260818T024818Z</div>
   </footer>
 </div>
 </body>
