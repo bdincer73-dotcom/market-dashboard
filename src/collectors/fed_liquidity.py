@@ -13,12 +13,12 @@ and breadth eventually follows.
 Series (all FRED, all "Wednesday level" weekly prints except ON RRP which is
 daily):
   WALCL      - Fed total assets (H.4.1 balance sheet). Millions of $, weekly.
-  WTREGEN    - Treasury General Account balance. Billions of $, weekly.
+  WTREGEN    - Treasury General Account balance. Millions of $, weekly.
   RRPONTSYD  - Overnight reverse repo facility usage. Billions of $, daily -
                matched to each WALCL/WTREGEN Wednesday date (nearest prior
                daily print, in case RRP's own series has a gap on a date the
                H.4.1 still published for).
-  WRESBAL    - Bank reserves held at the Fed. Billions of $, weekly. Spec'd
+  WRESBAL    - Bank reserves held at the Fed. Millions of $, weekly. Spec'd
                as "when available" - fetched best-effort; a WRESBAL miss
                degrades the reading (reserves fields are None, and the
                scoring module drops the reserves term) rather than failing
@@ -51,9 +51,13 @@ FRED_URL = "https://api.stlouisfed.org/fred/series/observations"
 # label -> (FRED series id, divisor to get $ billions)
 REQUIRED_SERIES = {
     "fed_assets": ("WALCL", 1000.0),   # millions -> billions
-    "tga": ("WTREGEN", 1.0),           # already billions
+    "tga": ("WTREGEN", 1000.0),        # millions -> billions (confirmed via FRED series page - NOT
+                                        # already billions as originally assumed; that assumption
+                                        # produced a 1000x-inflated TGA and a nonsensical negative
+                                        # Net Liquidity on the first real run)
 }
-RESERVES_SERIES_ID = "WRESBAL"         # optional, already billions
+RESERVES_SERIES_ID = "WRESBAL"         # optional, millions -> billions (same fix as tga above)
+RESERVES_DIVISOR = 1000.0
 RRP_SERIES_ID = "RRPONTSYD"            # already billions, daily
 
 WEEKLY_LOOKBACK = 8     # weekly obs per weekly series - covers a 4-week trend plus buffer for gaps
@@ -135,7 +139,7 @@ def collect() -> Envelope:
     reserves_note = ""
     try:
         reserves_obs = _fetch_series(RESERVES_SERIES_ID, api_key, WEEKLY_LOOKBACK)
-        reserves_by_date = {o["date"]: float(o["value"]) for o in reserves_obs}
+        reserves_by_date = {o["date"]: float(o["value"]) / RESERVES_DIVISOR for o in reserves_obs}
         if len(reserves_by_date) < MIN_ALIGNED_POINTS:
             reserves_note = f"bank reserves ({RESERVES_SERIES_ID}) had too few observations this run - reserves fields omitted"
             reserves_by_date = {}
