@@ -49,6 +49,22 @@ watchlist:
   target_delta_high: -0.10
   earnings_exclusion_days: 30
 
+fed_liquidity:
+  # Score construction: 50 (neutral) + three signed, clamped adjustments.
+  # Each *_scale_bn is the $B move (at either end, +/-) that maxes out that
+  # term's full weight; moves beyond the scale are clamped, not extrapolated.
+  weekly_change_scale_bn: 200.0
+  weekly_weight: 15.0
+  four_week_change_scale_bn: 500.0
+  four_week_weight: 20.0
+  reserves_four_week_scale_bn: 450.0
+  reserves_weight: 15.0
+  # Regime bands on the resulting 0-100 Liquidity Score.
+  expanding_score_min: 60.0
+  contracting_score_max: 40.0
+  # Below this, the Contracting badge shows red instead of orange (cosmetic only).
+  severe_score_max: 20.0
+
 freshness:
   # Data older than this many calendar days (excluding weekends) is STALE.
   stale_after_days: 1

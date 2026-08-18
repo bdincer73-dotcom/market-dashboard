@@ -17,10 +17,10 @@ from datetime import datetime, timezone
 
 import yaml
 
-from src import store, scoring, publish, candidate_scoring, fomo_scoring
+from src import store, scoring, publish, candidate_scoring, fomo_scoring, fed_liquidity_scoring
 from src.collectors import (
     breadth, sectors, volatility, rates, news, bear_indicator, earnings,
-    options_chain, fomo_fragility, consumer_sentiment,
+    options_chain, fomo_fragility, consumer_sentiment, fed_liquidity,
 )
 from src.envelope import Envelope
 
@@ -95,6 +95,21 @@ def run(run_type: str) -> dict:
         fomo_env = fomo_fragility.collect()
         fomo_as_of = run_date
         print(f"  - {fomo_env.module}: {fomo_env.status} (obs {fomo_env.observation_date}) {fomo_env.notes}")
+
+    # Fed Liquidity Indicator - macro overlay for CSP sizing, same weekly-only
+    # cadence and carry-forward pattern as the Bear Indicator / FOMO above.
+    # Underlying FRED series (WALCL/WTREGEN/WRESBAL) only print weekly
+    # (Wednesday) anyway, so a daily recompute would just re-fetch the same
+    # numbers.
+    fedliq_env = None
+    fedliq_score = fedliq_regime = None
+    fedliq_reasons = []
+    fedliq_calc = {}
+    fedliq_as_of = None
+    if run_type == "weekly":
+        fedliq_env = fed_liquidity.collect()
+        fedliq_as_of = run_date
+        print(f"  - {fedliq_env.module}: {fedliq_env.status} (obs {fedliq_env.observation_date}) {fedliq_env.notes}")
 
     with store.connect() as conn:
         snapshot_ids = []
@@ -190,6 +205,43 @@ def run(run_type: str) -> dict:
                     + "-" + carried_fomo_calc["run_id"][6:8]
                 )
 
+        if fedliq_env is not None:
+            fedliq_snapshot_id = store.save_snapshot(conn, run_id, fedliq_env)
+            if fedliq_env.status != "FAILED":
+                fedliq_score, fedliq_regime, fedliq_reasons, fedliq_calc = fed_liquidity_scoring.score(
+                    fedliq_env.payload, thresholds.get("fed_liquidity")
+                )
+                store.save_calculated(
+                    conn, run_id, run_type, fed_liquidity_scoring.CALC_VERSION,
+                    [fedliq_snapshot_id], fedliq_regime, fedliq_reasons, fedliq_calc,
+                )
+        else:
+            # Not a weekly run - carry the most recent weekly reading forward
+            # (same rationale as the Bear Indicator / FOMO carry-forward above).
+            carried_fedliq_snapshot = store.get_previous_snapshot(conn, "fed_liquidity", run_id)
+            carried_fedliq_calc = store.get_latest_calculated(conn, fed_liquidity_scoring.CALC_VERSION)
+            if carried_fedliq_snapshot and carried_fedliq_calc:
+                fedliq_env = Envelope(
+                    module=carried_fedliq_snapshot["module"],
+                    source=carried_fedliq_snapshot["source"],
+                    retrieved_at=carried_fedliq_snapshot["retrieved_at"],
+                    observation_date=carried_fedliq_snapshot["observation_date"],
+                    status="STALE",
+                    payload=carried_fedliq_snapshot["payload"],
+                    notes=(
+                        f"Carried forward - Fed Liquidity Indicator only recomputes on the weekly "
+                        f"(Saturday) run. Next fresh reading this coming Saturday."
+                    ),
+                )
+                fedliq_score = carried_fedliq_calc["payload"]["score"]
+                fedliq_regime = carried_fedliq_calc["regime"]
+                fedliq_reasons = carried_fedliq_calc["reasons"]
+                fedliq_calc = carried_fedliq_calc["payload"]
+                fedliq_as_of = (
+                    carried_fedliq_calc["run_id"][:4] + "-" + carried_fedliq_calc["run_id"][4:6]
+                    + "-" + carried_fedliq_calc["run_id"][6:8]
+                )
+
         earnings_snapshot_id = store.save_snapshot(conn, run_id, earnings_env)
         options_snapshot_id = store.save_snapshot(conn, run_id, options_env)
         if candidates is not None:
@@ -212,6 +264,8 @@ def run(run_type: str) -> dict:
         health_envelopes.append(bear_env)
     if fomo_env is not None:
         health_envelopes.append(fomo_env)
+    if fedliq_env is not None:
+        health_envelopes.append(fedliq_env)
 
     context = {
         "run_type": run_type,
@@ -243,6 +297,12 @@ def run(run_type: str) -> dict:
         "fomo_reasons": fomo_reasons,
         "fomo_calc": fomo_calc,
         "fomo_as_of": fomo_as_of,
+        "fed_liquidity": fedliq_env,
+        "fedliq_score": fedliq_score,
+        "fedliq_regime": fedliq_regime,
+        "fedliq_reasons": fedliq_reasons,
+        "fedliq_calc": fedliq_calc,
+        "fedliq_as_of": fedliq_as_of,
         "module_health": build_module_health(health_envelopes),
         "calc_version": scoring.CALC_VERSION,
     }

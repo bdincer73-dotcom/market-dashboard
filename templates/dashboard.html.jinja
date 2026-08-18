@@ -32,6 +32,9 @@
   .badge.fomo-building { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
   .badge.fomo-elevated { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
   .badge.fomo-reduce   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.fedliq-expanding   { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fedliq-neutral     { background: rgba(154,160,172,0.18); color: var(--muted); border:1px solid var(--border); }
+  .badge.fedliq-contracting { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
   .fomo-axes { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-bottom:12px; }
   .fomo-axis { background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
   .fomo-axis .label { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-bottom:6px; }
@@ -131,6 +134,13 @@
         <div class="notes" style="margin-top:6px;">Three axes — Stretch (price over-extension), Leverage (margin debt + suppressed vol), Crowding (concentration + correlation) — combine into a 0-100 composite. RED requires the conjunction of a high composite AND multiple hot axes at once: "expensive but stable" alone won't trigger it, by design.</div>
       </div>
       <div class="legend-group">
+        <h3>Fed Liquidity Indicator (weekly only, macro overlay for CSP sizing)</h3>
+        <div class="legend-row"><span class="badge fedliq-expanding">🟢 EXPANDING</span><span class="desc">Liquidity Score ≥ 60</span></div>
+        <div class="legend-row"><span class="badge fedliq-neutral">⚪ NEUTRAL</span><span class="desc">Liquidity Score 40-59</span></div>
+        <div class="legend-row"><span class="badge fedliq-contracting">🟠🔴 CONTRACTING</span><span class="desc">Liquidity Score ≤ 40 (🔴 below 20)</span></div>
+        <div class="notes" style="margin-top:6px;">Net Liquidity = Fed total assets − Treasury General Account − ON RRP, a widely used but unofficial proxy. Score starts at 50 and moves with this week's Net Liquidity change, the 4-week trend, and bank reserves' own 4-week move (when available) — see <code>config/thresholds.yaml</code> for the exact weights. Independent of breadth/technicals: a Contracting reading can justify smaller/safer CSP sizing even when the regime call above looks fine.</div>
+      </div>
+      <div class="legend-group">
         <h3>Data freshness (next to every tile, and in the footer)</h3>
         <div class="legend-row"><span class="status-pill LIVE">LIVE / EOD</span><span class="desc">fresh, usable data for this run</span></div>
         <div class="legend-row"><span class="status-pill STALE">STALE</span><span class="desc">retrieved, but older than expected for this run</span></div>
@@ -209,6 +219,72 @@
     <div class="notes" style="margin-top:8px;">{{ fomo_indicator.notes }}</div>
     {% else %}
     <div class="notes">{{ fomo_indicator.notes }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if fed_liquidity is not none %}
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Fed Liquidity Indicator (weekly) <span class="status-pill {{ fed_liquidity.status }}">{{ fed_liquidity.status }}</span>
+      {% if fed_liquidity.status != 'FAILED' %}
+      <span class="badge fedliq-{{ fedliq_regime|lower }}">{{ fedliq_regime|upper }} — {{ fedliq_score }}/100</span>
+      {% endif %}
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of {{ fedliq_as_of }}{% if fed_liquidity.status == 'STALE' %} — carried forward from the last Saturday run; recomputes weekly{% else %} — computed fresh this run{% endif %}.
+      Macro overlay for CSP sizing — independent of breadth/technicals; a Contracting reading can justify smaller/safer sizing even when the regime call above looks fine.
+    </div>
+    {% if fed_liquidity.status != 'FAILED' %}
+    <table style="margin-bottom:12px;">
+      <tr><th>Component</th><th>Latest</th><th>1-week move</th><th>4-week move</th></tr>
+      <tr>
+        <td>Fed balance sheet</td>
+        <td>${{ '%.3f'|format(fed_liquidity.payload.fed_assets_bn/1000) }}T</td>
+        <td class="{{ 'pos' if fed_liquidity.payload.fed_assets_change_1w_bn and fed_liquidity.payload.fed_assets_change_1w_bn > 0 else 'neg' }}">{{ '%+.1f'|format(fed_liquidity.payload.fed_assets_change_1w_bn) if fed_liquidity.payload.fed_assets_change_1w_bn is not none else '—' }}B</td>
+        <td>{{ '%+.1f'|format(fed_liquidity.payload.fed_assets_change_4w_bn) if fed_liquidity.payload.fed_assets_change_4w_bn is not none else '—' }}B</td>
+      </tr>
+      <tr>
+        <td>Treasury General Account</td>
+        <td>${{ '%.1f'|format(fed_liquidity.payload.tga_bn) }}B</td>
+        <td class="{{ 'neg' if fed_liquidity.payload.tga_change_1w_bn and fed_liquidity.payload.tga_change_1w_bn > 0 else 'pos' }}">{{ '%+.1f'|format(fed_liquidity.payload.tga_change_1w_bn) if fed_liquidity.payload.tga_change_1w_bn is not none else '—' }}B</td>
+        <td>{{ '%+.1f'|format(fed_liquidity.payload.tga_change_4w_bn) if fed_liquidity.payload.tga_change_4w_bn is not none else '—' }}B</td>
+      </tr>
+      <tr>
+        <td>ON RRP</td>
+        <td>${{ '%.1f'|format(fed_liquidity.payload.rrp_bn) }}B</td>
+        <td class="{{ 'neg' if fed_liquidity.payload.rrp_change_1w_bn and fed_liquidity.payload.rrp_change_1w_bn > 0 else 'pos' }}">{{ '%+.1f'|format(fed_liquidity.payload.rrp_change_1w_bn) if fed_liquidity.payload.rrp_change_1w_bn is not none else '—' }}B</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Bank reserves</td>
+        {% if fed_liquidity.payload.reserves_bn is not none %}
+        <td>${{ '%.3f'|format(fed_liquidity.payload.reserves_bn/1000) }}T</td>
+        <td class="{{ 'pos' if fed_liquidity.payload.reserves_change_1w_bn and fed_liquidity.payload.reserves_change_1w_bn > 0 else 'neg' }}">{{ '%+.1f'|format(fed_liquidity.payload.reserves_change_1w_bn) if fed_liquidity.payload.reserves_change_1w_bn is not none else '—' }}B</td>
+        <td>{{ '%+.1f'|format(fed_liquidity.payload.reserves_change_4w_bn) if fed_liquidity.payload.reserves_change_4w_bn is not none else '—' }}B</td>
+        {% else %}
+        <td colspan="3">not available this run</td>
+        {% endif %}
+      </tr>
+      <tr>
+        <td><b>Net Liquidity</b></td>
+        <td><b>${{ '%.3f'|format(fed_liquidity.payload.net_liquidity_bn/1000) }}T</b></td>
+        <td class="{{ 'pos' if fed_liquidity.payload.net_liquidity_change_1w_bn and fed_liquidity.payload.net_liquidity_change_1w_bn > 0 else 'neg' }}"><b>{{ '%+.1f'|format(fed_liquidity.payload.net_liquidity_change_1w_bn) if fed_liquidity.payload.net_liquidity_change_1w_bn is not none else '—' }}B</b></td>
+        <td class="{{ 'pos' if fed_liquidity.payload.net_liquidity_change_4w_bn and fed_liquidity.payload.net_liquidity_change_4w_bn > 0 else 'neg' }}"><b>{{ '%+.1f'|format(fed_liquidity.payload.net_liquidity_change_4w_bn) if fed_liquidity.payload.net_liquidity_change_4w_bn is not none else '—' }}B</b></td>
+      </tr>
+    </table>
+    {% if fed_liquidity.payload.trend_5w %}
+    <div class="notes" style="margin-bottom:10px;">4-week Net Liquidity trend (oldest → newest):
+      {% for pt in fed_liquidity.payload.trend_5w %}${{ '%.3f'|format(pt.net_liquidity_bn/1000) }}T ({{ pt.date }}){% if not loop.last %} → {% endif %}{% endfor %}
+    </div>
+    {% endif %}
+    <ul class="reasons">
+      {% for r in fedliq_reasons %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+    <div class="fomo-action" style="margin-top:8px;"><b>High-beta/AI impact:</b> {{ fedliq_calc.impact_high_beta }}</div>
+    <div class="fomo-action" style="margin-top:8px;"><b>CSP sizing implication:</b> {{ fedliq_calc.csp_implication }}</div>
+    <div class="notes" style="margin-top:8px;">{{ fed_liquidity.notes }}</div>
+    {% else %}
+    <div class="notes">{{ fed_liquidity.notes }}</div>
     {% endif %}
   </div>
   {% endif %}
