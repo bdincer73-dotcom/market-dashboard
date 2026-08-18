@@ -84,6 +84,17 @@ def render_summary(context: dict, run_type: str, run_date: str) -> str:
         else:
             lines.append(f"FOMO Fragility Index: FAILED - {context['fomo_indicator'].notes}")
 
+    if context.get("fed_liquidity") is not None:
+        lines.append("")
+        if context["fed_liquidity"].status != "FAILED":
+            lines.append(f"Fed Liquidity: {context['fedliq_regime']} ({context['fedliq_score']}/100)")
+            for r in context["fedliq_reasons"]:
+                lines.append(f"  - {r}")
+            lines.append(f"  High-beta/AI impact: {context['fedliq_calc']['impact_high_beta']}")
+            lines.append(f"  CSP sizing implication: {context['fedliq_calc']['csp_implication']}")
+        else:
+            lines.append(f"Fed Liquidity: FAILED - {context['fed_liquidity'].notes}")
+
     candidates = context.get("candidates")
     if candidates is not None:
         lines.append("")

@@ -1,4 +1,4 @@
-# Market Dashboard — R1 (market core) + news + Bear Indicator + FOMO Fragility Index + R2 (CSP candidates) + Portfolio Analyzer
+# Market Dashboard — R1 (market core) + news + Bear Indicator + FOMO Fragility Index + Fed Liquidity Indicator + R2 (CSP candidates) + Portfolio Analyzer
 
 Automated regime dashboard from the blueprint: breadth, sector rotation (SPY/RSP
 + 11 sector SPDRs), volatility (VIX/VIX9D/VIX3M/VVIX), and Treasury yields
@@ -25,6 +25,16 @@ Additions on top of R1:
   RED only fires on the *conjunction* of a high composite AND at least 2 of
   the 3 axes individually hot — "expensive but stable" alone won't trip it.
   See "FOMO Fragility Index" section below for data sources and caveats.
+- **Fed Liquidity Indicator** (weekly only, Saturday run) — a macro overlay
+  purpose-built for CSP sizing: Fed total assets, Treasury General Account
+  (TGA), overnight reverse repo (ON RRP), and bank reserves (when available)
+  from FRED, combined into Net Liquidity = Fed Assets − TGA − ON RRP, a
+  weekly change + 4-week trend, a 0-100 Liquidity Score, and an
+  Expanding/Neutral/Contracting regime — plus an explicit read on the impact
+  to high-beta/AI-adjacent names and a direct CSP position-sizing
+  implication. Independent of breadth/technicals by design: a Contracting
+  reading can justify smaller/safer CSP sizing even when the regime call and
+  breadth both look fine. See "Fed Liquidity Indicator" section below.
 - **R2 — CSP candidate screening** (daily): earnings calendar joins (Finnhub),
   put option chains (yfinance, free — see caveat below), and the blueprint's
   return/liquidity/event gates. One representative strike per watchlist
@@ -149,6 +159,49 @@ Data sources and caveats:
   a live number.
 - **VXN, NDX RSI/20D-high, AI-hardware basket**: yfinance, same library used
   throughout this project.
+
+## Fed Liquidity Indicator
+
+A weekly macro overlay (Saturday run, same carry-forward behavior as the
+Bear Indicator / FOMO Fragility Index — daily runs show the last Saturday's
+reading marked STALE with an "as of" date). Purpose: even when breadth and
+technicals both look fine, contracting Fed liquidity has historically led
+weakness in the market's most speculative, high-multiple corners — so it's
+tracked as its own signal and fed directly into a CSP sizing recommendation,
+rather than folded into the R1 regime call.
+
+Tracked weekly, all from FRED (reuses `FRED_API_KEY`, no separate key
+needed):
+- **Fed total assets** (`WALCL`) — the Fed's H.4.1 balance sheet.
+- **Treasury General Account** (`WTREGEN`) — Treasury's cash balance at the Fed.
+- **Overnight Reverse Repo** (`RRPONTSYD`) — daily series, matched to each
+  weekly Wednesday date.
+- **Bank reserves** (`WRESBAL`) — fetched best-effort ("when available" per
+  spec); a miss degrades the reading rather than failing the whole card,
+  since Net Liquidity itself only needs the three series above.
+- **Net Liquidity** = Fed Assets − TGA − ON RRP — the widely used proxy, *not*
+  an official Fed metric. It mixes a Fed-driven number (WALCL) with two
+  Treasury/money-market-driven numbers (TGA, RRP), which is why bank
+  reserves are shown alongside as a second, arguably "cleaner" Fed-driven
+  gauge, and why a Contracting print gets an explicit callout when the drain
+  looks TGA-driven rather than Fed-QT-driven (a TGA-driven drain can reverse
+  quickly once Treasury spends the cash back out).
+- **Weekly change + 4-week trend** on Net Liquidity (and each component).
+
+Scoring (`src/fed_liquidity_scoring.py`): starts at a neutral 50 and applies
+three signed, clamped adjustments — this week's Net Liquidity move, the
+4-week trend, and bank reserves' own 4-week move — each ramped against a
+configurable scale so no single week's noise swings the score to an
+extreme alone. Bands: Expanding (≥60) / Neutral (40-59) / Contracting (≤40,
+shown in red below 20). All weights/scales live in `config/thresholds.yaml`
+under `fed_liquidity` — this is a simple, tunable heuristic, not a formal
+Fed liquidity model.
+
+The card also surfaces two narrative fields directly, since they're the
+point of the indicator: an **impact on high-beta/AI-adjacent names** read
+(tailwind/neutral/headwind) and a **direct CSP position-sizing/risk
+implication** (e.g. "reduce CSP aggressiveness — favor lower-beta
+underlyings, wider strikes, smaller size" when Contracting).
 
 ## Pipeline
 
@@ -291,6 +344,12 @@ number with no LIVE/EOD/STALE/FAILED label).
 - **Candidate picks are one strike per ticker**, chosen by proximity to a
   target delta band (config/thresholds.yaml) among gate-passing strikes, not
   an exhaustive list of every viable strike/expiry combination.
+- **Fed Liquidity Indicator is a simple tunable heuristic, not a formal
+  liquidity model** — the 0-100 score, its weights, and the Expanding/
+  Neutral/Contracting cutoffs are all judgment calls (see
+  `config/thresholds.yaml` → `fed_liquidity`), not a peer-reviewed formula.
+  Net Liquidity itself (Fed Assets − TGA − ON RRP) is a widely used but
+  unofficial proxy, not a metric the Fed itself publishes or endorses.
 - **Bear Indicator formula**: the tracker used one 8-condition boolean formula
   for its 6/12-7/02 rows, then switched to a differently-scaled continuous
   formula for the 7/11 row while keeping the same 🔴≥6/🟠≥4/🟡≥2 bucket
