@@ -1,4 +1,4 @@
-MARKET DASHBOARD — WEEKLY — 2026-08-18
+MARKET DASHBOARD — DAILY — 2026-08-18
 Regime: GREEN (normal risk)
 
 Why:
@@ -23,34 +23,21 @@ Fed Liquidity: Contracting (32.4/100)
   High-beta/AI impact: Headwind for high-beta/AI-adjacent names - contracting liquidity has historically coincided with multiple compression concentrated in the most rate- and duration-sensitive, high-multiple growth names, even when breadth still looks fine.
   CSP sizing implication: Reduce CSP aggressiveness: favor lower-beta / higher-quality underlyings, wider (lower-delta) strikes, and smaller size - even if breadth/technicals still look fine. Contracting liquidity is a reason to lean more conservative than the regime call alone would suggest.
 
-CSP candidates: 13 pass all gates, 6 watch-only
-  - LRCX $330.0 2026-09-18 (31D) -> 63.05% ann.
-  - STX $910.0 2026-09-18 (31D) -> 58.48% ann.
-  - CRWV $95.0 2026-09-18 (31D) -> 56.76% ann.
-  - APLD $27.0 2026-09-18 (31D) -> 54.07% ann.
-  - BE $190.0 2026-09-18 (31D) -> 47.59% ann.
-  - COHR $300.0 2026-09-18 (31D) -> 45.33% ann.
-  - WDC $460.0 2026-09-18 (31D) -> 40.31% ann.
-  - CLS $300.0 2026-09-18 (31D) -> 35.13% ann.
-  - INTC $90.0 2026-09-18 (31D) -> 32.05% ann.
-  - VRT $260.0 2026-09-18 (31D) -> 31.16% ann.
-  - DRAM $50.0 2026-09-18 (31D) -> 27.32% ann.
-  - GLW $145.0 2026-09-18 (31D) -> 24.44% ann.
-  - SOFI $16.0 2026-09-18 (31D) -> 16.19% ann.
+CSP candidates: 0 pass all gates, 0 watch-only
 
 Earnings scheduled: 4 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-17)
-  - sectors: EOD (obs 2026-08-17)
-  - volatility: EOD (obs 2026-08-17)
+  - breadth: EOD (obs 2026-08-18)
+  - sectors: EOD (obs 2026-08-18)
+  - volatility: EOD (obs 2026-08-18)
   - rates: EOD (obs 2026-08-14)
   - news: EOD (obs 2026-08-18)
   - earnings: EOD (obs 2026-08-18)
   - options_chain: EOD (obs 2026-08-18)
   - consumer_sentiment: EOD (obs 2026-06-01)
-  - bear_indicator: EOD (obs 2026-08-17)
-  - fomo_fragility: EOD (obs 2026-08-17)
-  - fed_liquidity: EOD (obs 2026-08-12)
+  - bear_indicator: STALE (obs 2026-08-17)
+  - fomo_fragility: STALE (obs 2026-08-17)
+  - fed_liquidity: STALE (obs 2026-08-12)
