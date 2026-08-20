@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-08-19
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-08-20
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: 20D breadth Δ-9.6 and 50D breadth Δ-8.4 both deteriorating (both ≤ -2.0 threshold)
 
 Bear Indicator: Watch (3/8)
   - Avg core CMF weak (-0.001)
@@ -30,13 +30,13 @@ Earnings scheduled: 4 tickers in next 60D
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-19)
-  - sectors: EOD (obs 2026-08-19)
-  - volatility: EOD (obs 2026-08-19)
-  - rates: EOD (obs 2026-08-17)
-  - news: EOD (obs 2026-08-19)
-  - earnings: EOD (obs 2026-08-19)
-  - options_chain: EOD (obs 2026-08-19)
+  - breadth: EOD (obs 2026-08-20)
+  - sectors: EOD (obs 2026-08-20)
+  - volatility: EOD (obs 2026-08-20)
+  - rates: EOD (obs 2026-08-18)
+  - news: EOD (obs 2026-08-20)
+  - earnings: EOD (obs 2026-08-20)
+  - options_chain: EOD (obs 2026-08-20)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-08-17)
   - fomo_fragility: STALE (obs 2026-08-17)
