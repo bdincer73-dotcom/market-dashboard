@@ -1,31 +1,35 @@
-MARKET DASHBOARD — DAILY — 2026-08-21
+MARKET DASHBOARD — WEEKLY — 2026-08-22
 Regime: GREEN (normal risk)
 
 Why:
   - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Watch (3/8)
-  - Avg core CMF weak (-0.001)
-  - At least one index CMF negative (min -0.03)
-  - Flows decelerated sharply vs prior week (-0.00 < 60% of -0.00)
+  - Avg core CMF weak (-0.066)
+  - At least one index CMF negative (min -0.15)
+  - Flows decelerated sharply vs prior week (-0.07 < 60% of -0.00)
 
-FOMO Fragility Index: 🟡 Building (58.1/100)
-  - Stretch: 2.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 73.9
-  - Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 21.5 (as of Jul-26 for margin/credit)
-  - Crowding: top 10 NDX names = 64.5% of index weight, AI-hardware basket correlation 0.68
+FOMO Fragility Index: 🟡 Building (57.3/100)
+  - Stretch: 8.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 57.9
+  - Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 22.0 (as of Jul-26 for margin/credit)
+  - Crowding: top 10 NDX names = 64.9% of index weight, AI-hardware basket correlation 0.69
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-Fed Liquidity: Contracting (32.4/100)
-  - Net Liquidity -44B this week (Fed assets +11B, TGA +57B, ON RRP -1B)
-  - 4-week Net Liquidity trend: -191B
-  - Bank reserves: -49B this week, -199B over 4 weeks
-  - Drain looks TGA-driven, not Fed QT: TGA +208B over 4 weeks vs Fed assets +17B - can reverse quickly once Treasury spends the cash back out.
-  High-beta/AI impact: Headwind for high-beta/AI-adjacent names - contracting liquidity has historically coincided with multiple compression concentrated in the most rate- and duration-sensitive, high-multiple growth names, even when breadth still looks fine.
-  CSP sizing implication: Reduce CSP aggressiveness: favor lower-beta / higher-quality underlyings, wider (lower-delta) strikes, and smaller size - even if breadth/technicals still look fine. Contracting liquidity is a reason to lean more conservative than the regime call alone would suggest.
+Fed Liquidity: Neutral (40.5/100)
+  - Net Liquidity -4B this week (Fed assets -14B, TGA -10B, ON RRP -0B)
+  - 4-week Net Liquidity trend: -126B
+  - Bank reserves: -9B this week, -127B over 4 weeks
+  High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
+  CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 0 pass all gates, 0 watch-only
+CSP candidates: 5 pass all gates, 13 watch-only
+  - BE $175.0 2026-09-25 (34D) -> 55.64% ann.
+  - CRWV $75.0 2026-09-25 (34D) -> 38.36% ann.
+  - DRAM $50.0 2026-09-25 (34D) -> 35.86% ann.
+  - INTC $80.0 2026-09-25 (34D) -> 32.47% ann.
+  - SOFI $16.5 2026-09-25 (34D) -> 18.87% ann.
 
-Earnings scheduled: 6 tickers in next 60D
+Earnings scheduled: 7 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
@@ -33,11 +37,11 @@ Data health:
   - breadth: EOD (obs 2026-08-21)
   - sectors: EOD (obs 2026-08-21)
   - volatility: EOD (obs 2026-08-21)
-  - rates: EOD (obs 2026-08-19)
-  - news: EOD (obs 2026-08-21)
-  - earnings: EOD (obs 2026-08-21)
-  - options_chain: EOD (obs 2026-08-21)
+  - rates: EOD (obs 2026-08-20)
+  - news: EOD (obs 2026-08-22)
+  - earnings: EOD (obs 2026-08-22)
+  - options_chain: EOD (obs 2026-08-22)
   - consumer_sentiment: EOD (obs 2026-06-01)
-  - bear_indicator: STALE (obs 2026-08-17)
-  - fomo_fragility: STALE (obs 2026-08-17)
-  - fed_liquidity: STALE (obs 2026-08-12)
+  - bear_indicator: EOD (obs 2026-08-21)
+  - fomo_fragility: EOD (obs 2026-08-21)
+  - fed_liquidity: EOD (obs 2026-08-19)
