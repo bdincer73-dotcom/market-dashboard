@@ -1,4 +1,4 @@
-MARKET DASHBOARD — WEEKLY — 2026-08-22
+MARKET DASHBOARD — DAILY — 2026-08-24
 Regime: GREEN (normal risk)
 
 Why:
@@ -22,26 +22,21 @@ Fed Liquidity: Neutral (40.5/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 5 pass all gates, 13 watch-only
-  - BE $175.0 2026-09-25 (34D) -> 55.64% ann.
-  - CRWV $75.0 2026-09-25 (34D) -> 38.36% ann.
-  - DRAM $50.0 2026-09-25 (34D) -> 35.86% ann.
-  - INTC $80.0 2026-09-25 (34D) -> 32.47% ann.
-  - SOFI $16.5 2026-09-25 (34D) -> 18.87% ann.
+CSP candidates: 0 pass all gates, 0 watch-only
 
 Earnings scheduled: 7 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-21)
-  - sectors: EOD (obs 2026-08-21)
-  - volatility: EOD (obs 2026-08-21)
+  - breadth: EOD (obs 2026-08-24)
+  - sectors: EOD (obs 2026-08-24)
+  - volatility: EOD (obs 2026-08-24)
   - rates: EOD (obs 2026-08-20)
-  - news: EOD (obs 2026-08-22)
-  - earnings: EOD (obs 2026-08-22)
-  - options_chain: EOD (obs 2026-08-22)
+  - news: EOD (obs 2026-08-24)
+  - earnings: EOD (obs 2026-08-24)
+  - options_chain: EOD (obs 2026-08-24)
   - consumer_sentiment: EOD (obs 2026-06-01)
-  - bear_indicator: EOD (obs 2026-08-21)
-  - fomo_fragility: EOD (obs 2026-08-21)
-  - fed_liquidity: EOD (obs 2026-08-19)
+  - bear_indicator: STALE (obs 2026-08-21)
+  - fomo_fragility: STALE (obs 2026-08-21)
+  - fed_liquidity: STALE (obs 2026-08-19)
