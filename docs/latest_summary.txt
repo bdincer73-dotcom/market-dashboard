@@ -1,4 +1,4 @@
-MARKET DASHBOARD — DAILY — 2026-08-25
+MARKET DASHBOARD — DAILY — 2026-08-26
 Regime: GREEN (normal risk)
 
 Why:
@@ -29,13 +29,13 @@ Earnings scheduled: 7 tickers in next 60D
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-25)
-  - sectors: EOD (obs 2026-08-25)
-  - volatility: EOD (obs 2026-08-25)
-  - rates: EOD (obs 2026-08-21)
-  - news: EOD (obs 2026-08-25)
-  - earnings: EOD (obs 2026-08-25)
-  - options_chain: EOD (obs 2026-08-25)
+  - breadth: EOD (obs 2026-08-26)
+  - sectors: EOD (obs 2026-08-26)
+  - volatility: EOD (obs 2026-08-26)
+  - rates: EOD (obs 2026-08-24)
+  - news: EOD (obs 2026-08-26)
+  - earnings: EOD (obs 2026-08-26)
+  - options_chain: EOD (obs 2026-08-26)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-08-21)
   - fomo_fragility: STALE (obs 2026-08-21)
