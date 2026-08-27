@@ -1,8 +1,10 @@
-MARKET DASHBOARD — DAILY — 2026-08-26
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-08-27
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: 20D breadth Δ-9.5 and 50D breadth Δ-4.9 both deteriorating (both ≤ -2.0 threshold)
+  - RED: 200D breadth weakening (Δ-2.3 ≤ -2.0 threshold)
+  - RED: RSP underperforming SPY over 5D (-0.58 pts < -0.5 threshold)
 
 Bear Indicator: Watch (3/8)
   - Avg core CMF weak (-0.066)
@@ -22,20 +24,25 @@ Fed Liquidity: Neutral (40.5/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 0 pass all gates, 0 watch-only
+CSP candidates: 5 pass all gates, 14 watch-only
+  - BE $185.0 2026-10-02 (36D) -> 43.3% ann.
+  - INTC $85.0 2026-10-02 (36D) -> 40.56% ann.
+  - CRWV $75.0 2026-10-02 (36D) -> 39.2% ann.
+  - COHR $250.0 2026-10-02 (36D) -> 36.09% ann.
+  - SOFI $16.5 2026-10-02 (36D) -> 16.59% ann.
 
-Earnings scheduled: 7 tickers in next 60D
+Earnings scheduled: 13 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-26)
-  - sectors: EOD (obs 2026-08-26)
-  - volatility: EOD (obs 2026-08-26)
-  - rates: EOD (obs 2026-08-24)
-  - news: EOD (obs 2026-08-26)
-  - earnings: EOD (obs 2026-08-26)
-  - options_chain: EOD (obs 2026-08-26)
+  - breadth: EOD (obs 2026-08-27)
+  - sectors: EOD (obs 2026-08-27)
+  - volatility: EOD (obs 2026-08-27)
+  - rates: EOD (obs 2026-08-26)
+  - news: EOD (obs 2026-08-27)
+  - earnings: EOD (obs 2026-08-27)
+  - options_chain: EOD (obs 2026-08-27)
   - consumer_sentiment: EOD (obs 2026-06-01)
   - bear_indicator: STALE (obs 2026-08-21)
   - fomo_fragility: STALE (obs 2026-08-21)
