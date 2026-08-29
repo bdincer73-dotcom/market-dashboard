@@ -1,34 +1,35 @@
-MARKET DASHBOARD — DAILY — 2026-08-28
+MARKET DASHBOARD — WEEKLY — 2026-08-29
 Regime: RED (protect cash)
 
 Why:
   - RED: RSP underperforming SPY over 5D (-0.91 pts < -0.5 threshold)
 
-Bear Indicator: Watch (3/8)
-  - Avg core CMF weak (-0.066)
-  - At least one index CMF negative (min -0.15)
-  - Flows decelerated sharply vs prior week (-0.07 < 60% of -0.00)
+Bear Indicator: Cautionary (4/8)
+  - Avg core CMF weak (-0.118)
+  - At least one index CMF negative (min -0.23)
+  - Net New Hi% below 2% (1.0%)
+  - Flows decelerated sharply vs prior week (-0.12 < 60% of -0.07)
 
-FOMO Fragility Index: 🟡 Building (57.3/100)
-  - Stretch: 8.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 57.9
-  - Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 22.0 (as of Jul-26 for margin/credit)
-  - Crowding: top 10 NDX names = 64.9% of index weight, AI-hardware basket correlation 0.69
+FOMO Fragility Index: 🟡 Building (53.3/100)
+  - Stretch: 2.0% of NDX names >2σ above 50D mean, 70.0% above 200DMA, RSI(14) 46.6
+  - Leverage: margin debt +38.6% YoY, net investor credit -0.99$T, VXN 19.9 (as of Jul-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.6% of index weight, AI-hardware basket correlation 0.71
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-Fed Liquidity: Neutral (40.5/100)
-  - Net Liquidity -4B this week (Fed assets -14B, TGA -10B, ON RRP -0B)
-  - 4-week Net Liquidity trend: -126B
-  - Bank reserves: -9B this week, -127B over 4 weeks
+Fed Liquidity: Neutral (45.3/100)
+  - Net Liquidity -12B this week (Fed assets -15B, TGA -3B, ON RRP +0B)
+  - 4-week Net Liquidity trend: -45B
+  - Bank reserves: -10B this week, -60B over 4 weeks
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
 CSP candidates: 4 pass all gates, 15 watch-only
-  - VRT $250.0 2026-10-02 (35D) -> 52.89% ann.
-  - INTC $80.0 2026-10-02 (35D) -> 27.64% ann.
-  - CRWV $70.0 2026-10-02 (35D) -> 26.67% ann.
-  - SOFI $16.0 2026-10-02 (35D) -> 20.21% ann.
+  - VRT $250.0 2026-10-02 (34D) -> 54.45% ann.
+  - INTC $80.0 2026-10-02 (34D) -> 28.45% ann.
+  - CRWV $70.0 2026-10-02 (34D) -> 27.45% ann.
+  - SOFI $16.0 2026-10-02 (34D) -> 20.8% ann.
 
-Earnings scheduled: 11 tickers in next 60D
+Earnings scheduled: 12 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
@@ -37,10 +38,10 @@ Data health:
   - sectors: EOD (obs 2026-08-28)
   - volatility: EOD (obs 2026-08-28)
   - rates: EOD (obs 2026-08-27)
-  - news: EOD (obs 2026-08-28)
-  - earnings: EOD (obs 2026-08-28)
-  - options_chain: EOD (obs 2026-08-28)
+  - news: EOD (obs 2026-08-29)
+  - earnings: EOD (obs 2026-08-29)
+  - options_chain: EOD (obs 2026-08-29)
   - consumer_sentiment: EOD (obs 2026-07-01)
-  - bear_indicator: STALE (obs 2026-08-21)
-  - fomo_fragility: STALE (obs 2026-08-21)
-  - fed_liquidity: STALE (obs 2026-08-19)
+  - bear_indicator: EOD (obs 2026-08-28)
+  - fomo_fragility: EOD (obs 2026-08-28)
+  - fed_liquidity: EOD (obs 2026-08-26)
