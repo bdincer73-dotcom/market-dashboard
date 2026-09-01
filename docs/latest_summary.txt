@@ -1,9 +1,9 @@
-MARKET DASHBOARD — DAILY — 2026-08-31
+MARKET DASHBOARD — DAILY — 2026-09-01
 Regime: RED (protect cash)
 
 Why:
-  - RED: 20D breadth Δ-3.4 and 50D breadth Δ-3.6 both deteriorating (both ≤ -2.0 threshold)
-  - RED: 200D breadth weakening (Δ-2.4 ≤ -2.0 threshold)
+  - RED: 20D breadth Δ-6.8 and 50D breadth Δ-3.0 both deteriorating (both ≤ -2.0 threshold)
+  - RED: 200D breadth weakening (Δ-4.0 ≤ -2.0 threshold)
   - RED: RSP underperforming SPY over 5D (-1.49 pts < -0.5 threshold)
 
 Bear Indicator: Cautionary (4/8)
@@ -26,30 +26,30 @@ Fed Liquidity: Neutral (45.3/100)
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
 CSP candidates: 11 pass all gates, 8 watch-only
-  - APLD $23.0 2026-10-02 (32D) -> 57.03% ann.
-  - IREN $32.0 2026-10-02 (32D) -> 48.12% ann.
-  - CLS $275.0 2026-10-02 (32D) -> 40.03% ann.
-  - BE $175.0 2026-10-02 (32D) -> 39.63% ann.
-  - GLW $135.0 2026-10-02 (32D) -> 33.8% ann.
-  - DRAM $50.0 2026-10-02 (32D) -> 31.71% ann.
-  - MRVL $185.0 2026-10-09 (39D) -> 27.67% ann.
-  - CRWV $70.0 2026-10-09 (39D) -> 27.27% ann.
-  - INTC $80.0 2026-10-02 (32D) -> 27.09% ann.
-  - SOFI $16.0 2026-10-09 (39D) -> 21.64% ann.
-  - XLK $175.0 2026-10-02 (32D) -> 11.86% ann.
+  - APLD $22.0 2026-10-02 (31D) -> 51.38% ann.
+  - BE $180.0 2026-10-02 (31D) -> 48.73% ann.
+  - COHR $245.0 2026-10-02 (31D) -> 46.86% ann.
+  - IREN $31.0 2026-10-09 (38D) -> 40.9% ann.
+  - VRT $240.0 2026-10-02 (31D) -> 40.72% ann.
+  - CRWV $70.0 2026-10-09 (38D) -> 34.3% ann.
+  - DRAM $50.0 2026-10-02 (31D) -> 33.91% ann.
+  - CLS $255.0 2026-10-09 (38D) -> 26.37% ann.
+  - MRVL $185.0 2026-10-02 (31D) -> 25.78% ann.
+  - INTC $78.0 2026-10-02 (31D) -> 24.15% ann.
+  - SOFI $15.5 2026-10-02 (31D) -> 22.03% ann.
 
 Earnings scheduled: 12 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-08-31)
-  - sectors: EOD (obs 2026-08-31)
-  - volatility: EOD (obs 2026-08-31)
-  - rates: EOD (obs 2026-08-27)
-  - news: EOD (obs 2026-08-31)
-  - earnings: EOD (obs 2026-08-31)
-  - options_chain: EOD (obs 2026-08-31)
+  - breadth: EOD (obs 2026-09-01)
+  - sectors: EOD (obs 2026-09-01)
+  - volatility: EOD (obs 2026-09-01)
+  - rates: EOD (obs 2026-08-28)
+  - news: EOD (obs 2026-09-01)
+  - earnings: EOD (obs 2026-09-01)
+  - options_chain: EOD (obs 2026-09-01)
   - consumer_sentiment: EOD (obs 2026-07-01)
   - bear_indicator: STALE (obs 2026-08-28)
   - fomo_fragility: STALE (obs 2026-08-28)
