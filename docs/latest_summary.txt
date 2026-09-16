@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-09-15
-Regime: RED (protect cash)
+MARKET DASHBOARD — DAILY — 2026-09-16
+Regime: AMBER (selective)
 
 Why:
-  - RED: 200D breadth weakening (Δ-2.6 ≤ -2.0 threshold)
+  - AMBER: short-term breadth soft (20D 23.6% < 40.0%, 50D 35.2% < 45.0%)
 
 Bear Indicator: Bearish (6/8)
   - Avg core CMF weak (-0.136)
@@ -25,36 +25,35 @@ Fed Liquidity: Expanding (60.7/100)
   High-beta/AI impact: Tailwind for high-beta/AI-adjacent names - expanding liquidity has historically coincided with multiple expansion and risk-on flows into the most speculative, high-multiple corners of the market.
   CSP sizing implication: Liquidity tailwind supports normal CSP sizing, but this overlay alone should never be a reason to size UP - confirm with breadth/technicals and the regime call first.
 
-CSP candidates: 16 pass all gates, 2 watch-only
-  - COHR $240.0 2026-10-16 (31D) -> 44.64% ann.
-  - IREN $35.0 2026-10-16 (31D) -> 41.71% ann.
-  - BE $220.0 2026-10-23 (38D) -> 39.08% ann.
-  - STX $670.0 2026-10-16 (31D) -> 35.94% ann.
-  - CRWV $69.0 2026-10-23 (38D) -> 34.94% ann.
-  - MRVL $195.0 2026-10-16 (31D) -> 34.11% ann.
-  - TER $290.0 2026-10-16 (31D) -> 34.1% ann.
-  - WDC $360.0 2026-10-16 (31D) -> 33.69% ann.
-  - CLS $280.0 2026-10-16 (31D) -> 33.64% ann.
-  - INTC $87.5 2026-10-16 (31D) -> 32.56% ann.
-  - LRCX $240.0 2026-10-16 (31D) -> 30.17% ann.
-  - DRAM $48.0 2026-10-16 (31D) -> 29.68% ann.
-  - VRT $210.0 2026-10-16 (31D) -> 26.8% ann.
-  - GLW $125.0 2026-10-16 (31D) -> 24.11% ann.
-  - SOFI $15.5 2026-10-23 (38D) -> 22.31% ann.
-  - XLK $175.0 2026-10-16 (31D) -> 15.95% ann.
+CSP candidates: 15 pass all gates, 3 watch-only
+  - BE $230.0 2026-10-16 (30D) -> 43.27% ann.
+  - IREN $36.0 2026-10-16 (30D) -> 41.57% ann.
+  - COHR $250.0 2026-10-16 (30D) -> 38.45% ann.
+  - CLS $290.0 2026-10-16 (30D) -> 35.66% ann.
+  - CRWV $71.0 2026-10-23 (37D) -> 35.57% ann.
+  - MRVL $200.0 2026-10-16 (30D) -> 32.85% ann.
+  - VRT $220.0 2026-10-16 (30D) -> 32.74% ann.
+  - INTC $90.0 2026-10-16 (30D) -> 31.5% ann.
+  - WDC $370.0 2026-10-16 (30D) -> 30.58% ann.
+  - GLW $130.0 2026-10-16 (30D) -> 29.48% ann.
+  - TER $300.0 2026-10-16 (30D) -> 29.2% ann.
+  - DRAM $49.0 2026-10-16 (30D) -> 28.55% ann.
+  - LRCX $240.0 2026-10-16 (30D) -> 25.85% ann.
+  - SOFI $15.0 2026-10-23 (37D) -> 19.07% ann.
+  - XLK $175.0 2026-10-16 (30D) -> 13.56% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-09-15)
-  - sectors: EOD (obs 2026-09-15)
-  - volatility: EOD (obs 2026-09-15)
-  - rates: EOD (obs 2026-09-11)
-  - news: EOD (obs 2026-09-15)
-  - earnings: EOD (obs 2026-09-15)
-  - options_chain: EOD (obs 2026-09-15)
+  - breadth: EOD (obs 2026-09-16)
+  - sectors: EOD (obs 2026-09-16)
+  - volatility: EOD (obs 2026-09-16)
+  - rates: EOD (obs 2026-09-14)
+  - news: EOD (obs 2026-09-16)
+  - earnings: EOD (obs 2026-09-16)
+  - options_chain: EOD (obs 2026-09-16)
   - consumer_sentiment: EOD (obs 2026-07-01)
   - bear_indicator: STALE (obs 2026-09-11)
   - fomo_fragility: STALE (obs 2026-09-11)
