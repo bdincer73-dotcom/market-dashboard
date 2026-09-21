@@ -1,8 +1,8 @@
-MARKET DASHBOARD — WEEKLY — 2026-09-19
+MARKET DASHBOARD — DAILY — 2026-09-21
 Regime: RED (protect cash)
 
 Why:
-  - RED: RSP underperforming SPY over 5D (-1.11 pts < -0.5 threshold)
+  - RED: RSP underperforming SPY over 5D (-2.87 pts < -0.5 threshold)
 
 Bear Indicator: Cautionary (5/8)
   - At least one index CMF negative (min -0.27)
@@ -24,26 +24,29 @@ Fed Liquidity: Neutral (56.0/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 5 pass all gates, 13 watch-only
-  - IREN $41.0 2026-10-23 (34D) -> 55.51% ann.
-  - CRWV $70.0 2026-10-23 (34D) -> 37.88% ann.
-  - BE $225.0 2026-10-23 (34D) -> 37.22% ann.
-  - MRVL $215.0 2026-10-23 (34D) -> 34.55% ann.
-  - SOFI $15.5 2026-10-23 (34D) -> 22.86% ann.
+CSP candidates: 8 pass all gates, 10 watch-only
+  - STX $800.0 2026-10-23 (32D) -> 49.69% ann.
+  - IREN $40.0 2026-10-30 (39D) -> 40.48% ann.
+  - BE $235.0 2026-10-23 (32D) -> 39.8% ann.
+  - CRWV $74.0 2026-10-30 (39D) -> 35.79% ann.
+  - MRVL $220.0 2026-10-30 (39D) -> 31.48% ann.
+  - DRAM $54.5 2026-10-23 (32D) -> 29.72% ann.
+  - SOFI $15.5 2026-10-23 (32D) -> 22.08% ann.
+  - XLK $180.0 2026-10-30 (39D) -> 8.94% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-09-18)
-  - sectors: EOD (obs 2026-09-18)
-  - volatility: EOD (obs 2026-09-18)
+  - breadth: EOD (obs 2026-09-21)
+  - sectors: EOD (obs 2026-09-21)
+  - volatility: EOD (obs 2026-09-21)
   - rates: EOD (obs 2026-09-17)
-  - news: EOD (obs 2026-09-19)
-  - earnings: EOD (obs 2026-09-19)
-  - options_chain: EOD (obs 2026-09-19)
+  - news: EOD (obs 2026-09-21)
+  - earnings: EOD (obs 2026-09-21)
+  - options_chain: EOD (obs 2026-09-21)
   - consumer_sentiment: EOD (obs 2026-07-01)
-  - bear_indicator: EOD (obs 2026-09-18)
-  - fomo_fragility: EOD (obs 2026-09-18)
-  - fed_liquidity: EOD (obs 2026-09-16)
+  - bear_indicator: STALE (obs 2026-09-18)
+  - fomo_fragility: STALE (obs 2026-09-18)
+  - fed_liquidity: STALE (obs 2026-09-16)
