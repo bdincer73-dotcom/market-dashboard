@@ -1,35 +1,33 @@
-MARKET DASHBOARD — DAILY — 2026-09-25
+MARKET DASHBOARD — WEEKLY — 2026-09-26
 Regime: RED (protect cash)
 
 Why:
-  - RED: 200D breadth level weak (48.8% < 50.0% threshold) - majority of names below their 200DMA, independent of this week's move
-  - RED: RSP underperforming SPY over 5D (-1.4 pts < -0.5 threshold)
+  - RED: 200D breadth level weak (49.0% < 50.0% threshold) - majority of names below their 200DMA, independent of this week's move
+  - RED: RSP underperforming SPY over 5D (-1.45 pts < -0.5 threshold)
 
-Bear Indicator: Cautionary (5/8)
-  - At least one index CMF negative (min -0.27)
-  - %>50DMA below 50% (28.8%)
-  - %>200DMA below 55% (52.6%)
-  - Net New Hi% below 2% (-4.0%)
-  - %>50DMA dropped >5pts vs prior week (39.4% -> 28.8%)
+Bear Indicator: Cautionary (4/8)
+  - At least one index CMF negative (min -0.31)
+  - %>50DMA below 50% (27.6%)
+  - %>200DMA below 55% (49.0%)
+  - Net New Hi% below 2% (-0.2%)
 
-FOMO Fragility Index: 🟡 Building (56.5/100)
-  - Stretch: 2.0% of NDX names >2σ above 50D mean, 55.6% above 200DMA, RSI(14) 53.9, breadth diverging (index near 20D high, participation falling)
-  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 19.3 (as of Aug-26 for margin/credit)
-  - Crowding: top 10 NDX names = 66.1% of index weight, AI-hardware basket correlation 0.69
+FOMO Fragility Index: 🟡 Building (57.7/100)
+  - Stretch: 7.1% of NDX names >2σ above 50D mean, 59.6% above 200DMA, RSI(14) 66.0
+  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.9 (as of Aug-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.4% of index weight, AI-hardware basket correlation 0.69
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-Fed Liquidity: Neutral (56.0/100)
-  - Net Liquidity +7B this week (Fed assets +6B, TGA -6B, ON RRP +5B)
-  - 4-week Net Liquidity trend: +72B
-  - Bank reserves: +22B this week, +78B over 4 weeks
+Fed Liquidity: Neutral (42.8/100)
+  - Net Liquidity -94B this week (Fed assets +1B, TGA +100B, ON RRP -5B)
+  - 4-week Net Liquidity trend: -9B
+  - Bank reserves: -84B this week, +5B over 4 weeks
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 4 pass all gates, 14 watch-only
-  - IREN $37.0 2026-10-30 (35D) -> 33.26% ann.
-  - CRWV $75.0 2026-10-30 (35D) -> 31.29% ann.
-  - MRVL $230.0 2026-10-30 (35D) -> 29.7% ann.
-  - DRAM $54.5 2026-10-30 (35D) -> 27.94% ann.
+CSP candidates: 3 pass all gates, 15 watch-only
+  - IREN $38.0 2026-10-30 (34D) -> 40.12% ann.
+  - MRVL $230.0 2026-10-30 (34D) -> 32.81% ann.
+  - CRWV $75.0 2026-10-30 (34D) -> 32.64% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
@@ -39,11 +37,11 @@ Data health:
   - breadth: EOD (obs 2026-09-25)
   - sectors: EOD (obs 2026-09-25)
   - volatility: EOD (obs 2026-09-25)
-  - rates: EOD (obs 2026-09-23)
-  - news: EOD (obs 2026-09-25)
-  - earnings: EOD (obs 2026-09-25)
-  - options_chain: EOD (obs 2026-09-25)
+  - rates: EOD (obs 2026-09-24)
+  - news: EOD (obs 2026-09-26)
+  - earnings: EOD (obs 2026-09-26)
+  - options_chain: EOD (obs 2026-09-26)
   - consumer_sentiment: EOD (obs 2026-08-01)
-  - bear_indicator: STALE (obs 2026-09-18)
-  - fomo_fragility: STALE (obs 2026-09-18)
-  - fed_liquidity: STALE (obs 2026-09-16)
+  - bear_indicator: EOD (obs 2026-09-25)
+  - fomo_fragility: EOD (obs 2026-09-25)
+  - fed_liquidity: EOD (obs 2026-09-23)
