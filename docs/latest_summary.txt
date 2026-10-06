@@ -1,8 +1,9 @@
-MARKET DASHBOARD — WEEKLY — 2026-10-03
+MARKET DASHBOARD — DAILY — 2026-10-06
 Regime: RED (protect cash)
 
 Why:
-  - RED: 200D breadth level weak (45.6% < 50.0% threshold) - majority of names below their 200DMA, independent of this week's move
+  - RED: 200D breadth level weak (48.6% < 50.0% threshold) - majority of names below their 200DMA, independent of this week's move
+  - RED: RSP underperforming SPY over 5D (-0.81 pts < -0.5 threshold)
 
 Bear Indicator: Bearish (6/8)
   - Avg core CMF weak (-0.047)
@@ -26,23 +27,23 @@ Fed Liquidity: Neutral (53.3/100)
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
 CSP candidates: 3 pass all gates, 15 watch-only
-  - CRWV $77.0 2026-11-06 (34D) -> 36.67% ann.
-  - MRVL $240.0 2026-11-06 (34D) -> 31.0% ann.
-  - DRAM $54.0 2026-11-06 (34D) -> 22.27% ann.
+  - CRWV $80.0 2026-11-06 (31D) -> 37.24% ann.
+  - MRVL $255.0 2026-11-06 (31D) -> 28.03% ann.
+  - DRAM $54.0 2026-11-06 (31D) -> 19.84% ann.
 
 Earnings scheduled: 16 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-02)
-  - sectors: EOD (obs 2026-10-02)
-  - volatility: EOD (obs 2026-10-02)
-  - rates: EOD (obs 2026-10-01)
-  - news: EOD (obs 2026-10-03)
-  - earnings: EOD (obs 2026-10-03)
-  - options_chain: EOD (obs 2026-10-03)
+  - breadth: EOD (obs 2026-10-06)
+  - sectors: EOD (obs 2026-10-06)
+  - volatility: EOD (obs 2026-10-06)
+  - rates: EOD (obs 2026-10-02)
+  - news: EOD (obs 2026-10-06)
+  - earnings: EOD (obs 2026-10-06)
+  - options_chain: EOD (obs 2026-10-06)
   - consumer_sentiment: EOD (obs 2026-08-01)
-  - bear_indicator: EOD (obs 2026-10-02)
-  - fomo_fragility: EOD (obs 2026-10-02)
-  - fed_liquidity: EOD (obs 2026-09-30)
+  - bear_indicator: STALE (obs 2026-10-02)
+  - fomo_fragility: STALE (obs 2026-10-02)
+  - fed_liquidity: STALE (obs 2026-09-30)
