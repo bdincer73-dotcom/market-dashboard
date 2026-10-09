@@ -1,8 +1,8 @@
 MARKET DASHBOARD — DAILY — 2026-10-09
-Regime: RED (protect cash)
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: 200D breadth level weak (49.9% < 50.0% threshold) - majority of names below their 200DMA, independent of this week's move
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Bearish (6/8)
   - Avg core CMF weak (-0.047)
@@ -25,9 +25,10 @@ Fed Liquidity: Neutral (53.3/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 2 pass all gates, 16 watch-only
-  - MRVL $240.0 2026-11-13 (35D) -> 29.68% ann.
-  - DRAM $51.0 2026-11-13 (35D) -> 22.7% ann.
+CSP candidates: 3 pass all gates, 15 watch-only
+  - APLD $20.0 2026-11-13 (35D) -> 37.54% ann.
+  - MRVL $240.0 2026-11-13 (35D) -> 26.42% ann.
+  - DRAM $52.0 2026-11-13 (35D) -> 25.47% ann.
 
 Earnings scheduled: 15 tickers in next 60D
 
