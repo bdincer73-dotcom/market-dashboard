@@ -1,8 +1,8 @@
-MARKET DASHBOARD — WEEKLY — 2026-10-10
-Regime: AMBER (selective)
+MARKET DASHBOARD — DAILY — 2026-10-12
+Regime: GREEN (normal risk)
 
 Why:
-  - AMBER: breadth mixed (20D Δ-1.4, between the -2.0/-1.0 stable-vs-deteriorating bounds)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Watch (3/8)
   - %>50DMA below 50% (36.5%)
@@ -22,22 +22,25 @@ Fed Liquidity: Neutral (57.8/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 1 pass all gates, 17 watch-only
-  - MRVL $240.0 2026-11-13 (34D) -> 25.59% ann.
+CSP candidates: 4 pass all gates, 14 watch-only
+  - APLD $20.0 2026-11-20 (39D) -> 36.03% ann.
+  - MRVL $230.0 2026-11-20 (39D) -> 23.28% ann.
+  - DRAM $49.0 2026-11-13 (32D) -> 22.58% ann.
+  - XLK $180.0 2026-11-20 (39D) -> 8.27% ann.
 
 Earnings scheduled: 16 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-09)
-  - sectors: EOD (obs 2026-10-09)
-  - volatility: EOD (obs 2026-10-09)
+  - breadth: EOD (obs 2026-10-12)
+  - sectors: EOD (obs 2026-10-12)
+  - volatility: EOD (obs 2026-10-12)
   - rates: EOD (obs 2026-10-08)
-  - news: EOD (obs 2026-10-10)
-  - earnings: EOD (obs 2026-10-10)
-  - options_chain: EOD (obs 2026-10-10)
+  - news: EOD (obs 2026-10-12)
+  - earnings: EOD (obs 2026-10-12)
+  - options_chain: EOD (obs 2026-10-12)
   - consumer_sentiment: EOD (obs 2026-08-01)
-  - bear_indicator: EOD (obs 2026-10-09)
-  - fomo_fragility: EOD (obs 2026-10-09)
-  - fed_liquidity: EOD (obs 2026-10-07)
+  - bear_indicator: STALE (obs 2026-10-09)
+  - fomo_fragility: STALE (obs 2026-10-09)
+  - fed_liquidity: STALE (obs 2026-10-07)
