@@ -1,4 +1,4 @@
-MARKET DASHBOARD — DAILY — 2026-10-12
+MARKET DASHBOARD — DAILY — 2026-10-13
 Regime: GREEN (normal risk)
 
 Why:
@@ -23,23 +23,23 @@ Fed Liquidity: Neutral (57.8/100)
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
 CSP candidates: 4 pass all gates, 14 watch-only
-  - APLD $20.0 2026-11-20 (39D) -> 36.03% ann.
-  - MRVL $230.0 2026-11-20 (39D) -> 23.28% ann.
-  - DRAM $49.0 2026-11-13 (32D) -> 22.58% ann.
-  - XLK $180.0 2026-11-20 (39D) -> 8.27% ann.
+  - APLD $19.0 2026-11-20 (38D) -> 36.9% ann.
+  - MRVL $235.0 2026-11-13 (31D) -> 30.66% ann.
+  - DRAM $46.0 2026-11-20 (38D) -> 23.18% ann.
+  - XLK $185.0 2026-11-20 (38D) -> 13.24% ann.
 
 Earnings scheduled: 16 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-12)
-  - sectors: EOD (obs 2026-10-12)
-  - volatility: EOD (obs 2026-10-12)
+  - breadth: EOD (obs 2026-10-13)
+  - sectors: EOD (obs 2026-10-13)
+  - volatility: EOD (obs 2026-10-13)
   - rates: EOD (obs 2026-10-08)
-  - news: EOD (obs 2026-10-12)
-  - earnings: EOD (obs 2026-10-12)
-  - options_chain: EOD (obs 2026-10-12)
+  - news: EOD (obs 2026-10-13)
+  - earnings: EOD (obs 2026-10-13)
+  - options_chain: EOD (obs 2026-10-13)
   - consumer_sentiment: EOD (obs 2026-08-01)
   - bear_indicator: STALE (obs 2026-10-09)
   - fomo_fragility: STALE (obs 2026-10-09)
