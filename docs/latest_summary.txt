@@ -1,9 +1,8 @@
-MARKET DASHBOARD — WEEKLY — 2026-10-17
-Regime: AMBER (selective)
+MARKET DASHBOARD — DAILY — 2026-10-19
+Regime: RED (protect cash)
 
 Why:
-  - AMBER: breadth mixed (20D Δ-1.2, between the -2.0/-1.0 stable-vs-deteriorating bounds)
-  - AMBER: VIX rising sharply over 5D (Δ5.15 ≥ 3.0 threshold)
+  - RED: 200D breadth weakening (Δ-2.4 ≤ -2.0 threshold)
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (0.007)
@@ -12,7 +11,11 @@ Bear Indicator: Cautionary (5/8)
   - SPY below both 20D and 50D SMA
   - Flows decelerated sharply vs prior week (0.01 < 60% of 0.09)
 
-FOMO Fragility Index: FAILED - FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison
+FOMO Fragility Index: 🟡 Building (54.7/100)
+  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
+  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
+  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
 Fed Liquidity: Neutral (51.1/100)
   - Net Liquidity +7B this week (Fed assets +8B, TGA +3B, ON RRP -2B)
@@ -21,24 +24,26 @@ Fed Liquidity: Neutral (51.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 3 pass all gates, 16 watch-only
-  - APLD $16.0 2026-11-20 (34D) -> 77.16% ann.
-  - DRAM $40.0 2026-11-20 (34D) -> 31.4% ann.
-  - MRVL $195.0 2026-11-20 (34D) -> 30.0% ann.
+CSP candidates: 5 pass all gates, 14 watch-only
+  - APLD $17.0 2026-11-20 (32D) -> 64.41% ann.
+  - DRAM $43.0 2026-11-20 (32D) -> 38.2% ann.
+  - MRVL $205.0 2026-11-27 (39D) -> 29.13% ann.
+  - ASML $1520.0 2026-11-20 (32D) -> 18.84% ann.
+  - XLK $173.0 2026-11-20 (32D) -> 13.38% ann.
 
 Earnings scheduled: 14 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-16)
-  - sectors: EOD (obs 2026-10-16)
-  - volatility: EOD (obs 2026-10-16)
+  - breadth: EOD (obs 2026-10-19)
+  - sectors: EOD (obs 2026-10-19)
+  - volatility: EOD (obs 2026-10-19)
   - rates: EOD (obs 2026-10-15)
-  - news: EOD (obs 2026-10-17)
-  - earnings: EOD (obs 2026-10-17)
-  - options_chain: EOD (obs 2026-10-17)
+  - news: EOD (obs 2026-10-19)
+  - earnings: EOD (obs 2026-10-19)
+  - options_chain: EOD (obs 2026-10-19)
   - consumer_sentiment: EOD (obs 2026-08-01)
-  - bear_indicator: EOD (obs 2026-10-16)
-  - fomo_fragility: FAILED (obs —)
-  - fed_liquidity: EOD (obs 2026-10-14)
+  - bear_indicator: STALE (obs 2026-10-16)
+  - fomo_fragility: STALE (obs 2026-10-09)
+  - fed_liquidity: STALE (obs 2026-10-14)
