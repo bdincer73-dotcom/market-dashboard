@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-10-19
-Regime: RED (protect cash)
+MARKET DASHBOARD — DAILY — 2026-10-20
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: 200D breadth weakening (Δ-2.4 ≤ -2.0 threshold)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (0.007)
@@ -24,25 +24,25 @@ Fed Liquidity: Neutral (51.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 5 pass all gates, 14 watch-only
-  - APLD $17.0 2026-11-20 (32D) -> 64.41% ann.
-  - DRAM $43.0 2026-11-20 (32D) -> 38.2% ann.
-  - MRVL $205.0 2026-11-27 (39D) -> 29.13% ann.
-  - ASML $1520.0 2026-11-20 (32D) -> 18.84% ann.
-  - XLK $173.0 2026-11-20 (32D) -> 13.38% ann.
+CSP candidates: 5 pass all gates, 13 watch-only
+  - APLD $16.0 2026-11-20 (31D) -> 45.62% ann.
+  - DRAM $43.0 2026-11-20 (31D) -> 36.42% ann.
+  - MRVL $210.0 2026-11-20 (31D) -> 33.47% ann.
+  - ASML $1500.0 2026-11-20 (31D) -> 19.11% ann.
+  - XLK $175.0 2026-11-20 (31D) -> 15.54% ann.
 
 Earnings scheduled: 14 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-19)
-  - sectors: EOD (obs 2026-10-19)
-  - volatility: EOD (obs 2026-10-19)
-  - rates: EOD (obs 2026-10-15)
-  - news: EOD (obs 2026-10-19)
-  - earnings: EOD (obs 2026-10-19)
-  - options_chain: EOD (obs 2026-10-19)
+  - breadth: EOD (obs 2026-10-20)
+  - sectors: EOD (obs 2026-10-20)
+  - volatility: EOD (obs 2026-10-20)
+  - rates: EOD (obs 2026-10-16)
+  - news: EOD (obs 2026-10-20)
+  - earnings: EOD (obs 2026-10-20)
+  - options_chain: EOD (obs 2026-10-20)
   - consumer_sentiment: EOD (obs 2026-08-01)
   - bear_indicator: STALE (obs 2026-10-16)
   - fomo_fragility: STALE (obs 2026-10-09)
