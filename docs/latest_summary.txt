@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-10-22
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-10-23
+Regime: AMBER (selective)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - AMBER: VIX outside calm band (20.21, calm range is 12.0–20.0)
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (0.007)
@@ -24,23 +24,28 @@ Fed Liquidity: Neutral (51.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 2 pass all gates, 16 watch-only
-  - DRAM $45.0 2026-11-27 (36D) -> 69.85% ann.
-  - MRVL $195.0 2026-11-27 (36D) -> 33.95% ann.
+CSP candidates: 7 pass all gates, 11 watch-only
+  - APLD $17.0 2026-11-27 (35D) -> 79.13% ann.
+  - LRCX $225.0 2026-11-27 (35D) -> 56.08% ann.
+  - BE $160.0 2026-11-27 (35D) -> 41.71% ann.
+  - WDC $300.0 2026-11-27 (35D) -> 32.68% ann.
+  - MRVL $195.0 2026-11-27 (35D) -> 29.95% ann.
+  - DRAM $40.0 2026-11-27 (35D) -> 25.29% ann.
+  - XLK $160.0 2026-11-27 (35D) -> 8.54% ann.
 
-Earnings scheduled: 13 tickers in next 60D
+Earnings scheduled: 11 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-22)
-  - sectors: EOD (obs 2026-10-22)
-  - volatility: EOD (obs 2026-10-22)
-  - rates: EOD (obs 2026-10-20)
-  - news: EOD (obs 2026-10-22)
-  - earnings: EOD (obs 2026-10-22)
-  - options_chain: EOD (obs 2026-10-22)
-  - consumer_sentiment: EOD (obs 2026-08-01)
+  - breadth: EOD (obs 2026-10-23)
+  - sectors: EOD (obs 2026-10-23)
+  - volatility: EOD (obs 2026-10-23)
+  - rates: EOD (obs 2026-10-21)
+  - news: EOD (obs 2026-10-23)
+  - earnings: EOD (obs 2026-10-23)
+  - options_chain: EOD (obs 2026-10-23)
+  - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-10-16)
   - fomo_fragility: STALE (obs 2026-10-09)
   - fed_liquidity: STALE (obs 2026-10-14)
