@@ -1,37 +1,29 @@
-MARKET DASHBOARD — DAILY — 2026-10-23
-Regime: AMBER (selective)
+MARKET DASHBOARD — WEEKLY — 2026-10-24
+Regime: GREEN (normal risk)
 
 Why:
-  - AMBER: VIX outside calm band (20.21, calm range is 12.0–20.0)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Cautionary (5/8)
-  - Avg core CMF weak (0.007)
-  - At least one index CMF negative (min -0.02)
-  - %>50DMA below 50% (45.7%)
+  - Avg core CMF weak (-0.082)
+  - At least one index CMF negative (min -0.14)
+  - Net New Hi% below 2% (1.6%)
   - SPY below both 20D and 50D SMA
-  - Flows decelerated sharply vs prior week (0.01 < 60% of 0.09)
+  - Flows decelerated sharply vs prior week (-0.08 < 60% of 0.01)
 
-FOMO Fragility Index: 🟡 Building (54.7/100)
-  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
-  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
-  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
-  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
+FOMO Fragility Index: FAILED - FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison
 
-Fed Liquidity: Neutral (51.1/100)
-  - Net Liquidity +7B this week (Fed assets +8B, TGA +3B, ON RRP -2B)
-  - 4-week Net Liquidity trend: +8B
-  - Bank reserves: -8B this week, +8B over 4 weeks
+Fed Liquidity: Neutral (47.0/100)
+  - Net Liquidity -71B this week (Fed assets -2B, TGA +69B, ON RRP +0B)
+  - 4-week Net Liquidity trend: +31B
+  - Bank reserves: -60B this week, +32B over 4 weeks
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 7 pass all gates, 11 watch-only
-  - APLD $17.0 2026-11-27 (35D) -> 79.13% ann.
-  - LRCX $225.0 2026-11-27 (35D) -> 56.08% ann.
-  - BE $160.0 2026-11-27 (35D) -> 41.71% ann.
-  - WDC $300.0 2026-11-27 (35D) -> 32.68% ann.
-  - MRVL $195.0 2026-11-27 (35D) -> 29.95% ann.
-  - DRAM $40.0 2026-11-27 (35D) -> 25.29% ann.
-  - XLK $160.0 2026-11-27 (35D) -> 8.54% ann.
+CSP candidates: 3 pass all gates, 15 watch-only
+  - BE $160.0 2026-11-27 (34D) -> 37.1% ann.
+  - ASML $1500.0 2026-11-27 (34D) -> 33.53% ann.
+  - MRVL $195.0 2026-11-27 (34D) -> 30.28% ann.
 
 Earnings scheduled: 11 tickers in next 60D
 
@@ -41,11 +33,11 @@ Data health:
   - breadth: EOD (obs 2026-10-23)
   - sectors: EOD (obs 2026-10-23)
   - volatility: EOD (obs 2026-10-23)
-  - rates: EOD (obs 2026-10-21)
-  - news: EOD (obs 2026-10-23)
-  - earnings: EOD (obs 2026-10-23)
-  - options_chain: EOD (obs 2026-10-23)
+  - rates: EOD (obs 2026-10-22)
+  - news: EOD (obs 2026-10-24)
+  - earnings: EOD (obs 2026-10-24)
+  - options_chain: EOD (obs 2026-10-24)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: STALE (obs 2026-10-16)
-  - fomo_fragility: STALE (obs 2026-10-09)
-  - fed_liquidity: STALE (obs 2026-10-14)
+  - bear_indicator: EOD (obs 2026-10-23)
+  - fomo_fragility: FAILED (obs —)
+  - fed_liquidity: EOD (obs 2026-10-21)
