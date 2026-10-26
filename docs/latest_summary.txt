@@ -1,4 +1,4 @@
-MARKET DASHBOARD — WEEKLY — 2026-10-24
+MARKET DASHBOARD — DAILY — 2026-10-26
 Regime: GREEN (normal risk)
 
 Why:
@@ -11,7 +11,11 @@ Bear Indicator: Cautionary (5/8)
   - SPY below both 20D and 50D SMA
   - Flows decelerated sharply vs prior week (-0.08 < 60% of 0.01)
 
-FOMO Fragility Index: FAILED - FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison
+FOMO Fragility Index: 🟡 Building (54.7/100)
+  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
+  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
+  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
 Fed Liquidity: Neutral (47.0/100)
   - Net Liquidity -71B this week (Fed assets -2B, TGA +69B, ON RRP +0B)
@@ -20,24 +24,25 @@ Fed Liquidity: Neutral (47.0/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 3 pass all gates, 15 watch-only
-  - BE $160.0 2026-11-27 (34D) -> 37.1% ann.
-  - ASML $1500.0 2026-11-27 (34D) -> 33.53% ann.
-  - MRVL $195.0 2026-11-27 (34D) -> 30.28% ann.
+CSP candidates: 4 pass all gates, 14 watch-only
+  - BE $175.0 2026-11-27 (32D) -> 39.76% ann.
+  - DRAM $44.0 2026-11-27 (32D) -> 37.33% ann.
+  - MRVL $205.0 2026-11-27 (32D) -> 31.44% ann.
+  - XLK $175.0 2026-11-27 (32D) -> 15.45% ann.
 
 Earnings scheduled: 11 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-23)
-  - sectors: EOD (obs 2026-10-23)
-  - volatility: EOD (obs 2026-10-23)
+  - breadth: EOD (obs 2026-10-26)
+  - sectors: EOD (obs 2026-10-26)
+  - volatility: EOD (obs 2026-10-26)
   - rates: EOD (obs 2026-10-22)
-  - news: EOD (obs 2026-10-24)
-  - earnings: EOD (obs 2026-10-24)
-  - options_chain: EOD (obs 2026-10-24)
+  - news: EOD (obs 2026-10-26)
+  - earnings: EOD (obs 2026-10-26)
+  - options_chain: EOD (obs 2026-10-26)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: EOD (obs 2026-10-23)
-  - fomo_fragility: FAILED (obs —)
-  - fed_liquidity: EOD (obs 2026-10-21)
+  - bear_indicator: STALE (obs 2026-10-23)
+  - fomo_fragility: STALE (obs 2026-10-09)
+  - fed_liquidity: STALE (obs 2026-10-21)
