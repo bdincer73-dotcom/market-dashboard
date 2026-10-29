@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-10-28
-Regime: RED (protect cash)
+MARKET DASHBOARD — DAILY — 2026-10-29
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: 20D breadth Δ-4.8 and 50D breadth Δ-4.0 both deteriorating (both ≤ -2.0 threshold)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (-0.082)
@@ -24,26 +24,25 @@ Fed Liquidity: Neutral (47.0/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 6 pass all gates, 12 watch-only
-  - APLD $18.0 2026-11-27 (30D) -> 89.9% ann.
-  - CLS $280.0 2026-11-27 (30D) -> 56.71% ann.
-  - WDC $365.0 2026-12-04 (37D) -> 49.51% ann.
-  - BE $190.0 2026-11-27 (30D) -> 40.98% ann.
-  - DRAM $48.0 2026-12-04 (37D) -> 35.55% ann.
-  - SOFI $15.0 2026-12-04 (37D) -> 19.07% ann.
+CSP candidates: 5 pass all gates, 13 watch-only
+  - LRCX $240.0 2026-12-04 (36D) -> 41.82% ann.
+  - GLW $120.0 2026-12-04 (36D) -> 37.34% ann.
+  - BE $185.0 2026-12-04 (36D) -> 35.46% ann.
+  - DRAM $45.0 2026-12-04 (36D) -> 28.61% ann.
+  - SOFI $16.0 2026-12-04 (36D) -> 22.81% ann.
 
-Earnings scheduled: 6 tickers in next 60D
+Earnings scheduled: 5 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-28)
-  - sectors: EOD (obs 2026-10-28)
-  - volatility: EOD (obs 2026-10-28)
-  - rates: EOD (obs 2026-10-26)
-  - news: EOD (obs 2026-10-28)
-  - earnings: EOD (obs 2026-10-28)
-  - options_chain: EOD (obs 2026-10-28)
+  - breadth: EOD (obs 2026-10-29)
+  - sectors: EOD (obs 2026-10-29)
+  - volatility: EOD (obs 2026-10-29)
+  - rates: EOD (obs 2026-10-27)
+  - news: EOD (obs 2026-10-29)
+  - earnings: EOD (obs 2026-10-29)
+  - options_chain: EOD (obs 2026-10-29)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-10-23)
   - fomo_fragility: STALE (obs 2026-10-09)
