@@ -1,8 +1,9 @@
-MARKET DASHBOARD — DAILY — 2026-10-29
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-10-30
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: 20D breadth Δ-4.4 and 50D breadth Δ-2.8 both deteriorating (both ≤ -2.0 threshold)
+  - RED: 200D breadth weakening (Δ-3.0 ≤ -2.0 threshold)
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (-0.082)
@@ -24,25 +25,24 @@ Fed Liquidity: Neutral (47.0/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 5 pass all gates, 13 watch-only
-  - LRCX $240.0 2026-12-04 (36D) -> 41.82% ann.
-  - GLW $120.0 2026-12-04 (36D) -> 37.34% ann.
-  - BE $185.0 2026-12-04 (36D) -> 35.46% ann.
-  - DRAM $45.0 2026-12-04 (36D) -> 28.61% ann.
-  - SOFI $16.0 2026-12-04 (36D) -> 22.81% ann.
+CSP candidates: 4 pass all gates, 13 watch-only
+  - BE $175.0 2026-12-04 (35D) -> 60.19% ann.
+  - DRAM $44.0 2026-12-04 (35D) -> 55.46% ann.
+  - GLW $110.0 2026-12-04 (35D) -> 36.31% ann.
+  - SOFI $14.5 2026-12-04 (35D) -> 19.42% ann.
 
-Earnings scheduled: 5 tickers in next 60D
+Earnings scheduled: 4 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-10-29)
-  - sectors: EOD (obs 2026-10-29)
-  - volatility: EOD (obs 2026-10-29)
-  - rates: EOD (obs 2026-10-27)
-  - news: EOD (obs 2026-10-29)
-  - earnings: EOD (obs 2026-10-29)
-  - options_chain: EOD (obs 2026-10-29)
+  - breadth: EOD (obs 2026-10-30)
+  - sectors: EOD (obs 2026-10-30)
+  - volatility: EOD (obs 2026-10-30)
+  - rates: EOD (obs 2026-10-28)
+  - news: EOD (obs 2026-10-30)
+  - earnings: EOD (obs 2026-10-30)
+  - options_chain: EOD (obs 2026-10-30)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-10-23)
   - fomo_fragility: STALE (obs 2026-10-09)
