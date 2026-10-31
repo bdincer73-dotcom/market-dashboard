@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Dashboard — 2026-10-31 (Weekly)</title>
+<style>
+  :root {
+    --green: #1e8e3e; --amber: #e8a33d; --red: #d93025; --yellow: #e0c33d;
+    --bg: #0f1115; --card: #171a21; --text: #e8e9ec; --muted: #9aa0ac; --border: #2a2e38;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:8px; }
+  .analyzer-link { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:999px;
+    font-weight:700; font-size:0.85rem; background: rgba(30,142,62,0.12); color: var(--green);
+    border:1px solid var(--green); text-decoration:none; }
+  .analyzer-link:hover { background: rgba(30,142,62,0.22); }
+  h1 { font-size: 1.4rem; margin: 0; }
+  .sub { color: var(--muted); font-size: 0.85rem; }
+  .badge { display:inline-block; padding: 6px 16px; border-radius: 999px; font-weight:700; font-size:0.95rem; }
+  .badge.GREEN { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.AMBER { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.RED   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Bearish     { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.Cautionary  { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.Watch       { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
+  .badge.Constructive{ background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fomo-green    { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fomo-building { background: rgba(224,195,61,0.18); color: var(--yellow); border:1px solid var(--yellow); }
+  .badge.fomo-elevated { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .badge.fomo-reduce   { background: rgba(217,48,37,0.18); color: var(--red); border:1px solid var(--red); }
+  .badge.fedliq-expanding   { background: rgba(30,142,62,0.18); color: var(--green); border:1px solid var(--green); }
+  .badge.fedliq-neutral     { background: rgba(154,160,172,0.18); color: var(--muted); border:1px solid var(--border); }
+  .badge.fedliq-contracting { background: rgba(232,163,61,0.18); color: var(--amber); border:1px solid var(--amber); }
+  .fomo-axes { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-bottom:12px; }
+  .fomo-axis { background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
+  .fomo-axis .label { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); margin-bottom:6px; }
+  .fomo-axis .label b { color:var(--text); font-weight:600; }
+  .fomo-axis .bar-track { background: var(--border); border-radius:999px; height:8px; overflow:hidden; }
+  .fomo-axis .bar-fill { height:100%; border-radius:999px; }
+  .fomo-action { font-size:0.85rem; padding:10px 12px; border-radius:8px; margin-top:8px;
+    background: rgba(255,255,255,0.03); border:1px solid var(--border); }
+  .news-ticker { margin-bottom: 14px; }
+  .news-ticker:last-child { margin-bottom: 0; }
+  .news-ticker .ticker-label { font-weight:700; font-size:0.85rem; margin-bottom:4px; }
+  .news-ticker .ticker-label .unavail { color: var(--muted); font-weight:400; font-size:0.75rem; }
+  .headline { font-size:0.83rem; padding:3px 0; }
+  .headline a { color: var(--text); text-decoration:none; }
+  .headline a:hover { text-decoration:underline; }
+  .headline .src { color: var(--muted); font-size:0.72rem; margin-left:4px; }
+  .news-cols { column-count: 2; column-gap: 24px; }
+  @media (max-width: 700px) { .news-cols { column-count: 1; } }
+  .news-ticker { break-inside: avoid; }
+  .status-pill { font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight:600; }
+  .status-pill.LIVE, .status-pill.EOD { background: rgba(30,142,62,0.15); color: var(--green); }
+  .status-pill.STALE { background: rgba(232,163,61,0.15); color: var(--amber); }
+  .status-pill.FAILED { background: rgba(217,48,37,0.15); color: var(--red); }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-bottom:24px; }
+  .card { background: var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .card h2 { font-size:0.95rem; margin:0 0 10px 0; display:flex; justify-content:space-between; align-items:center; }
+  .metric { display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; padding:4px 0;
+    font-size:0.88rem; border-bottom:1px dashed var(--border); }
+  .metric:last-child { border-bottom:none; }
+  .metric .v { font-weight:600; text-align:right; }
+  .bear-grid { grid-template-columns: repeat(auto-fit, minmax(300px,1fr)) !important; }
+  table { width:100%; border-collapse: collapse; font-size:0.85rem; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); }
+  th { color: var(--muted); font-weight:600; }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+  ul.reasons { margin:0; padding-left:18px; font-size:0.85rem; color: var(--muted); }
+  ul.reasons li { margin-bottom:4px; }
+  footer { border-top:1px solid var(--border); padding-top:16px; margin-top:8px; }
+  footer h2 { font-size:0.85rem; color: var(--muted); margin-bottom:10px; }
+  .health-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:4px 0; color: var(--muted); }
+  .notes { font-size:0.75rem; color: var(--muted); margin-top:2px; }
+  details.legend { margin-bottom:20px; border:1px solid var(--border); border-radius:10px; background: var(--card); }
+  details.legend summary { cursor:pointer; padding:10px 16px; font-size:0.85rem; font-weight:600; list-style:none; }
+  details.legend summary::-webkit-details-marker { display:none; }
+  details.legend summary::before { content: "▸ "; color: var(--muted); }
+  details.legend[open] summary::before { content: "▾ "; }
+  .legend-body { padding: 0 16px 16px 16px; }
+  .legend-group { margin-bottom:14px; }
+  .legend-group:last-child { margin-bottom:0; }
+  .legend-group h3 { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color: var(--muted); margin:0 0 8px 0; font-weight:600; }
+  .legend-row { display:flex; align-items:baseline; gap:8px; font-size:0.82rem; padding:3px 0; }
+  .legend-row .badge, .legend-row .status-pill { flex-shrink:0; }
+  .legend-row .desc { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Daily + Weekly Market Dashboard</h1>
+      <div class="sub">Weekly run · 2026-10-31 · generated 2026-10-31T17:34:15+00:00</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <a href="analyzer.html" class="analyzer-link">🔒 Portfolio Analyzer</a>
+      <div class="badge GREEN">GREEN normal risk</div>
+    </div>
+  </header>
+
+  <div class="sub" style="margin-bottom:16px;">
+    Upload your tracker file to the Portfolio Analyzer above for assignment risk and sector-concentration
+    checks against your actual positions — it runs entirely in your browser, nothing is ever stored on this site.
+  </div>
+
+  <details class="legend" open>
+    <summary>Legend — what the colors mean</summary>
+    <div class="legend-body">
+      <div class="legend-group">
+        <h3>Regime call (top badge + "Why this regime")</h3>
+        <div class="legend-row"><span class="badge GREEN">GREEN</span><span class="desc">normal risk — breadth stable/rising, RSP confirming, VIX calm, leadership broad. No rule tripped.</span></div>
+        <div class="legend-row"><span class="badge AMBER">AMBER</span><span class="desc">selective — at least one warning rule tripped (mixed breadth, rising VIX, narrow leadership, or missing data). Trade smaller, demand a better discount, favor cleaner liquidity.</span></div>
+        <div class="legend-row"><span class="badge RED">RED</span><span class="desc">protect cash — breadth deteriorating, RSP underperforming, or volatility/term-structure stress. Default to cash over new risk.</span></div>
+      </div>
+      <div class="legend-group">
+        <h3>Bear Indicator (weekly only, separate 0-8 score)</h3>
+        <div class="legend-row"><span class="badge Constructive">🟢 Constructive</span><span class="desc">0-1 of 8 bearish conditions tripped</span></div>
+        <div class="legend-row"><span class="badge Watch">🟡 Watch</span><span class="desc">2-3 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Cautionary">🟠 Cautionary</span><span class="desc">4-5 of 8 tripped</span></div>
+        <div class="legend-row"><span class="badge Bearish">🔴 Bearish</span><span class="desc">6-8 of 8 tripped</span></div>
+        <div class="notes" style="margin-top:6px;">CMF (Chaikin Money Flow) is a -1 to +1 oscillator, not a percentage — positive means net buying pressure, negative means net selling. It's a different kind of metric from the % stats next to it (breadth, Net New Hi%), which measure share of market.</div>
+      </div>
+      <div class="legend-group">
+        <h3>FOMO Fragility Index (weekly only, euphoria/top companion to the Bear Indicator)</h3>
+        <div class="legend-row"><span class="badge fomo-green">🟢 No euphoria</span><span class="desc">composite &lt; 40</span></div>
+        <div class="legend-row"><span class="badge fomo-building">🟡 Building</span><span class="desc">composite 40-59</span></div>
+        <div class="legend-row"><span class="badge fomo-elevated">🟠 Elevated FOMO</span><span class="desc">composite 60-74</span></div>
+        <div class="legend-row"><span class="badge fomo-reduce">🔴 REDUCE — fragile top</span><span class="desc">composite ≥ 75 AND at least 2 of the 3 axes individually above 70</span></div>
+        <div class="notes" style="margin-top:6px;">Three axes — Stretch (price over-extension), Leverage (margin debt + suppressed vol), Crowding (concentration + correlation) — combine into a 0-100 composite. RED requires the conjunction of a high composite AND multiple hot axes at once: "expensive but stable" alone won't trigger it, by design.</div>
+      </div>
+      <div class="legend-group">
+        <h3>Fed Liquidity Indicator (weekly only, macro overlay for CSP sizing)</h3>
+        <div class="legend-row"><span class="badge fedliq-expanding">🟢 EXPANDING</span><span class="desc">Liquidity Score ≥ 60</span></div>
+        <div class="legend-row"><span class="badge fedliq-neutral">⚪ NEUTRAL</span><span class="desc">Liquidity Score 40-59</span></div>
+        <div class="legend-row"><span class="badge fedliq-contracting">🟠🔴 CONTRACTING</span><span class="desc">Liquidity Score ≤ 40 (🔴 below 20)</span></div>
+        <div class="notes" style="margin-top:6px;">Net Liquidity = Fed total assets − Treasury General Account − ON RRP, a widely used but unofficial proxy. Score starts at 50 and moves with this week's Net Liquidity change, the 4-week trend, and bank reserves' own 4-week move (when available) — see <code>config/thresholds.yaml</code> for the exact weights. Independent of breadth/technicals: a Contracting reading can justify smaller/safer CSP sizing even when the regime call above looks fine.</div>
+      </div>
+      <div class="legend-group">
+        <h3>Data freshness (next to every tile, and in the footer)</h3>
+        <div class="legend-row"><span class="status-pill LIVE">LIVE / EOD</span><span class="desc">fresh, usable data for this run</span></div>
+        <div class="legend-row"><span class="status-pill STALE">STALE</span><span class="desc">retrieved, but older than expected for this run</span></div>
+        <div class="legend-row"><span class="status-pill FAILED">FAILED</span><span class="desc">could not be retrieved this run — shown honestly rather than guessed or carried forward</span></div>
+      </div>
+      <div class="notes">All regime/Bear Indicator thresholds are tunable in <code>config/thresholds.yaml</code> — edit that file, not the code, to make the dashboard more or less sensitive.</div>
+    </div>
+  </details>
+
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Bear Indicator (weekly) <span class="status-pill EOD">EOD</span>
+      
+      <span class="badge Watch">🟡 Watch — 2/8</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-10-31 — computed fresh this run.
+    </div>
+    
+    <div class="grid bear-grid" style="margin-bottom:12px;">
+      
+        
+        <div class="metric"><span>SPY CMF(20)</span><span class="v">0.0459 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        
+      
+        
+        <div class="metric"><span>VOO CMF(20)</span><span class="v">0.1221 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        
+      
+        
+        <div class="metric"><span>IWV CMF(20)</span><span class="v">0.1121 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        
+      
+        
+        <div class="metric"><span>QQQ CMF(20)</span><span class="v">-0.0207 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        
+      
+        
+        <div class="metric"><span>RSP CMF(20)</span><span class="v">0.3644 <span style="color:var(--muted); font-weight:400; font-size:0.75rem;">/ ±1</span></span></div>
+        
+      
+      <div class="metric"><span>SPY vs 20/50 SMA</span><span class="v">Below both</span></div>
+      <div class="metric"><span>RSP vs 20/50 SMA</span><span class="v">Above both</span></div>
+      <div class="metric"><span>% above 50D / 200D</span><span class="v">61.4% / 61.6%</span></div>
+      <div class="metric"><span>Net New Hi %</span><span class="v">5.8%</span></div>
+    </div>
+    <ul class="reasons">
+      <li>At least one index CMF negative (min -0.02)</li><li>SPY below both 20D and 50D SMA</li>
+    </ul>
+    <div class="notes" style="margin-top:8px;">Ported from your Options P&amp;L Tracker's Bear Indicator tab (original 8-condition composite formula).</div>
+    
+  </div>
+  
+
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>FOMO Fragility Index (weekly) <span class="status-pill FAILED">FAILED</span>
+      
+      <span class="status-pill FAILED">FAILED</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-10-31 — computed fresh this run.
+      Euphoria/top companion to the Bear Indicator above — catches a levered, crowded, over-extended market, not a downtrend.
+    </div>
+    
+    <div class="notes">FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison</div>
+    
+  </div>
+  
+
+  
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Fed Liquidity Indicator (weekly) <span class="status-pill EOD">EOD</span>
+      
+      <span class="badge fedliq-neutral">NEUTRAL — 42.5/100</span>
+      
+    </h2>
+    <div class="notes" style="margin-bottom:8px;">
+      As of 2026-10-31 — computed fresh this run.
+      Macro overlay for CSP sizing — independent of breadth/technicals; a Contracting reading can justify smaller/safer sizing even when the regime call above looks fine.
+    </div>
+    
+    <table style="margin-bottom:12px;">
+      <tr><th>Component</th><th>Latest</th><th>1-week move</th><th>4-week move</th></tr>
+      <tr>
+        <td>Fed balance sheet</td>
+        <td>$6.746T</td>
+        <td class="neg">-8.0B</td>
+        <td>+2.6B</td>
+      </tr>
+      <tr>
+        <td>Treasury General Account</td>
+        <td>$999.7B</td>
+        <td class="neg">+47.7B</td>
+        <td>+51.0B</td>
+      </tr>
+      <tr>
+        <td>ON RRP</td>
+        <td>$0.2B</td>
+        <td class="pos">+0.0B</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Bank reserves</td>
+        
+        <td>$2.894T</td>
+        <td class="neg">-68.8B</td>
+        <td>-54.3B</td>
+        
+      </tr>
+      <tr>
+        <td><b>Net Liquidity</b></td>
+        <td><b>$5.746T</b></td>
+        <td class="neg"><b>-55.7B</b></td>
+        <td class="neg"><b>-37.1B</b></td>
+      </tr>
+    </table>
+    
+    <div class="notes" style="margin-bottom:10px;">4-week Net Liquidity trend (oldest → newest):
+      $5.783T (2026-09-30) → $5.865T (2026-10-07) → $5.872T (2026-10-14) → $5.801T (2026-10-21) → $5.746T (2026-10-28)
+    </div>
+    
+    <ul class="reasons">
+      <li>Net Liquidity -56B this week (Fed assets -8B, TGA +48B, ON RRP +0B)</li><li>4-week Net Liquidity trend: -37B</li><li>Bank reserves: -69B this week, -54B over 4 weeks</li>
+    </ul>
+    <div class="fomo-action" style="margin-top:8px;"><b>High-beta/AI impact:</b> Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.</div>
+    <div class="fomo-action" style="margin-top:8px;"><b>CSP sizing implication:</b> No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.</div>
+    <div class="notes" style="margin-top:8px;"></div>
+    
+  </div>
+  
+
+  <div class="grid">
+    <div class="card">
+      <h2>Breadth <span class="status-pill EOD">EOD</span></h2>
+      
+      <div class="metric"><span>% above 20D SMA</span><span class="v">70.2%</span></div>
+      <div class="metric"><span>% above 50D SMA</span><span class="v">61.4%</span></div>
+      <div class="metric"><span>% above 200D SMA</span><span class="v">61.6%</span></div>
+      <div class="metric"><span>Constituent coverage</span><span class="v">99.4%</span></div>
+      
+      <div class="metric"><span>Δ20D / Δ50D / Δ200D vs prior</span>
+        <span class="v">2.0 / 0.2 / 0.4</span></div>
+      
+      
+    </div>
+
+    <div class="card">
+      <h2>Volatility <span class="status-pill EOD">EOD</span></h2>
+      
+      
+        
+        <div class="metric"><span>VIX</span>
+          <span class="v">19.42
+            (+2.22 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VIX9D</span>
+          <span class="v">19.25
+            (+3.38 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VIX3M</span>
+          <span class="v">20.78
+            (+1.41 1D)</span></div>
+        
+      
+        
+        <div class="metric"><span>VVIX</span>
+          <span class="v">106.43
+            (+8.42 1D)</span></div>
+        
+      
+      <div class="metric"><span>Term structure</span><span class="v">contango (calm)</span></div>
+      
+    </div>
+
+    <div class="card">
+      <h2>Rates <span class="status-pill EOD">EOD</span></h2>
+      
+      <div class="metric"><span>2Y Treasury</span><span class="v">4.61%</span></div>
+      <div class="metric"><span>10Y Treasury</span><span class="v">4.98%</span></div>
+      <div class="metric"><span>2s10s spread</span><span class="v">37.0 bps</span></div>
+      <div class="notes">FedWatch distribution not automated in R1 — <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" style="color:inherit;">official tool</a></div>
+      
+    </div>
+
+    <div class="card">
+      <h2>Sector rotation (RSP vs SPY 5D: 1.38 pts)
+        <span class="status-pill EOD">EOD</span></h2>
+      
+      <table>
+        <tr><th>#</th><th>Sector</th><th>1D</th><th>5D</th><th>20D</th><th>Rel. vs SPY 20D</th></tr>
+        
+        <tr>
+          <td>1</td>
+          <td>XLE</td>
+          <td class="pos">1.91</td>
+          <td class="pos">1.0</td>
+          <td class="pos">11.46</td>
+          <td class="pos">13.27</td>
+        </tr>
+        
+        <tr>
+          <td>2</td>
+          <td>XLV <small>(def.)</small></td>
+          <td class="pos">0.45</td>
+          <td class="pos">3.12</td>
+          <td class="pos">11.25</td>
+          <td class="pos">13.06</td>
+        </tr>
+        
+        <tr>
+          <td>3</td>
+          <td>XLP <small>(def.)</small></td>
+          <td class="pos">1.41</td>
+          <td class="pos">1.31</td>
+          <td class="pos">11.04</td>
+          <td class="pos">12.85</td>
+        </tr>
+        
+        <tr>
+          <td>4</td>
+          <td>XLU <small>(def.)</small></td>
+          <td class="pos">0.67</td>
+          <td class="pos">2.04</td>
+          <td class="pos">9.04</td>
+          <td class="pos">10.85</td>
+        </tr>
+        
+        <tr>
+          <td>5</td>
+          <td>XLB</td>
+          <td class="pos">0.4</td>
+          <td class="pos">2.79</td>
+          <td class="pos">7.94</td>
+          <td class="pos">9.75</td>
+        </tr>
+        
+        <tr>
+          <td>6</td>
+          <td>XLRE <small>(def.)</small></td>
+          <td class="pos">0.26</td>
+          <td class="pos">1.41</td>
+          <td class="pos">5.78</td>
+          <td class="pos">7.59</td>
+        </tr>
+        
+        <tr>
+          <td>7</td>
+          <td>XLF</td>
+          <td class="neg">-0.76</td>
+          <td class="pos">1.09</td>
+          <td class="pos">5.65</td>
+          <td class="pos">7.46</td>
+        </tr>
+        
+        <tr>
+          <td>8</td>
+          <td>XLY</td>
+          <td class="neg">-0.71</td>
+          <td class="pos">2.02</td>
+          <td class="pos">4.85</td>
+          <td class="pos">6.66</td>
+        </tr>
+        
+        <tr>
+          <td>9</td>
+          <td>XLI</td>
+          <td class="neg">-1.6</td>
+          <td class="pos">1.69</td>
+          <td class="neg">-1.5</td>
+          <td class="pos">0.31</td>
+        </tr>
+        
+        <tr>
+          <td>10</td>
+          <td>XLC</td>
+          <td class="neg">-1.29</td>
+          <td class="neg">-5.32</td>
+          <td class="neg">-9.45</td>
+          <td class="neg">-7.64</td>
+        </tr>
+        
+        <tr>
+          <td>11</td>
+          <td>XLK</td>
+          <td class="neg">-4.89</td>
+          <td class="neg">-2.03</td>
+          <td class="neg">-10.16</td>
+          <td class="neg">-8.35</td>
+        </tr>
+        
+      </table>
+      
+    </div>
+
+    <div class="card">
+      <h2>Consumer Sentiment (UMich) <span class="status-pill EOD">EOD</span></h2>
+      
+      <div class="metric"><span>Index level</span><span class="v">48.1</span></div>
+      <div class="metric"><span>MoM change</span>
+        <span class="v neg">-3.6</span></div>
+      <div class="metric"><span>YoY change</span>
+        <span class="v neg">-7.0</span></div>
+      <div class="notes">As of 2026-09 — UMich survey, monthly, FRED-delayed ~1 month by source request.</div>
+      
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Why this regime</h2>
+    <div class="notes" style="margin-bottom:8px;">Every rule that actually tripped this run, each shown as the value that fired it vs. the threshold that triggered it. No trip = GREEN by default; see the legend above for what each color means.</div>
+    <ul class="reasons">
+      <li>GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>CSP candidates
+      <span class="status-pill EOD">EOD</span>
+    </h2>
+    
+    <div class="notes" style="margin-bottom:10px;">
+      One representative strike per ticker, 30-40 DTE window.
+      Gates: return ≥ target, spread/OI liquidity, no earnings before expiry. Delta is an estimate (Black-Scholes from implied vol) - not a broker Greek.
+      1 pass all gates · 16 watch-only (failed a gate)
+    </div>
+    
+    <table>
+      <tr><th>Ticker</th><th>Spot</th><th>Strike</th><th>Expiry</th><th>DTE</th><th>Mid</th><th>Ann. return</th><th>Δ (est.)</th><th>Spread%</th><th>OI</th></tr>
+      
+      <tr>
+        <td>SOFI</td>
+        <td>16.76</td>
+        <td>15.0</td>
+        <td>2026-12-04</td>
+        <td>34</td>
+        <td>0.33</td>
+        <td class="pos">23.62%</td>
+        <td>-0.201</td>
+        <td>3.0</td>
+        <td>334</td>
+      </tr>
+      
+    </table>
+    
+    
+    <div class="notes" style="margin-top:12px; font-weight:600;">Watch only (failed a gate):</div>
+    <ul class="reasons">
+      
+      <li>IREN: earnings on 2026-11-05 falls before this expiry (34D out)</li>
+      
+      <li>APLD: bid/ask spread 104.2% > 10.0% of mid</li>
+      
+      <li>CRWV: earnings on 2026-11-10 falls before this expiry (34D out)</li>
+      
+      <li>COHR: bid/ask spread 27.1% > 10.0% of mid; earnings on 2026-11-04 falls before this expiry (34D out)</li>
+      
+      <li>BE: bid/ask spread 12.2% > 10.0% of mid</li>
+      
+      <li>CLS: bid/ask spread 23.7% > 10.0% of mid</li>
+      
+      <li>STX: bid/ask spread 20.8% > 10.0% of mid</li>
+      
+      <li>MRVL: earnings on 2026-11-26 falls before this expiry (34D out)</li>
+      
+      <li>WDC: bid/ask spread 20.8% > 10.0% of mid; open interest 9 < 10 minimum</li>
+      
+      <li>DRAM: bid/ask spread 17.3% > 10.0% of mid</li>
+      
+      <li>GLW: bid/ask spread 12.2% > 10.0% of mid</li>
+      
+      <li>VRT: bid/ask spread 15.2% > 10.0% of mid</li>
+      
+      <li>LRCX: bid/ask spread 20.8% > 10.0% of mid</li>
+      
+      <li>ASML: bid/ask spread 18.5% > 10.0% of mid; open interest 3 < 10 minimum</li>
+      
+      <li>XLK: bid/ask spread 43.4% > 10.0% of mid; open interest 5 < 10 minimum</li>
+      
+      <li>INTC: bid/ask spread 18.7% > 10.0% of mid; open interest 7 < 10 minimum</li>
+      
+    </ul>
+    
+    
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Earnings risk — your positions
+      <span class="status-pill EOD">EOD</span>
+    </h2>
+    
+    <div class="notes" style="margin-bottom:10px;">Next 60 days · TBD dates are treated as risk, not certainty.</div>
+    <table>
+      <tr><th>Ticker</th><th>Report date</th><th>When</th><th>Days out</th><th>Confirmed</th></tr>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <tr>
+          <td>COHR</td>
+          <td>2026-11-04</td>
+          <td>amc</td>
+          <td>4</td>
+          <td>✓</td>
+        </tr>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <tr>
+          <td>IREN</td>
+          <td>2026-11-05</td>
+          <td>amc</td>
+          <td>5</td>
+          <td>✓</td>
+        </tr>
+        
+      
+        
+      
+        
+        <tr>
+          <td>MRVL</td>
+          <td>2026-11-26</td>
+          <td>TBD</td>
+          <td>26</td>
+          <td>✓</td>
+        </tr>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+        <tr>
+          <td>CRWV</td>
+          <td>2026-11-10</td>
+          <td>TBD</td>
+          <td>10</td>
+          <td>✓</td>
+        </tr>
+        
+      
+        
+      
+        
+      
+    </table>
+    
+  </div>
+
+  <div class="card" style="margin-bottom:24px;">
+    <h2>Market news — your positions
+      <span class="status-pill EOD">EOD</span>
+    </h2>
+    
+    <div class="notes" style="margin-bottom:10px;">26 tickers with headlines · 0 unavailable</div>
+    <div class="news-cols">
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">APLD</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=83c590fcc2342faeeff740029c0099bbb2315d545ea0735cbda31eea8ec1da2b" target="_blank" rel="noopener">B. Riley Cut Its Applied Digital Target to $51. It Still Sees 185% Upside</a>
+            <span class="src">— Yahoo · 2026-10-30T20:40+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=cf128a6b9dade549bd9a1d92e88851a30c0cce0d3a81036889c39259e38ecc70" target="_blank" rel="noopener">Meet the Underrated Artificial Intelligence (AI) Stock That Could Soar 255% in a Year, According to Wall Street</a>
+            <span class="src">— Yahoo · 2026-10-30T14:04+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ee5b6dedb2c30a15e78bc2f876dfff46d591e1851ff5a4d5fa036e3698960524" target="_blank" rel="noopener">Reported Earlier, Twenty One Completes Business Combination With Cantor Equity Partners And Lists On NYSE Under "XXI" With Over 43,500 Bitcoin</a>
+            <span class="src">— Benzinga · 2026-10-30T10:54+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">ASML</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e36cbd4a8f38015ba06e26b2deb3911241fda927b6425690c1272fa185d10d9c" target="_blank" rel="noopener">ASML’s CEO is putting his paycheck on the line for employee morale. It could help retain talent that’s nearly impossible to replace</a>
+            <span class="src">— Yahoo · 2026-10-31T10:42+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=315b842232d9ff298d7d87557059e58759fa55dc58728aac22644ac70e306e90" target="_blank" rel="noopener">ASML vs. Applied Materials: One Is Growing Twice as Fast, but I’d Buy The Other Instead</a>
+            <span class="src">— Yahoo · 2026-10-30T23:00+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f44e03ffd0d12138e05bae7659ac7753fee5b815ca943f2b415e818ad98c5572" target="_blank" rel="noopener">Congressman Ditches Semiconductors, Data Storage: Here’s Three Stocks He Sold</a>
+            <span class="src">— Benzinga · 2026-10-30T12:01+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">BE</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=6d709a7921a8c1c43a8fdc0575b75cbe6c6311b221acff47cd1ffbe4f92cf0b7" target="_blank" rel="noopener">Bloom Energy Just Joined the S&P 500. Here's What History Says Happens Next.</a>
+            <span class="src">— Yahoo · 2026-10-30T19:15+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=bbf94c7af48067bb31179b776f9672194dbe558b7e0699409c1e90d0151686f5" target="_blank" rel="noopener">Why Buying Bloom Energy Stock After Its Post-Earnings Selloff Could Be a Good Idea</a>
+            <span class="src">— Yahoo · 2026-10-30T18:07+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a7d8c6b7a24923091b6dbfb157e8a02195fc869e22a3e6bb112f9fb38ae26286" target="_blank" rel="noopener">FuelCell Energy Sinks 12% Despite Completing $49 Million Export-Import Bank Financing; Bloom Energy Tumbles 10%, Plug Power Falls 4%</a>
+            <span class="src">— Yahoo · 2026-10-30T18:04+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">CLS</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=067110cf060178efc101d91b08794387fcae7a9ca1cac30c4ac5c7a441030a78" target="_blank" rel="noopener">Celestica: ODM Commodity To AI Backbone - More Money To Be Made</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T04:10+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0fdf4528ef5ede398e19946ce36d088910996a1d96264469004b1f5976dd780c" target="_blank" rel="noopener">3 Canadian Growth Stocks With Revenue Growth Up To 57%</a>
+            <span class="src">— Yahoo · 2026-10-30T15:14+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a602ca353952fa5b32f69afdd0e6b39979da938d15d03470ae84f025b19e2929" target="_blank" rel="noopener">Shares of broader software stocks are trading lower amid broader market weakness as Treasury yields rise, weighing on tech stocks.</a>
+            <span class="src">— Benzinga · 2026-10-30T14:21+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">COHR</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=d24e99c282495f8443c811863b4c5d17e75bfdc67fc718bc7d172edff74db37b" target="_blank" rel="noopener">Marvell Sinks 14% in a Week on Lumentum Talks: Chipmakers Like It “Don’t Have a Choice”</a>
+            <span class="src">— Yahoo · 2026-10-31T14:07+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=00cc592efe7f1aed349082b0b23de5766808bafef40519e7bd379db3c3c149bc" target="_blank" rel="noopener">What Did It Take To Hold Novanta Stock?</a>
+            <span class="src">— Yahoo · 2026-10-31T13:47+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c406ddf6b44b6ead86cb1d7597111211089282dcf6fe8995f84a3b7d63193e8c" target="_blank" rel="noopener">Coherent Stock Fell 11% as Intel and Amazon Earnings Hit AI Hardware Stocks. Here’s Where the Stock Could Go</a>
+            <span class="src">— Yahoo · 2026-10-31T07:15+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">DRAM</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=fefbedaa5a44284c5e66ee27551e0dba64e273402aa7d1f16eda46955290e342" target="_blank" rel="noopener">ETFs in Focus as SK Hynix Reports Q3 Earnings</a>
+            <span class="src">— Yahoo · 2026-10-30T14:58+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e77ff4515978e46db11001f58dda6269ebce33cfb3917b10d9c6e6162e2a6c2e" target="_blank" rel="noopener">SNDK Tumbles Amid Tech Selloff Despite Upbeat Q1 Report; Retail Turns Bullish</a>
+            <span class="src">— Yahoo · 2026-10-30T03:05+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=76e6a1926fef7cab045bf42de873bd9cf3c22db88597aa8229f71b7563e086fa" target="_blank" rel="noopener">Review & Preview: Earnings Divergence</a>
+            <span class="src">— Yahoo · 2026-10-28T23:55+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">GLW</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2939cd90508703f897f563e1d1e8fd68c532ea71b4db12c8c89e1d56bbb16372" target="_blank" rel="noopener">Verizon: Buy The SpaceX Fear Before The Rerating</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T08:45+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ec85ceb44be20643a9601275f2f69e2e3d39e8d4e5f2494bb551d188423cd2df" target="_blank" rel="noopener">Prediction: Here's Where Corning Stock Will Trade in 2030</a>
+            <span class="src">— Yahoo · 2026-10-31T01:43+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5ba07bdb2a77bcd8eb50bd09f5d1cf5e05c94813b2203ba3f575c787ae8520cf" target="_blank" rel="noopener">GLW Q3 deep dive: Optical communications and AI demand drive accelerating growth</a>
+            <span class="src">— Yahoo · 2026-10-31T00:43+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">INTC</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=83aad663f6eaa937cae162578455c434bf35bcd03a7f792250bcb6d0d89c5056" target="_blank" rel="noopener">Intel Has a Massive Warning for AMD Stock Investors. Is It Time to Book Profits Before Nov. 3?</a>
+            <span class="src">— Yahoo · 2026-10-31T15:42+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=d508465dc519d238fb13563bd7b9a6721d8061f638a569fde0c07c450d444af3" target="_blank" rel="noopener">Why Intel (INTC) stock is trading lower today</a>
+            <span class="src">— Yahoo · 2026-10-31T15:15+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ea29a0da0b3b89abc6b4f549a483d5fc1b3efe4007514bc9541ab6f3215222db" target="_blank" rel="noopener">The Nasdaq 100 Briefly Fell Into a Correction as the AI Trade Cracks</a>
+            <span class="src">— Yahoo · 2026-10-31T14:54+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">IREN</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=df0d2d9963143be3e44be61a0d0f60eaacfaf5f19494304c709e8702ffe5a036" target="_blank" rel="noopener">B. Riley’s $64 Target Says IREN’s Selloff Went Too Far</a>
+            <span class="src">— Yahoo · 2026-10-30T20:38+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ac36b18fd03ab38075dfe7988dcbeac474f707a1b319148432963559dabd254e" target="_blank" rel="noopener">Iren (IREN) Stock Sees Modest Fair Value Cut As Analysts Weigh AI Funding Risks</a>
+            <span class="src">— Yahoo · 2026-10-30T17:14+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2bf1015306951d6b8f57f72d9206d7ed17ecebf5f87a6fa99dbfff9988b6ec91" target="_blank" rel="noopener">These 3 ETFs Doubled Investors' Money in October as AI Stocks Crashed</a>
+            <span class="src">— Benzinga · 2026-10-30T16:36+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">LRCX</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e4d7a4ad595419f6bdbe772f009af87d6e988bac49d8bcd9f9506d8301f34486" target="_blank" rel="noopener">Jim Cramer Likes Lam Research but Says Buy Just 25% of Your Position</a>
+            <span class="src">— Yahoo · 2026-10-31T10:17+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5cdcc19b3cc28e9923d73f305461c84bc17b8f532c0f4e566d3189243f943bb5" target="_blank" rel="noopener">LAM RESEARCH CORP (NASDAQ:LRCX): Affordable Growth at a Reasonable Valuation</a>
+            <span class="src">— ChartMill · 2026-10-31T09:50+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=e21943b3d071b2b811c828db21db69e4ad71e81d4b7cea2914b6c8b195970ed6" target="_blank" rel="noopener">TSMC Just Dropped 11% in a Month. Is It Time to Sell, or Load Up?</a>
+            <span class="src">— Yahoo · 2026-10-31T07:42+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">MRVL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=61a88af2acea16be66f786ec09fbcafe997896f7dc73405d438724dc97c45e01" target="_blank" rel="noopener">Wall Street Is Getting More Interested in Credo. Here’s My Price Prediction</a>
+            <span class="src">— Yahoo · 2026-10-31T15:33+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a8056ece0a0ef75d0864fd4035b017900bf748fe6cb5e5dcd30ab9c95db8ef25" target="_blank" rel="noopener">Prediction: This Under-the-Radar AI Stock Could Have a Big 2030 Ahead</a>
+            <span class="src">— Yahoo · 2026-10-31T14:33+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ef71a4b3e0394793097b4c1ed1b370a47d361debabe4ac9f54c37827d67d027f" target="_blank" rel="noopener">Piper Sandler’s $400 Target Says Marvell’s Selloff Went Too Far</a>
+            <span class="src">— Yahoo · 2026-10-31T14:24+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">SOFI</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=09611d23c302df46957b14c4e089586a8edcebe8afc96d883978741d9c73a982" target="_blank" rel="noopener">SoFi Technologies: Nobody Saw This Coming</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T08:11+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8ad5946860883139bb4ffc41b8911344c1a1b094c0145b2302f7ccc2b06cce59" target="_blank" rel="noopener">What Does SoFi Technologies (SOFI) Mean By A Tokenized Banking And Insurance Push?</a>
+            <span class="src">— Yahoo · 2026-10-31T00:20+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=6944966e9b65a019354bf80d550e919e595744e31682ebb580fd9fdcdf5498e1" target="_blank" rel="noopener">Stocktwits Fintech Pulse: US Fintech Weekly Briefing & Market Drivers</a>
+            <span class="src">— Yahoo · 2026-10-31T00:02+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">STX</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0ef94be49e0b8d36e4f69d741c39d27c75282dd85ee38877c03df245ae06ab19" target="_blank" rel="noopener">Consumer Tech (Oct 26-30): Meta Donation Sparks Backlash, Nvidia Deal Draws DOJ Scrutiny, Chipmakers Report Earnings</a>
+            <span class="src">— Benzinga · 2026-10-31T10:11+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=19f9e959768e9a11f787531ea519337e60f17c8403ece2cecf6c599289490604" target="_blank" rel="noopener">STX Q3 deep dive: data center strength and technology transition drive outperformance</a>
+            <span class="src">— Yahoo · 2026-10-31T05:55+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=4e2108a5586eb3f6c727a92e4b724914ced969ad3aef3cf70ce1b3795e71b973" target="_blank" rel="noopener">Intel’s Plunge Today Makes It October’s Worst S&P 500 Stock. Accenture Is the Month’s Big Winner.</a>
+            <span class="src">— Yahoo · 2026-10-30T16:43+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">TER</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5fa872ffb1b98303d87800faf843447ca48e4ec7441c37c5bce7c00dd4ace35a" target="_blank" rel="noopener">Robotics Stocks Diverge as Strong Earnings Meet Uneven Price Action</a>
+            <span class="src">— ChartMill · 2026-10-31T13:36+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8a2d437135de5eff29b8fe5b4ed9c29c13846f3b035b064f267a182f7a75e1ac" target="_blank" rel="noopener">FORM Drops 12% Post Q3 Earnings: Should You Buy the Stock on the Dip?</a>
+            <span class="src">— Yahoo · 2026-10-30T17:02+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=8dfcfc3d86ca6ceb2d59c1e4e5c2735091d69c15d94778dd11212612b88893ce" target="_blank" rel="noopener">FORM's HBM and Foundry Testing Gain From AI Demand: What's Ahead?</a>
+            <span class="src">— Yahoo · 2026-10-30T13:37+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">VRT</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=966772707b28c5d6a4d544832cee47e4a4277b51507282f9919aa2ef997fc3c5" target="_blank" rel="noopener">Is Vertiv Stock Safer Or Riskier Than A Year Ago?</a>
+            <span class="src">— Yahoo · 2026-10-31T14:36+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=dc8308e136874c73d6c6fc173c1b452e51fd7f4df872a52d534414be55377aaa" target="_blank" rel="noopener">3 Low Risk Stocks With At Least 21% ROE</a>
+            <span class="src">— Yahoo · 2026-10-31T13:09+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=6ac9505ed4db5017a8e9d349cadf61680ae08f0fae83deb464d52d294c9d52d3" target="_blank" rel="noopener">What nVent Electric (NVT) Said on Its Q3 Earnings Call</a>
+            <span class="src">— Yahoo · 2026-10-31T04:13+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">WDC</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=693c4b912a43746b52e4db62febea799a1f0c91f47e504f30f472d6a61567584" target="_blank" rel="noopener">Western Digital (NASDAQ:WDC) Clears Growth Screen With Improving Fundamentals</a>
+            <span class="src">— ChartMill · 2026-10-31T13:01+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f47e4bc9349c8cbc9ffa3ca6e38a1eb2fa228ae0797c3f5b6bfb3c3d0d6310b3" target="_blank" rel="noopener">3 AI Infrastructure Stocks Retail Investors Are Watching After Google Search Shift</a>
+            <span class="src">— Yahoo · 2026-10-31T12:10+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=1791b1f4b7dca802beb5ab78ac71c9b0eba61b75c833294a34c26476dd334cfb" target="_blank" rel="noopener">QQQ Quarterly Outlook Report</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T04:10+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">CRWV</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0c045869089055feff65d72b3c48befa5d203d416ad32ac60b4a1d7dab332b01" target="_blank" rel="noopener">Trumpflation Is Getting Worse and It Could Trigger a Wall Street Nightmare</a>
+            <span class="src">— Yahoo · 2026-10-31T13:10+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2e15f2dcd4adbbf1064f8e8f6202c8b5011625c940ebec8a6ea2a39287cacdf3" target="_blank" rel="noopener">Cipher Digital And TeraWulf Vs. CoreWeave: Less Debt, More Upside</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T09:05+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=bf5df9fd7948c05fdf1fb1c9eee899a5531abff809c85de7fb6bb234118dc5ee" target="_blank" rel="noopener">SpaceX Just Dropped 9% in a October. Is It Time to Sell, or Load Up?</a>
+            <span class="src">— Yahoo · 2026-10-31T07:20+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">XLK</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=5a10bb93abce375a658e23ea075b73fe2223ecfafdcc4563f60fb6f4458d5092" target="_blank" rel="noopener">Gold And Silver: A Generational Buying Opportunity Is Emerging</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T07:05+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ba4fe5eec96b7d39ef9f8d05be4a17fc3dbf16b2d69c8c7f948cd569d7d32c06" target="_blank" rel="noopener">TECL: The Wrong Tool For A Mixed Earnings Season</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T06:37+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9d702e791275d4bb72d80d2ac1910628c42eb8dff05957377173f70610faaa63" target="_blank" rel="noopener">Sector Update: Tech Stocks Tumble Late Afternoon</a>
+            <span class="src">— Yahoo · 2026-10-30T19:49+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">GOOGL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=01cc3557750a8b2d2ee07a3ac2517d72eb075df80e49d3b6500fa063bef45684" target="_blank" rel="noopener">'The Fed put is very much back': Wall Street strategists weigh central bank's next move</a>
+            <span class="src">— Yahoo · 2026-10-31T15:53+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c6e47ebc6bebb2d17c09d4b18228696094cb10d7df2a8aad3f9777867d7d5161" target="_blank" rel="noopener">Big Tech Now Spends More on AI Than It Brings In From Operations</a>
+            <span class="src">— Yahoo · 2026-10-31T15:08+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=a8056ece0a0ef75d0864fd4035b017900bf748fe6cb5e5dcd30ab9c95db8ef25" target="_blank" rel="noopener">Prediction: This Under-the-Radar AI Stock Could Have a Big 2030 Ahead</a>
+            <span class="src">— Yahoo · 2026-10-31T14:33+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">MSFT</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c6e47ebc6bebb2d17c09d4b18228696094cb10d7df2a8aad3f9777867d7d5161" target="_blank" rel="noopener">Big Tech Now Spends More on AI Than It Brings In From Operations</a>
+            <span class="src">— Yahoo · 2026-10-31T15:08+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=28ca3c6fb60f6861c3dfe7f58a418b4196b0a198d1429d1f9932a9806efb96af" target="_blank" rel="noopener">OpenAI’s CEO Thinks Your Laptop’s Memory Should Be in a Data Center</a>
+            <span class="src">— Yahoo · 2026-10-31T13:49+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=35e606e36b27a1377a6419baab33b7c5d394df174441b0530e901218655f1ce6" target="_blank" rel="noopener">Big Tech’s Capex Needs “a Trillion Dollars of Revenue” by 2028. Barclays Sees About $400 Billion</a>
+            <span class="src">— Yahoo · 2026-10-31T13:45+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">META</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c6e47ebc6bebb2d17c09d4b18228696094cb10d7df2a8aad3f9777867d7d5161" target="_blank" rel="noopener">Big Tech Now Spends More on AI Than It Brings In From Operations</a>
+            <span class="src">— Yahoo · 2026-10-31T15:08+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c656b289ee9b0375c31a772ac4f21b0eb6e42641dec5d9ef5c9f5fdff00b5a76" target="_blank" rel="noopener">Entergy Just Raised Its Dividend 6.3%. Can Cash Flow Support the Increase?</a>
+            <span class="src">— Yahoo · 2026-10-31T14:02+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=35e606e36b27a1377a6419baab33b7c5d394df174441b0530e901218655f1ce6" target="_blank" rel="noopener">Big Tech’s Capex Needs “a Trillion Dollars of Revenue” by 2028. Barclays Sees About $400 Billion</a>
+            <span class="src">— Yahoo · 2026-10-31T13:45+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">AMZN</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=66687a88aa2277b590ef30830abec06562cd19731444b650782099b696544d0f" target="_blank" rel="noopener">Amazon Is Borrowing Against Its Own Data Center Gear to Fund More Data Centers</a>
+            <span class="src">— Yahoo · 2026-10-31T15:48+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=0695abd2b2ec37bdf0c58d4d7d877fc43b97bfe3959d09aa8d382765634cee0b" target="_blank" rel="noopener">Amazon (AMZN) Stock Slips As Q3 Earnings Reflect Profit Reset</a>
+            <span class="src">— Yahoo · 2026-10-31T15:13+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=c6e47ebc6bebb2d17c09d4b18228696094cb10d7df2a8aad3f9777867d7d5161" target="_blank" rel="noopener">Big Tech Now Spends More on AI Than It Brings In From Operations</a>
+            <span class="src">— Yahoo · 2026-10-31T15:08+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">AAPL</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=42cc7793969722bf5292bcd860f90445ebcb0d53fc3d2939c49130d0331ea492" target="_blank" rel="noopener">MKBHD drops a blunt verdict on Apple's touchscreen MacBook Pro</a>
+            <span class="src">— Yahoo · 2026-10-31T15:17+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=ea29a0da0b3b89abc6b4f549a483d5fc1b3efe4007514bc9541ab6f3215222db" target="_blank" rel="noopener">The Nasdaq 100 Briefly Fell Into a Correction as the AI Trade Cracks</a>
+            <span class="src">— Yahoo · 2026-10-31T14:54+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=428238bebb17bb55f5288e743346518d8b8f24128756969b97b112f0fd4f579f" target="_blank" rel="noopener">Jim Cramer flags Netflix's 'biggest problem,' and it isn't price</a>
+            <span class="src">— Yahoo · 2026-10-31T14:37+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">NVDA</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=83aad663f6eaa937cae162578455c434bf35bcd03a7f792250bcb6d0d89c5056" target="_blank" rel="noopener">Intel Has a Massive Warning for AMD Stock Investors. Is It Time to Book Profits Before Nov. 3?</a>
+            <span class="src">— Yahoo · 2026-10-31T15:42+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=d39c263566f774561ed6cde4e88c270410c7c0eae6b9b9f669f5dcbe603f2dd3" target="_blank" rel="noopener">Why Is Robinhood Stock Down 40% From Its Record High?</a>
+            <span class="src">— Yahoo · 2026-10-31T15:39+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=2f34fb9e1cb8c89aabe5843f53cd0c09ec19288f9cec9c14e8332228305960ae" target="_blank" rel="noopener">Prediction: A Bear Market Is Coming. Here's Warren Buffett's Best Advice to Prepare for Volatility</a>
+            <span class="src">— Yahoo · 2026-10-31T15:35+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+        
+        <div class="news-ticker">
+          <div class="ticker-label">TSLA</div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=9c810dd6eccf1ac38b92822a48b641ca0ac773e8ccba6bb737e7b0c3afcf10b3" target="_blank" rel="noopener">Elon Musk Has Incredible News for Micron Stock Investors</a>
+            <span class="src">— Yahoo · 2026-10-31T15:14+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=cc5ef083e6b21327a33ead4e0b20e5662aba9c5eb9faefc6410eb47a20fa969f" target="_blank" rel="noopener">SpaceX Is Considering a Merger With Tesla. Here's Why That Would Be a Bad Move.</a>
+            <span class="src">— Yahoo · 2026-10-31T09:20+00:00</span>
+          </div>
+          
+          <div class="headline">
+            <a href="https://finnhub.io/api/news?id=f2999f29c5e604a8c7aaf7eaf7cb50f16bae7838b217f698631d2d34d13c7843" target="_blank" rel="noopener">BYD: Short-Term Challenges, But Long-Term Buy</a>
+            <span class="src">— SeekingAlpha · 2026-10-31T07:57+00:00</span>
+          </div>
+          
+        </div>
+        
+      
+    </div>
+    
+  </div>
+
+  <footer>
+    <h2>Data health</h2>
+    
+    <div class="health-row">
+      <span>breadth · yfinance (constituents: wikipedia)</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-30 · retrieved 2026-10-31T17:33:42+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>sectors · yfinance</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-30 · retrieved 2026-10-31T17:33:43+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>volatility · yfinance</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-30 · retrieved 2026-10-31T17:33:43+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>rates · FRED</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-29 · retrieved 2026-10-31T17:33:45+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>news · Finnhub</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-31 · retrieved 2026-10-31T17:34:00+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>earnings · Finnhub</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-31 · retrieved 2026-10-31T17:34:01+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>options_chain · yfinance</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-31 · retrieved 2026-10-31T17:34:07+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>consumer_sentiment · FRED</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-09-01 · retrieved 2026-10-31T17:34:07+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>bear_indicator · yfinance + breadth module</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-30 · retrieved 2026-10-31T17:34:07+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>fomo_fragility · finra.org</span>
+      <span><span class="status-pill FAILED">FAILED</span> obs — · retrieved 2026-10-31T17:34:14+00:00</span>
+    </div>
+    
+    <div class="health-row">
+      <span>fed_liquidity · FRED (WALCL, WTREGEN, RRPONTSYD, WRESBAL)</span>
+      <span><span class="status-pill EOD">EOD</span> obs 2026-10-28 · retrieved 2026-10-31T17:34:15+00:00</span>
+    </div>
+    
+    <div class="notes" style="margin-top:10px;">calc_version r1-scoring-v2 · run_id 20261031T173305Z</div>
+  </footer>
+</div>
+</body>
+</html>
