@@ -1,9 +1,9 @@
-MARKET DASHBOARD — DAILY — 2026-11-02
+MARKET DASHBOARD — DAILY — 2026-11-03
 Regime: AMBER (selective)
 
 Why:
-  - AMBER: sector leadership narrow/defensive (top 3 ranked sectors are all defensive)
-  - AMBER: VIX outside calm band (21.15, calm range is 12.0–20.0)
+  - AMBER: VIX rising sharply over 5D (Δ3.23 ≥ 3.0 threshold)
+  - AMBER: VIX outside calm band (20.75, calm range is 12.0–20.0)
 
 Bear Indicator: Watch (2/8)
   - At least one index CMF negative (min -0.02)
@@ -22,24 +22,30 @@ Fed Liquidity: Neutral (42.5/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 4 pass all gates, 14 watch-only
-  - BE $180.0 2026-12-04 (32D) -> 82.7% ann.
-  - DRAM $44.0 2026-12-04 (32D) -> 64.81% ann.
-  - INTC $50.0 2026-12-04 (32D) -> 27.6% ann.
-  - SOFI $14.5 2026-12-11 (39D) -> 21.3% ann.
+CSP candidates: 10 pass all gates, 8 watch-only
+  - TER $260.0 2026-12-04 (31D) -> 82.87% ann.
+  - WDC $325.0 2026-12-04 (31D) -> 68.76% ann.
+  - STX $550.0 2026-12-04 (31D) -> 61.23% ann.
+  - CLS $225.0 2026-12-04 (31D) -> 48.93% ann.
+  - LRCX $210.0 2026-12-04 (31D) -> 46.42% ann.
+  - BE $175.0 2026-12-11 (38D) -> 45.01% ann.
+  - DRAM $40.0 2026-12-04 (31D) -> 30.02% ann.
+  - SOFI $15.0 2026-12-04 (31D) -> 26.69% ann.
+  - INTC $50.0 2026-12-11 (38D) -> 23.63% ann.
+  - XLK $160.0 2026-12-04 (31D) -> 14.5% ann.
 
 Earnings scheduled: 4 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-02)
-  - sectors: EOD (obs 2026-11-02)
-  - volatility: EOD (obs 2026-11-02)
+  - breadth: EOD (obs 2026-11-03)
+  - sectors: EOD (obs 2026-11-03)
+  - volatility: EOD (obs 2026-11-03)
   - rates: EOD (obs 2026-10-30)
-  - news: EOD (obs 2026-11-02)
-  - earnings: EOD (obs 2026-11-02)
-  - options_chain: EOD (obs 2026-11-02)
+  - news: EOD (obs 2026-11-03)
+  - earnings: EOD (obs 2026-11-03)
+  - options_chain: EOD (obs 2026-11-03)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-10-30)
   - fomo_fragility: STALE (obs 2026-10-09)
