@@ -1,10 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-11-05
+MARKET DASHBOARD — DAILY — 2026-11-06
 Regime: RED (protect cash)
 
 Why:
-  - RED: 20D breadth Δ-9.9 and 50D breadth Δ-8.7 both deteriorating (both ≤ -2.0 threshold)
-  - RED: 200D breadth weakening (Δ-7.9 ≤ -2.0 threshold)
-  - RED: VIX term structure in backwardation (VIX3M-VIX -1.4 ≤ 0.0 threshold - a stress signal)
+  - RED: VIX term structure in backwardation (VIX3M-VIX -0.93 ≤ 0.0 threshold - a stress signal)
 
 Bear Indicator: Watch (2/8)
   - At least one index CMF negative (min -0.02)
@@ -23,20 +21,25 @@ Fed Liquidity: Neutral (42.5/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 0 pass all gates, 18 watch-only
+CSP candidates: 5 pass all gates, 11 watch-only
+  - CLS $200.0 2026-12-11 (35D) -> 101.42% ann.
+  - IREN $17.0 2026-12-11 (35D) -> 84.66% ann.
+  - INTC $55.0 2026-12-11 (35D) -> 75.84% ann.
+  - DRAM $35.0 2026-12-11 (35D) -> 60.78% ann.
+  - SOFI $14.5 2026-12-11 (35D) -> 30.93% ann.
 
 Earnings scheduled: 3 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-05)
-  - sectors: EOD (obs 2026-11-05)
-  - volatility: EOD (obs 2026-11-05)
-  - rates: EOD (obs 2026-11-03)
-  - news: EOD (obs 2026-11-05)
-  - earnings: EOD (obs 2026-11-05)
-  - options_chain: EOD (obs 2026-11-05)
+  - breadth: EOD (obs 2026-11-06)
+  - sectors: EOD (obs 2026-11-06)
+  - volatility: EOD (obs 2026-11-06)
+  - rates: EOD (obs 2026-11-04)
+  - news: EOD (obs 2026-11-06)
+  - earnings: EOD (obs 2026-11-06)
+  - options_chain: EOD (obs 2026-11-06)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-10-30)
   - fomo_fragility: STALE (obs 2026-10-09)
