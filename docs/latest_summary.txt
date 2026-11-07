@@ -1,32 +1,30 @@
-MARKET DASHBOARD — DAILY — 2026-11-06
+MARKET DASHBOARD — WEEKLY — 2026-11-07
 Regime: RED (protect cash)
 
 Why:
-  - RED: VIX term structure in backwardation (VIX3M-VIX -0.93 ≤ 0.0 threshold - a stress signal)
+  - RED: VIX term structure in backwardation (VIX3M-VIX -1.04 ≤ 0.0 threshold - a stress signal)
 
-Bear Indicator: Watch (2/8)
-  - At least one index CMF negative (min -0.02)
+Bear Indicator: Cautionary (5/8)
+  - Avg core CMF weak (-0.241)
+  - At least one index CMF negative (min -0.29)
+  - Net New Hi% below 2% (0.8%)
   - SPY below both 20D and 50D SMA
+  - Flows decelerated sharply vs prior week (-0.24 < 60% of 0.06)
 
-FOMO Fragility Index: 🟡 Building (54.7/100)
-  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
-  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
-  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
-  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
+FOMO Fragility Index: FAILED - FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison
 
-Fed Liquidity: Neutral (42.5/100)
-  - Net Liquidity -56B this week (Fed assets -8B, TGA +48B, ON RRP +0B)
-  - 4-week Net Liquidity trend: -37B
-  - Bank reserves: -69B this week, -54B over 4 weeks
+Fed Liquidity: Neutral (47.1/100)
+  - Net Liquidity +45B this week (Fed assets +2B, TGA -42B, ON RRP +0B)
+  - 4-week Net Liquidity trend: -74B
+  - Bank reserves: +36B this week, -100B over 4 weeks
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 5 pass all gates, 11 watch-only
-  - CLS $200.0 2026-12-11 (35D) -> 101.42% ann.
-  - IREN $17.0 2026-12-11 (35D) -> 84.66% ann.
-  - INTC $55.0 2026-12-11 (35D) -> 75.84% ann.
-  - DRAM $35.0 2026-12-11 (35D) -> 60.78% ann.
-  - SOFI $14.5 2026-12-11 (35D) -> 30.93% ann.
+CSP candidates: 4 pass all gates, 13 watch-only
+  - CLS $200.0 2026-12-11 (34D) -> 102.52% ann.
+  - INTC $55.0 2026-12-11 (34D) -> 82.95% ann.
+  - IREN $17.0 2026-12-11 (34D) -> 78.94% ann.
+  - SOFI $15.0 2026-12-11 (34D) -> 38.65% ann.
 
 Earnings scheduled: 3 tickers in next 60D
 
@@ -36,11 +34,11 @@ Data health:
   - breadth: EOD (obs 2026-11-06)
   - sectors: EOD (obs 2026-11-06)
   - volatility: EOD (obs 2026-11-06)
-  - rates: EOD (obs 2026-11-04)
-  - news: EOD (obs 2026-11-06)
-  - earnings: EOD (obs 2026-11-06)
-  - options_chain: EOD (obs 2026-11-06)
+  - rates: EOD (obs 2026-11-05)
+  - news: EOD (obs 2026-11-07)
+  - earnings: EOD (obs 2026-11-07)
+  - options_chain: EOD (obs 2026-11-07)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: STALE (obs 2026-10-30)
-  - fomo_fragility: STALE (obs 2026-10-09)
-  - fed_liquidity: STALE (obs 2026-10-28)
+  - bear_indicator: EOD (obs 2026-11-06)
+  - fomo_fragility: FAILED (obs —)
+  - fed_liquidity: EOD (obs 2026-11-04)
