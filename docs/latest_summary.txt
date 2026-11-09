@@ -1,8 +1,8 @@
-MARKET DASHBOARD — WEEKLY — 2026-11-07
-Regime: RED (protect cash)
+MARKET DASHBOARD — DAILY — 2026-11-09
+Regime: GREEN (normal risk)
 
 Why:
-  - RED: VIX term structure in backwardation (VIX3M-VIX -1.04 ≤ 0.0 threshold - a stress signal)
+  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (-0.241)
@@ -11,7 +11,11 @@ Bear Indicator: Cautionary (5/8)
   - SPY below both 20D and 50D SMA
   - Flows decelerated sharply vs prior week (-0.24 < 60% of 0.06)
 
-FOMO Fragility Index: FAILED - FINRA margin statistics fetch/parse failed: only 12 months in FINRA table, need 13 for a YoY comparison
+FOMO Fragility Index: 🟡 Building (54.7/100)
+  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
+  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
+  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
+  Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
 Fed Liquidity: Neutral (47.1/100)
   - Net Liquidity +45B this week (Fed assets +2B, TGA -42B, ON RRP +0B)
@@ -20,25 +24,33 @@ Fed Liquidity: Neutral (47.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 4 pass all gates, 13 watch-only
-  - CLS $200.0 2026-12-11 (34D) -> 102.52% ann.
-  - INTC $55.0 2026-12-11 (34D) -> 82.95% ann.
-  - IREN $17.0 2026-12-11 (34D) -> 78.94% ann.
-  - SOFI $15.0 2026-12-11 (34D) -> 38.65% ann.
+CSP candidates: 12 pass all gates, 6 watch-only
+  - IREN $17.0 2026-12-11 (32D) -> 72.46% ann.
+  - APLD $14.0 2026-12-18 (39D) -> 65.51% ann.
+  - COHR $200.0 2026-12-18 (39D) -> 60.37% ann.
+  - BE $160.0 2026-12-18 (39D) -> 49.31% ann.
+  - WDC $240.0 2026-12-18 (39D) -> 37.75% ann.
+  - DRAM $35.0 2026-12-18 (39D) -> 33.96% ann.
+  - GLW $100.0 2026-12-18 (39D) -> 33.51% ann.
+  - LRCX $190.0 2026-12-18 (39D) -> 31.28% ann.
+  - INTC $50.0 2026-12-18 (39D) -> 29.95% ann.
+  - VRT $170.0 2026-12-18 (39D) -> 29.45% ann.
+  - ASML $1380.0 2026-12-18 (39D) -> 26.52% ann.
+  - SOFI $15.0 2026-12-18 (39D) -> 26.21% ann.
 
 Earnings scheduled: 3 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-06)
-  - sectors: EOD (obs 2026-11-06)
-  - volatility: EOD (obs 2026-11-06)
-  - rates: EOD (obs 2026-11-05)
-  - news: EOD (obs 2026-11-07)
-  - earnings: EOD (obs 2026-11-07)
-  - options_chain: EOD (obs 2026-11-07)
+  - breadth: EOD (obs 2026-11-09)
+  - sectors: EOD (obs 2026-11-09)
+  - volatility: EOD (obs 2026-11-09)
+  - rates: EOD (obs 2026-11-06)
+  - news: EOD (obs 2026-11-09)
+  - earnings: EOD (obs 2026-11-09)
+  - options_chain: EOD (obs 2026-11-09)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: EOD (obs 2026-11-06)
-  - fomo_fragility: FAILED (obs —)
-  - fed_liquidity: EOD (obs 2026-11-04)
+  - bear_indicator: STALE (obs 2026-11-06)
+  - fomo_fragility: STALE (obs 2026-10-09)
+  - fed_liquidity: STALE (obs 2026-11-04)
