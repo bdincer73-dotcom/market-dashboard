@@ -1,4 +1,4 @@
-MARKET DASHBOARD — DAILY — 2026-11-10
+MARKET DASHBOARD — DAILY — 2026-11-11
 Regime: GREEN (normal risk)
 
 Why:
@@ -24,35 +24,36 @@ Fed Liquidity: Neutral (47.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 15 pass all gates, 3 watch-only
-  - IREN $15.0 2026-12-18 (38D) -> 73.64% ann.
-  - APLD $13.0 2026-12-18 (38D) -> 53.94% ann.
-  - BE $150.0 2026-12-18 (38D) -> 45.79% ann.
-  - TER $210.0 2026-12-18 (38D) -> 44.14% ann.
-  - WDC $240.0 2026-12-18 (38D) -> 43.9% ann.
-  - STX $410.0 2026-12-18 (38D) -> 43.69% ann.
-  - COHR $175.0 2026-12-18 (38D) -> 43.09% ann.
-  - CLS $185.0 2026-12-18 (38D) -> 40.24% ann.
-  - VRT $165.0 2026-12-11 (31D) -> 36.39% ann.
-  - DRAM $34.0 2026-12-18 (38D) -> 35.88% ann.
-  - INTC $49.0 2026-12-11 (31D) -> 33.64% ann.
-  - GLW $95.0 2026-12-18 (38D) -> 31.55% ann.
-  - LRCX $190.0 2026-12-18 (38D) -> 30.33% ann.
-  - SOFI $14.0 2026-12-18 (38D) -> 22.64% ann.
-  - ASML $1340.0 2026-12-18 (38D) -> 21.68% ann.
+CSP candidates: 16 pass all gates, 2 watch-only
+  - IREN $17.0 2026-12-11 (30D) -> 67.99% ann.
+  - STX $500.0 2026-12-18 (37D) -> 56.03% ann.
+  - CRWV $50.0 2026-12-18 (37D) -> 44.59% ann.
+  - BE $175.0 2026-12-18 (37D) -> 44.42% ann.
+  - APLD $14.0 2026-12-18 (37D) -> 42.98% ann.
+  - CLS $210.0 2026-12-18 (37D) -> 42.75% ann.
+  - COHR $200.0 2026-12-18 (37D) -> 42.42% ann.
+  - WDC $270.0 2026-12-18 (37D) -> 38.44% ann.
+  - INTC $55.0 2026-12-11 (30D) -> 33.85% ann.
+  - LRCX $210.0 2026-12-18 (37D) -> 33.73% ann.
+  - DRAM $38.0 2026-12-18 (37D) -> 31.41% ann.
+  - VRT $180.0 2026-12-18 (37D) -> 29.87% ann.
+  - GLW $105.0 2026-12-18 (37D) -> 28.94% ann.
+  - SOFI $14.5 2026-12-11 (30D) -> 21.82% ann.
+  - ASML $1400.0 2026-12-18 (37D) -> 21.46% ann.
+  - XLK $165.0 2026-12-18 (37D) -> 17.46% ann.
 
-Earnings scheduled: 3 tickers in next 60D
+Earnings scheduled: 2 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-10)
-  - sectors: EOD (obs 2026-11-10)
-  - volatility: EOD (obs 2026-11-10)
-  - rates: EOD (obs 2026-11-06)
-  - news: EOD (obs 2026-11-10)
-  - earnings: EOD (obs 2026-11-10)
-  - options_chain: EOD (obs 2026-11-10)
+  - breadth: EOD (obs 2026-11-11)
+  - sectors: EOD (obs 2026-11-11)
+  - volatility: EOD (obs 2026-11-11)
+  - rates: EOD (obs 2026-11-09)
+  - news: EOD (obs 2026-11-11)
+  - earnings: EOD (obs 2026-11-11)
+  - options_chain: EOD (obs 2026-11-11)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-11-06)
   - fomo_fragility: STALE (obs 2026-10-09)
