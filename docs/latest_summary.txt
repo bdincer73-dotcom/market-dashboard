@@ -1,8 +1,8 @@
-MARKET DASHBOARD — DAILY — 2026-11-11
-Regime: GREEN (normal risk)
+MARKET DASHBOARD — DAILY — 2026-11-12
+Regime: RED (protect cash)
 
 Why:
-  - GREEN: breadth stable/rising, RSP confirming, VIX calm, leadership broad - no rule tripped
+  - RED: RSP underperforming SPY over 5D (-1.31 pts < -0.5 threshold)
 
 Bear Indicator: Cautionary (5/8)
   - Avg core CMF weak (-0.241)
@@ -24,36 +24,37 @@ Fed Liquidity: Neutral (47.1/100)
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 16 pass all gates, 2 watch-only
-  - IREN $17.0 2026-12-11 (30D) -> 67.99% ann.
-  - STX $500.0 2026-12-18 (37D) -> 56.03% ann.
-  - CRWV $50.0 2026-12-18 (37D) -> 44.59% ann.
-  - BE $175.0 2026-12-18 (37D) -> 44.42% ann.
-  - APLD $14.0 2026-12-18 (37D) -> 42.98% ann.
-  - CLS $210.0 2026-12-18 (37D) -> 42.75% ann.
-  - COHR $200.0 2026-12-18 (37D) -> 42.42% ann.
-  - WDC $270.0 2026-12-18 (37D) -> 38.44% ann.
-  - INTC $55.0 2026-12-11 (30D) -> 33.85% ann.
-  - LRCX $210.0 2026-12-18 (37D) -> 33.73% ann.
-  - DRAM $38.0 2026-12-18 (37D) -> 31.41% ann.
-  - VRT $180.0 2026-12-18 (37D) -> 29.87% ann.
-  - GLW $105.0 2026-12-18 (37D) -> 28.94% ann.
-  - SOFI $14.5 2026-12-11 (30D) -> 21.82% ann.
-  - ASML $1400.0 2026-12-18 (37D) -> 21.46% ann.
-  - XLK $165.0 2026-12-18 (37D) -> 17.46% ann.
+CSP candidates: 17 pass all gates, 1 watch-only
+  - IREN $15.0 2026-12-18 (36D) -> 65.56% ann.
+  - APLD $14.0 2026-12-18 (36D) -> 63.01% ann.
+  - CLS $230.0 2026-12-18 (36D) -> 58.41% ann.
+  - CRWV $45.0 2026-12-18 (36D) -> 48.22% ann.
+  - BE $165.0 2026-12-18 (36D) -> 44.86% ann.
+  - STX $470.0 2026-12-18 (36D) -> 44.55% ann.
+  - COHR $190.0 2026-12-18 (36D) -> 39.49% ann.
+  - DRAM $37.0 2026-12-18 (36D) -> 35.35% ann.
+  - TER $220.0 2026-12-18 (36D) -> 35.26% ann.
+  - GLW $105.0 2026-12-18 (36D) -> 33.8% ann.
+  - WDC $260.0 2026-12-18 (36D) -> 33.73% ann.
+  - INTC $52.5 2026-12-18 (36D) -> 30.32% ann.
+  - VRT $180.0 2026-12-18 (36D) -> 30.02% ann.
+  - LRCX $200.0 2026-12-18 (36D) -> 29.3% ann.
+  - SOFI $14.0 2026-12-18 (36D) -> 25.35% ann.
+  - XLK $167.5 2026-12-18 (36D) -> 25.24% ann.
+  - ASML $1340.0 2026-12-18 (36D) -> 20.88% ann.
 
 Earnings scheduled: 2 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-11)
-  - sectors: EOD (obs 2026-11-11)
-  - volatility: EOD (obs 2026-11-11)
+  - breadth: EOD (obs 2026-11-12)
+  - sectors: EOD (obs 2026-11-12)
+  - volatility: EOD (obs 2026-11-12)
   - rates: EOD (obs 2026-11-09)
-  - news: EOD (obs 2026-11-11)
-  - earnings: EOD (obs 2026-11-11)
-  - options_chain: EOD (obs 2026-11-11)
+  - news: EOD (obs 2026-11-12)
+  - earnings: EOD (obs 2026-11-12)
+  - options_chain: EOD (obs 2026-11-12)
   - consumer_sentiment: EOD (obs 2026-09-01)
   - bear_indicator: STALE (obs 2026-11-06)
   - fomo_fragility: STALE (obs 2026-10-09)
