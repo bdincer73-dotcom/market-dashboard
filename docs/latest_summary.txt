@@ -1,47 +1,42 @@
-MARKET DASHBOARD — DAILY — 2026-11-13
+MARKET DASHBOARD — WEEKLY — 2026-11-14
 Regime: AMBER (selective)
 
 Why:
-  - AMBER: RSP not yet confirming the rally (-0.18 pts, below the 0.0 confirm threshold but not underperforming)
+  - AMBER: RSP not yet confirming the rally (-0.22 pts, below the 0.0 confirm threshold but not underperforming)
 
-Bear Indicator: Cautionary (5/8)
-  - Avg core CMF weak (-0.241)
-  - At least one index CMF negative (min -0.29)
-  - Net New Hi% below 2% (0.8%)
+Bear Indicator: Cautionary (4/8)
+  - Avg core CMF weak (-0.161)
+  - At least one index CMF negative (min -0.20)
   - SPY below both 20D and 50D SMA
-  - Flows decelerated sharply vs prior week (-0.24 < 60% of 0.06)
+  - Flows decelerated sharply vs prior week (-0.16 < 60% of -0.24)
 
-FOMO Fragility Index: 🟡 Building (54.7/100)
-  - Stretch: 8.1% of NDX names >2σ above 50D mean, 61.6% above 200DMA, RSI(14) 57.8
-  - Leverage: margin debt +37.2% YoY, net investor credit -1.03$T, VXN 20.6 (as of Aug-26 for margin/credit)
-  - Crowding: top 10 NDX names = 65.8% of index weight, AI-hardware basket correlation 0.62
+FOMO Fragility Index: 🟡 Building (45.8/100)
+  - Stretch: 7.1% of NDX names >2σ above 50D mean, 55.6% above 200DMA, RSI(14) 40.7
+  - Leverage: margin debt +22.4% YoY, net investor credit -1.03$T, VXN 29.4 (as of Oct-26 for margin/credit)
+  - Crowding: top 10 NDX names = 66.1% of index weight, AI-hardware basket correlation 0.74
   Action: Stop adding leverage. Let cash reserve drift to the top of your target band. Widen CSP strikes (lower delta).
 
-Fed Liquidity: Neutral (47.1/100)
-  - Net Liquidity +45B this week (Fed assets +2B, TGA -42B, ON RRP +0B)
-  - 4-week Net Liquidity trend: -74B
-  - Bank reserves: +36B this week, -100B over 4 weeks
+Fed Liquidity: Neutral (50.9/100)
+  - Net Liquidity +54B this week (Fed assets +11B, TGA -43B, ON RRP +0B)
+  - 4-week Net Liquidity trend: -28B
+  - Bank reserves: +30B this week, -62B over 4 weeks
   High-beta/AI impact: Limited macro overlay effect either way - lean on breadth/technicals for high-beta positioning rather than this indicator.
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
-CSP candidates: 17 pass all gates, 1 watch-only
-  - COHR $200.0 2026-12-18 (35D) -> 73.0% ann.
-  - IREN $14.0 2026-12-18 (35D) -> 70.02% ann.
-  - APLD $13.0 2026-12-18 (35D) -> 64.98% ann.
-  - CRWV $42.5 2026-12-18 (35D) -> 51.77% ann.
-  - BE $155.0 2026-12-18 (35D) -> 47.77% ann.
-  - TER $220.0 2026-12-18 (35D) -> 47.4% ann.
-  - CLS $200.0 2026-12-18 (35D) -> 41.98% ann.
-  - DRAM $36.0 2026-12-18 (35D) -> 39.98% ann.
-  - WDC $250.0 2026-12-18 (35D) -> 39.63% ann.
-  - STX $430.0 2026-12-18 (35D) -> 36.74% ann.
-  - VRT $175.0 2026-12-18 (35D) -> 33.97% ann.
-  - LRCX $195.0 2026-12-18 (35D) -> 32.62% ann.
-  - INTC $50.0 2026-12-18 (35D) -> 30.45% ann.
-  - GLW $97.5 2026-12-18 (35D) -> 30.38% ann.
-  - SOFI $14.0 2026-12-18 (35D) -> 28.31% ann.
-  - ASML $1340.0 2026-12-18 (35D) -> 22.72% ann.
-  - XLK $160.0 2026-12-18 (35D) -> 19.94% ann.
+CSP candidates: 13 pass all gates, 5 watch-only
+  - STX $510.0 2026-12-18 (34D) -> 88.51% ann.
+  - CLS $230.0 2026-12-18 (34D) -> 85.88% ann.
+  - IREN $14.0 2026-12-24 (40D) -> 61.92% ann.
+  - COHR $190.0 2026-12-18 (34D) -> 57.07% ann.
+  - CRWV $43.0 2026-12-24 (40D) -> 53.9% ann.
+  - BE $155.0 2026-12-18 (34D) -> 48.48% ann.
+  - WDC $250.0 2026-12-18 (34D) -> 39.42% ann.
+  - INTC $52.5 2026-12-18 (34D) -> 39.26% ann.
+  - VRT $175.0 2026-12-18 (34D) -> 35.7% ann.
+  - LRCX $195.0 2026-12-18 (34D) -> 31.49% ann.
+  - GLW $97.5 2026-12-18 (34D) -> 30.94% ann.
+  - ASML $1380.0 2026-12-18 (34D) -> 28.82% ann.
+  - SOFI $13.5 2026-12-24 (40D) -> 20.28% ann.
 
 Earnings scheduled: 2 tickers in next 60D
 
@@ -51,11 +46,11 @@ Data health:
   - breadth: EOD (obs 2026-11-13)
   - sectors: EOD (obs 2026-11-13)
   - volatility: EOD (obs 2026-11-13)
-  - rates: EOD (obs 2026-11-10)
-  - news: EOD (obs 2026-11-13)
-  - earnings: EOD (obs 2026-11-13)
-  - options_chain: EOD (obs 2026-11-13)
+  - rates: EOD (obs 2026-11-12)
+  - news: EOD (obs 2026-11-14)
+  - earnings: EOD (obs 2026-11-14)
+  - options_chain: EOD (obs 2026-11-14)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: STALE (obs 2026-11-06)
-  - fomo_fragility: STALE (obs 2026-10-09)
-  - fed_liquidity: STALE (obs 2026-11-04)
+  - bear_indicator: EOD (obs 2026-11-13)
+  - fomo_fragility: EOD (obs 2026-11-13)
+  - fed_liquidity: EOD (obs 2026-11-11)
