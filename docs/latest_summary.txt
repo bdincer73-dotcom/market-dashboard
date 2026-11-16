@@ -1,8 +1,9 @@
-MARKET DASHBOARD — WEEKLY — 2026-11-14
-Regime: AMBER (selective)
+MARKET DASHBOARD — DAILY — 2026-11-16
+Regime: RED (protect cash)
 
 Why:
-  - AMBER: RSP not yet confirming the rally (-0.22 pts, below the 0.0 confirm threshold but not underperforming)
+  - RED: 20D breadth Δ-11.5 and 50D breadth Δ-6.5 both deteriorating (both ≤ -2.0 threshold)
+  - RED: 200D breadth weakening (Δ-5.1 ≤ -2.0 threshold)
 
 Bear Indicator: Cautionary (4/8)
   - Avg core CMF weak (-0.161)
@@ -24,33 +25,33 @@ Fed Liquidity: Neutral (50.9/100)
   CSP sizing implication: No adjustment from this overlay - size and strike selection should be driven by the regime call and CSP candidate gates as usual.
 
 CSP candidates: 13 pass all gates, 5 watch-only
-  - STX $510.0 2026-12-18 (34D) -> 88.51% ann.
-  - CLS $230.0 2026-12-18 (34D) -> 85.88% ann.
-  - IREN $14.0 2026-12-24 (40D) -> 61.92% ann.
-  - COHR $190.0 2026-12-18 (34D) -> 57.07% ann.
-  - CRWV $43.0 2026-12-24 (40D) -> 53.9% ann.
-  - BE $155.0 2026-12-18 (34D) -> 48.48% ann.
-  - WDC $250.0 2026-12-18 (34D) -> 39.42% ann.
-  - INTC $52.5 2026-12-18 (34D) -> 39.26% ann.
-  - VRT $175.0 2026-12-18 (34D) -> 35.7% ann.
-  - LRCX $195.0 2026-12-18 (34D) -> 31.49% ann.
-  - GLW $97.5 2026-12-18 (34D) -> 30.94% ann.
-  - ASML $1380.0 2026-12-18 (34D) -> 28.82% ann.
-  - SOFI $13.5 2026-12-24 (40D) -> 20.28% ann.
+  - APLD $13.0 2026-12-18 (32D) -> 95.64% ann.
+  - COHR $190.0 2026-12-18 (32D) -> 91.85% ann.
+  - TER $220.0 2026-12-18 (32D) -> 84.77% ann.
+  - IREN $13.0 2026-12-18 (32D) -> 81.6% ann.
+  - CRWV $40.0 2026-12-18 (32D) -> 62.73% ann.
+  - BE $145.0 2026-12-18 (32D) -> 58.76% ann.
+  - WDC $240.0 2026-12-18 (32D) -> 49.81% ann.
+  - DRAM $33.0 2026-12-18 (32D) -> 43.21% ann.
+  - INTC $47.0 2026-12-18 (32D) -> 38.83% ann.
+  - VRT $160.0 2026-12-18 (32D) -> 37.43% ann.
+  - LRCX $180.0 2026-12-18 (32D) -> 37.39% ann.
+  - GLW $90.0 2026-12-18 (32D) -> 35.36% ann.
+  - SOFI $13.0 2026-12-18 (32D) -> 25.44% ann.
 
 Earnings scheduled: 2 tickers in next 60D
 
 News: 26 tickers with headlines, 0 unavailable
 
 Data health:
-  - breadth: EOD (obs 2026-11-13)
-  - sectors: EOD (obs 2026-11-13)
-  - volatility: EOD (obs 2026-11-13)
-  - rates: EOD (obs 2026-11-12)
-  - news: EOD (obs 2026-11-14)
-  - earnings: EOD (obs 2026-11-14)
-  - options_chain: EOD (obs 2026-11-14)
+  - breadth: EOD (obs 2026-11-16)
+  - sectors: EOD (obs 2026-11-16)
+  - volatility: EOD (obs 2026-11-16)
+  - rates: EOD (obs 2026-11-13)
+  - news: EOD (obs 2026-11-16)
+  - earnings: EOD (obs 2026-11-16)
+  - options_chain: EOD (obs 2026-11-16)
   - consumer_sentiment: EOD (obs 2026-09-01)
-  - bear_indicator: EOD (obs 2026-11-13)
-  - fomo_fragility: EOD (obs 2026-11-13)
-  - fed_liquidity: EOD (obs 2026-11-11)
+  - bear_indicator: STALE (obs 2026-11-13)
+  - fomo_fragility: STALE (obs 2026-11-13)
+  - fed_liquidity: STALE (obs 2026-11-11)
